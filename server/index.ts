@@ -8,11 +8,6 @@ app.get("/", (req:Request, res:Response) => {
     res.send("Hello World");
 });
 
-// app.get("/:name", (req: Request, res: Response)=> {
-//     res.send(`Hello ${req.params.name}`);
-// });
-
-
 app.get("/users", (req: Request, res: Response) => {
     res.send({
         "name": "Nathanim Tadele",
