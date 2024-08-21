@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-
+import {UserRole} from '../interfaces/IUser';
 
 const userSchema = new Schema({
     name: {
@@ -26,7 +26,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: Object.values(UserRole),
         default: 'user'
     },
     achievements: [{
