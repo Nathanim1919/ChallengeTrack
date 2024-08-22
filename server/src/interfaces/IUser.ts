@@ -1,6 +1,7 @@
 import {ObjectId} from "bson";
 
 interface IUser {
+    _id: ObjectId;
     name: string;
     username: string;
     email: string;

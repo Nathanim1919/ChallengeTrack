@@ -57,7 +57,6 @@ describe('UserService', () => {
             };
 
             mockUserRepository.create.mockRejectedValue(new Error('User creation failed'));
-
             await expect(userService.registerUser(newUser)).rejects.toThrow('User creation failed');
         });
     });
