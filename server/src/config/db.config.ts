@@ -12,7 +12,6 @@ class Database {
 
   // Constructor
   constructor() {
-    this.createConnection();
   }
 
   createConnection() {

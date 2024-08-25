@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-import {challengeStatus} from "../utils/enum";
+import {challengeStatus} from "../utils/enum.utils";
 
 
 const challengeSchema = new Schema({

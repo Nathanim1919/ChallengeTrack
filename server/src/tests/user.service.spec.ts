@@ -1,6 +1,8 @@
 import { UserRepository } from "../repositories/user.repository";
 import { UserService } from "../services/user.service";
 import { IUser } from "../interfaces/IUser";
+import {Schema} from "mongoose";
+import {ObjectId} from "bson";
 
 jest.mock('../repositories/user.repository');
 
@@ -16,6 +18,7 @@ describe('UserService', () => {
     describe('createUser', () => {
         it('should create a new user successfully', async () => {
             const newUser: IUser = {
+                _id: new ObjectId("60f7b3b3b3b3b3b3b3b3b3b3"),
                 name: "John Doe",
                 username: "john_doe",
                 email: "johndoe@example.com",
@@ -41,6 +44,7 @@ describe('UserService', () => {
 
         it('should throw an error if user creation fails', async () => {
             const newUser: IUser = {
+                _id: new ObjectId("60f7b3b3b3b3b3b3b3b3b3"),
                 name: "John Doe",
                 username: "john_doe",
                 email: "johndoe@example.com",

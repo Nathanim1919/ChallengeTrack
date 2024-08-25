@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import expressValidator from "express-validator";
 import expressSession from "express-session";
+import {dbInstance} from "./src/config/db.config";
 
 
 // Create express app
@@ -24,6 +25,8 @@ app.use(cors({
     credentials: true
 }));
 
+// connect to database
+dbInstance.createConnection();
 
 app.get("/", (req:Request, res:Response) => {
     res.send("Hello World");

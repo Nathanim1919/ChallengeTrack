@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-import {NotificationType} from "../utils/enum";
+import {NotificationType} from "../utils/enum.utils";
 
 const NotificationSchema = new Schema({
     userId: {
