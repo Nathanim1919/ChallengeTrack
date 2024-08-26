@@ -1,6 +1,3 @@
-type UUID = string // alias for IDs
-
-
 interface Pagination {
     page: number;
     limit: number;
@@ -8,8 +5,14 @@ interface Pagination {
     totalItems: number;
 }
 
-interface ApiResponse<T> {
-    data: T;
+export interface ApiResponse<T> {
     success: boolean;
-    message?: string
+    data: T | null;
+    message?: string;
+    errorCode?: string;
+    meta?: {
+        total?: number;
+        count?: number;
+        [key: string]: any;
+    };
 }

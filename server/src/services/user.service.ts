@@ -1,7 +1,6 @@
 import {UserRepository} from "../repositories/user.repository";
 import {IUser} from "../interfaces/IUser";
 import bcrypt from "bcrypt";
-import {RewardPoints} from "../utils/enum.utils";
 import {RewardService} from "./reward.service";
 
 export class UserService {
@@ -26,8 +25,6 @@ export class UserService {
      */
     async loginUser(identifier: string, password: string): Promise<IUser | null> {
         // TODO: save user session in redis or something like that
-        // TODO: return user data
-        // TODO: reward user points for login
         const user = await this.userRepository.findByEmailOrUsername(identifier);
         if (!user) {
             return null;
@@ -36,10 +33,9 @@ export class UserService {
 
         if (passwordMatch) {
             // reward user points for login
-            const updatedUser = await this.userRepository.updateById(user._id.toString(), {
+            return await this.userRepository.updateById(user._id.toString(), {
                 points: RewardService.rewardUserForDailyLogin(user.points)
             });
-            return user;
         }
         return null;
     }
