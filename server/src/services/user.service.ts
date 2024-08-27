@@ -24,7 +24,6 @@ export class UserService {
      * Login a user
      */
     async loginUser(identifier: string, password: string): Promise<IUser | null> {
-        // TODO: save user session in redis or something like that
         const user = await this.userRepository.findByEmailOrUsername(identifier);
         if (!user) {
             return null;
@@ -58,7 +57,7 @@ export class UserService {
      * Search users with filters
      */
     async searchUsers(filter: Partial<IUser>): Promise<IUser[]> {
-        return this.userRepository.searchUsers(filter);
+        return this.userRepository.searchUsers(filter? filter : {});
     }
 
     /**
@@ -66,5 +65,12 @@ export class UserService {
      */
     async getUserById(id: string): Promise<IUser | null> {
         return this.userRepository.findById(id);
+    }
+
+    /**
+     * Get user by email or username
+     */
+    async getUserByEmailOrUsername(identifier: string): Promise<IUser | null> {
+        return this.userRepository.findByEmailOrUsername(identifier);
     }
 }
