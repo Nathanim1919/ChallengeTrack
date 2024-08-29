@@ -32,9 +32,10 @@ export class UserService {
 
         if (passwordMatch) {
             // reward user points for login
-            return await this.userRepository.updateById(user._id.toString(), {
+            const updatedUser =  await this.userRepository.updateById(user._id.toString(), {
                 points: RewardService.rewardUserForDailyLogin(user.points)
             });
+            return updatedUser;
         }
         return null;
     }

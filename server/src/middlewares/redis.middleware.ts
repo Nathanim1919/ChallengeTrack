@@ -5,6 +5,7 @@ import {IUser} from "../interfaces/IUser";
 import {formatResponse} from "../utils/responseFormat";
 import {Request, Response} from "express";
 
+
 const rateLimiter = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.userId; // Assume userId is extracted from JWT
     const key = `rate_limit:${userId}`;
@@ -20,6 +21,7 @@ const rateLimiter = async (req: Request, res: Response, next: NextFunction) => {
     }
     next();
 };
+
 
 
 // user cache middleware
@@ -38,7 +40,8 @@ const userCacheMiddleware = async (req: Request, res: Response, next: NextFuncti
 };
 
 
-const leaderBoardCahceMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<Leaderboard>> | void>{
+
+const leaderBoardCacheMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<Leaderboard>> | void> => {
     const key = `leaderboard`+req.params.id;
     const leaderboard = await redisInstance.getObjectData(key);
 
@@ -46,7 +49,8 @@ const leaderBoardCahceMiddleware = async (req: Request, res: Response, next: Nex
         return res.status(200).json(formatResponse(leaderboard, 'Leaderboard data retrieved from cache'));
     }
     next();
-};
+}
+
 
 
 const notificationCacheMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<Notification>> | void> => {
@@ -60,6 +64,7 @@ const notificationCacheMiddleware = async (req: Request, res: Response, next: Ne
 }
 
 
+
 const achievementCacheMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<IAchievement>> | void> => {
     const key = `achievement`+req.params.id;
     const achievement = await redisInstance.getObjectData(key);
@@ -71,7 +76,8 @@ const achievementCacheMiddleware = async (req: Request, res: Response, next: Nex
 }
 
 
-const userAchievementCahceMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<UserAchievement>> | void> => {
+
+const userAchievementCacheMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response<ApiResponse<UserAchievement>> | void> => {
     const key = `userAchievement`+req.params.id;
     const userAchievement = await redisInstance.getObjectData(key);
 
@@ -125,4 +131,4 @@ const userAchievementCahceMiddleware = async (req: Request, res: Response, next:
 //     next();
 // }
 
-export { rateLimiter, userCacheMiddleware };
+export {rateLimiter, userCacheMiddleware, leaderBoardCacheMiddleware, notificationCacheMiddleware, achievementCacheMiddleware, userAchievementCacheMiddleware};
