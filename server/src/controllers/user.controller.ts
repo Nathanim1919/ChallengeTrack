@@ -6,7 +6,7 @@ import {formatError, formatResponse} from "../utils/responseFormat";
 import {AuthUtils} from "../utils/auth.utils";
 import redisInstance from '../config/redis.config';
 
-class UserController {
+export class UserController {
 
     // constructor
     constructor(private userService: UserService) {
