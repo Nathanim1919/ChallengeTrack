@@ -13,11 +13,15 @@ export class UserService {
      */
     async registerUser(userData: IUser): Promise<IUser> {
         // hash user password
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
-        return this.userRepository.create({
-            ...userData,
-            password: hashedPassword
-        });
+        try {
+            const hashedPassword = await bcrypt.hash(userData.password, 10);
+            return this.userRepository.create({
+                ...userData,
+                password: hashedPassword
+            });
+        } catch (error) {
+            throw new Error("Registration failed");
+        }
     }
 
     /**

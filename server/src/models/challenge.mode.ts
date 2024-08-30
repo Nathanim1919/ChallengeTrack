@@ -1,8 +1,8 @@
 import {Schema, model} from 'mongoose';
 import {challengeStatus} from "../utils/enum.utils";
+import {IChallenge} from "../interfaces/IChallenge";
 
-
-const challengeSchema = new Schema({
+const challengeSchema = new Schema<IChallenge>({
     title: {type: String, required: true},
     description: {type: String, required: true},
     startDate: {type: Date, required: true},
@@ -10,20 +10,22 @@ const challengeSchema = new Schema({
     createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     participants: [{type: Schema.Types.ObjectId, ref: 'User'}],
     rewards: [{type: Schema.Types.ObjectId, ref: 'Reward'}],
+    leaderboard: [{type: Schema.Types.ObjectId, ref: 'Leaderboard'}],
     status: {
         type: String,
-        enum: Object.values(challengeStatus),
+        enum: ['PENDING', 'ONGOING', 'COMPLETED', 'CANCELED'],
         default: 'PENDING'
     },
-    rules:[{
-        type: String,
-        required: true
-    }],
-    progress: [{
-        userId: Schema.Types.ObjectId,
-        progress: Number
-    }],
-    createdAt: {type: Date, default: Date.now}
+    rules:[
+        {
+            minParticipants: {type: Number, required: true},
+            maxParticipants: {type: Number},
+            verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], required: true}
+        }
+    ],
+    progress: {type: Number, default: 0},
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now}
 })
 
 

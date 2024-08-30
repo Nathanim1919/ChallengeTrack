@@ -1,21 +1,27 @@
-interface Challenge {
-    id: string;
+import {ObjectId} from "bson";
+import {IUser} from "./IUser";
+
+export interface IChallenge {
+    _id: ObjectId;
     title: string;
     description: string;
-    creatorId: string;
+    createdBy: ObjectId; // User ID of the creator
     startDate: Date;
     endDate: Date;
     participants: string[]; // Array of user IDs
     status: ChallengeStatus;
-    createdAt: Date;
-    updatedAt: Date;
-    rules: ChallengeRules; // Additional rules for the challenge
+    createdAt?: Date;
+    updatedAt?: Date;
+    progress?: number; // Progress percentage
+    rules: ChallengeRules[]; // Additional rules for the challenge
     rewards: ChallengeReward[]; // Potential rewards for completing the challenge
+    leaderboard?: ObjectId; // Leaderboard ID
+
 }
 
-type ChallengeStatus = 'pending' | 'ongoing' | 'completed' | 'cancelled';
+type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';
 
-interface ChallengeRules {
+export interface ChallengeRules {
     minParticipants: number; // Minimum participants required
     maxParticipants?: number; // Optional maximum number of participants
     verificationMethod: VerificationMethod; // How progress is verified
@@ -23,7 +29,7 @@ interface ChallengeRules {
 
 type VerificationMethod = 'self-report' | 'third-party' | 'automated';
 
-interface ChallengeReward {
+export interface ChallengeReward {
     description: string;
     points: number; // Points awarded for completion
     badges?: string[]; // Optional badges awarded

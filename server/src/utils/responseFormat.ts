@@ -1,6 +1,6 @@
 import {ApiResponse} from "../interfaces/ICommon";
 
-export const formatResponse = <T>(data: T, message?: string, meta?: any): ApiResponse<T> => {
+export const formatResponse = <T>(data: T, message: string, meta: object = {}): ApiResponse<T> => {
     return {
         success: true,
         data,
@@ -9,7 +9,7 @@ export const formatResponse = <T>(data: T, message?: string, meta?: any): ApiRes
     };
 };
 
-export const formatError = <T>(message: string, errorCode?: string, meta?: any): ApiResponse<T> => {
+export const formatError = <T>(message: string, errorCode: string = "", meta: object ={}): ApiResponse<T> => {
     return {
         success: false,
         data: null,
