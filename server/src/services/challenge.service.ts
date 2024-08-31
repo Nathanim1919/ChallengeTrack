@@ -3,38 +3,59 @@ import {IChallenge} from "../interfaces/IChallenge";
 import {ChallengeRepository} from "../repositories/challenge.repository";
 import mongoose from "mongoose";
 import {IUser} from "../interfaces/IUser";
+import {formatError} from "../utils/responseFormat";
 
 class ChallengeService {
     constructor(private challengeRepository: ChallengeRepository) {
     }
 
     async createChallenge(challengeData: IChallenge): Promise<IChallenge> {
-        return this.challengeRepository.createChallenge(challengeData);
+        try{
+            return await this.challengeRepository.createChallenge(challengeData);
+        }catch(error){
+            throw new Error('Failed to create challenge');
+        }
     }
 
     async updateChallenge(id: string, updateData: Partial<IChallenge>): Promise<IChallenge | null> {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new Error('Invalid challenge ID');
         }
-        return this.challengeRepository.updateChallenge(id, updateData);
+        try{
+            return await this.challengeRepository.updateChallenge(id, updateData);
+        }catch(error){
+            throw new Error('Failed to update challenge');
+        }
     }
 
     async deleteChallenge(id: string): Promise<IChallenge | null> {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new Error('Invalid challenge ID');
         }
-        return this.challengeRepository.deleteChallenge(id);
+        try{
+            return await this.challengeRepository.deleteChallenge(id);
+        }catch(error){
+            throw new Error('Failed to delete challenge');
+        }
     }
 
     async searchChallenges(filter: any): Promise<IChallenge[] | []> {
-        return this.challengeRepository.searchChallenges(filter);
+        try {
+            return await this.challengeRepository.searchChallenges(filter);
+        } catch (error) {
+            throw new Error('Failed to search challenges');
+        }
     }
 
     async findChallengeById(challengeId: string): Promise<IChallenge | null>{
         if (!mongoose.Types.ObjectId.isValid(challengeId)) {
             throw new Error('Invalid challenge ID');
         }
-        return this.challengeRepository.findChallengeById(challengeId);
+        try{
+            return this.challengeRepository.findChallengeById(challengeId);
+        }catch(error){
+            throw new Error('Failed to find challenge');
+        }
     }
 
     async addParticipant(challengeId: string, userId: string): Promise<IChallenge | null> {

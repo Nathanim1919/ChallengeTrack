@@ -112,3 +112,7 @@ class ChallengeController {
         }
     }
 }
+
+
+
+export default ChallengeController;
