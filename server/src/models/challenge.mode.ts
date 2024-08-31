@@ -26,7 +26,6 @@ const challengeSchema = new Schema<IChallenge>({
     progress: {type: Number, default: 0},
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now}
-})
-
+});
 
 export const Challenge = model('Challenge', challengeSchema);

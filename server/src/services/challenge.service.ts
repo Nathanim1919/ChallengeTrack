@@ -72,3 +72,6 @@ class ChallengeService {
         return this.challengeRepository.getChallengeParticipants(challengeId);
     }
 }
+
+
+export default ChallengeService;

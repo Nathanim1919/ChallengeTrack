@@ -1,0 +1,114 @@
+import ChallengeService from "../services/challenge.service";
+import {Request, Response} from "express";
+import {ApiResponse} from "../interfaces/ICommon";
+import {IChallenge} from "../interfaces/IChallenge";
+import {formatError, formatResponse} from "../utils/responseFormat";
+
+class ChallengeController {
+    constructor(private challengeService: ChallengeService) {
+    }
+
+    async createChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>> {
+        try {
+            const challenge = await this.challengeService.createChallenge((req.body))
+            return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to create challenge"));
+        }
+    }
+
+
+    async updateChallenge(req: Request, res: Response):Promise<Response<ApiResponse<IChallenge>>>{
+        try{
+            const challenge = await this.challengeService.updateChallenge(req.params.id, req.body);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+            return res.status(200).json(formatResponse(challenge, 'Challenge updated successfully'));
+        }catch(error){
+            return res.status(400).json(formatError("Failed to update challenge"));
+        }
+    }
+
+
+    async deleteChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenge = await this.challengeService.deleteChallenge(req.params.id);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+            return res.status(200).json(formatResponse(challenge, 'Challenge deleted successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to delete challenge"));
+        }
+    }
+
+    async searchChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenges = await this.challengeService.searchChallenges(req.query);
+            return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to search challenges"));
+        }
+    }
+
+
+    async findChallengeById(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenge = await this.challengeService.findChallengeById(req.params.id);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+            return res.status(200).json(formatResponse(challenge, 'Challenge fetched successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to fetch challenge"));
+        }
+    }
+
+
+    async addParticipant(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenge = await this.challengeService.addParticipant(req.body.challengeId, req.body.userId);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+
+            return res.status(200).json(formatResponse(challenge, 'Participant added successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to add participant"));
+        }
+    }
+
+    async removeParticipant(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenge = await this.challengeService.removeParticipant(req.body.challengeId, req.body.userId);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+            return res.status(200).json(formatResponse(challenge, 'Participant removed successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to remove participant"));
+        }
+    }
+
+    async getChallengeParticipants(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const participants = await this.challengeService.getChallengeParticipants(req.params.id);
+            return res.status(200).json(formatResponse(participants, 'Participants fetched successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to fetch participants"));
+        }
+    }
+
+    async markChallengeAsCompleted(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
+        try {
+            const challenge = await this.challengeService.markChallengeAsCompleted(req.params.id);
+            if(!challenge){
+                return res.status(404).json(formatError("Challenge not found"));
+            }
+            return res.status(200).json(formatResponse(challenge, 'Challenge marked as completed'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to mark challenge as completed"));
+        }
+    }
+}
