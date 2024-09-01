@@ -16,6 +16,7 @@ const challengeSchema = new Schema<IChallenge>({
         enum: ['PENDING', 'ONGOING', 'COMPLETED', 'CANCELED'],
         default: 'PENDING'
     },
+    visibility: {type: String, enum: ['public', 'private'], required: true},
     rules:[
         {
             minParticipants: {type: Number, required: true},

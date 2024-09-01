@@ -1,12 +1,12 @@
 import express from 'express';
-import { Request, Response } from 'express';
 import bodyParser  from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import expressValidator from "express-validator";
 import expressSession from "express-session";
 import {dbInstance} from "./src/config/db.config";
-
+import ChallengeRoute from "./src/routes/challenge.route";
+import {Routes} from "./src/routes";
 
 // Create express app
 const app = express();
@@ -28,16 +28,10 @@ app.use(cors({
 // connect to database
 dbInstance.createConnection();
 
-app.get("/", (req:Request, res:Response) => {
-    res.send("Hello World");
-});
+// routes
+const BASE_API_URL = '/api/v1';
+Routes.configureRoutes(app, BASE_API_URL);
 
-app.get("/users", (req: Request, res: Response) => {
-    res.send({
-        "name": "Nathan Tadele",
-        "age": 23
-    })
-})
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

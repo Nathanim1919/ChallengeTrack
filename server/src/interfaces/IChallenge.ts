@@ -10,6 +10,7 @@ export interface IChallenge {
     endDate: Date;
     participants: string[]; // Array of user IDs
     status: ChallengeStatus;
+    visibility: 'public' | 'private';
     createdAt?: Date;
     updatedAt?: Date;
     progress?: number; // Progress percentage

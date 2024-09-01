@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import {Request, Response} from "express";
 import {UserService} from "../services/user.service";
 import {IUser} from "../interfaces/IUser";
 import {ApiResponse} from "../interfaces/ICommon";
@@ -60,8 +60,7 @@ export class UserController {
     async logout(req: Request, res:Response) {
         // code here
         try {
-            const userId = req.userId; // Assume userId is extracted from JWT
-            await redisInstance.deleteKey(`refresh_token:${userId}`);
+            await redisInstance.deleteKey(`refresh_token:${req.userId}`);
             return res
                 .status(200)
                 .clearCookie('accessToken')

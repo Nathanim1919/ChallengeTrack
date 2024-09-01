@@ -2,12 +2,39 @@ import { ChallengeRepository } from '../repositories/challenge.repository';
 import ChallengeService from '../services/challenge.service';
 import { IChallenge } from '../interfaces/IChallenge';
 import mongoose from 'mongoose';
+import { IUser } from "../interfaces/IUser";
 
 jest.mock('../repositories/challenge.repository');
 
 describe('ChallengeService', () => {
     let challengeService: ChallengeService;
     let mockChallengeRepository: jest.Mocked<ChallengeRepository>;
+
+    const ERROR_MESSAGES = {
+        FAILED_TO_CREATE_CHALLENGE: 'Failed to create challenge',
+        FAILED_TO_UPDATE_CHALLENGE: 'Failed to update challenge',
+        FAILED_TO_DELETE_CHALLENGE: 'Failed to delete challenge',
+        FAILED_TO_FIND_CHALLENGE: 'Failed to find challenge',
+        INVALID_USER_ID: 'Invalid user ID format',
+        INVALID_CHALLENGE_ID: 'Invalid challenge ID',
+    };
+
+    const createMockUser = (): IUser => ({
+        _id: new mongoose.Types.ObjectId(),
+        username: 'user1',
+        name: 'User 1',
+        email: 'user1@gmail.com',
+        password: 'password',
+        points: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        role: 'user',
+        achievements: [],
+        createdChallenges: [],
+        participatedChallenges: [],
+        wonChallenges: [],
+        profilePicture: 'https://via.placeholder.com/150'
+    });
 
     const createMockChallenge = (): IChallenge => ({
         _id: new mongoose.Types.ObjectId(),
@@ -18,6 +45,7 @@ describe('ChallengeService', () => {
         endDate: new Date(),
         participants: [new mongoose.Types.ObjectId().toString()],
         status: 'PENDING',
+        visibility: 'public',
         createdAt: new Date(),
         updatedAt: new Date(),
         progress: 0,
@@ -67,10 +95,10 @@ describe('ChallengeService', () => {
 
         it('should throw an error if challenge creation fails', async () => {
             const mockChallenge = createMockChallenge();
-            mockChallengeRepository.createChallenge.mockRejectedValue(new Error('Failed to create challenge'));
+            mockChallengeRepository.createChallenge.mockRejectedValue(new Error(ERROR_MESSAGES.FAILED_TO_CREATE_CHALLENGE));
 
             await expect(challengeService.createChallenge(mockChallenge))
-                .rejects.toThrow('Failed to create challenge');
+                .rejects.toThrow(ERROR_MESSAGES.FAILED_TO_CREATE_CHALLENGE);
 
             expect(mockChallengeRepository.createChallenge).toHaveBeenCalledWith(mockChallenge);
         });
@@ -89,10 +117,10 @@ describe('ChallengeService', () => {
 
         it('should throw an error if challenge update fails', async () => {
             const mockChallenge = createMockChallenge();
-            mockChallengeRepository.updateChallenge.mockRejectedValue(new Error('Failed to update challenge'));
+            mockChallengeRepository.updateChallenge.mockRejectedValue(new Error(ERROR_MESSAGES.FAILED_TO_UPDATE_CHALLENGE));
 
             await expect(challengeService.updateChallenge(mockChallenge._id.toString(), mockChallenge))
-                .rejects.toThrow('Failed to update challenge');
+                .rejects.toThrow(ERROR_MESSAGES.FAILED_TO_UPDATE_CHALLENGE);
 
             expect(mockChallengeRepository.updateChallenge).toHaveBeenCalledWith(mockChallenge._id.toString(), mockChallenge);
         });
@@ -111,10 +139,10 @@ describe('ChallengeService', () => {
 
         it('should throw an error if challenge deletion fails', async () => {
             const mockChallenge = createMockChallenge();
-            mockChallengeRepository.deleteChallenge.mockRejectedValue(new Error('Failed to delete challenge'));
+            mockChallengeRepository.deleteChallenge.mockRejectedValue(new Error(ERROR_MESSAGES.FAILED_TO_DELETE_CHALLENGE));
 
             await expect(challengeService.deleteChallenge(mockChallenge._id.toString()))
-                .rejects.toThrow('Failed to delete challenge');
+                .rejects.toThrow(ERROR_MESSAGES.FAILED_TO_DELETE_CHALLENGE);
 
             expect(mockChallengeRepository.deleteChallenge).toHaveBeenCalledWith(mockChallenge._id.toString());
         });
@@ -154,10 +182,10 @@ describe('ChallengeService', () => {
 
         it('should throw an error if challenge search fails', async () => {
             const mockChallengeId = new mongoose.Types.ObjectId().toString();
-            mockChallengeRepository.findChallengeById.mockRejectedValue(new Error('Failed to find challenge'));
+            mockChallengeRepository.findChallengeById.mockRejectedValue(new Error(ERROR_MESSAGES.FAILED_TO_FIND_CHALLENGE));
 
             await expect(challengeService.findChallengeById(mockChallengeId))
-                .rejects.toThrow('Failed to find challenge');
+                .rejects.toThrow(ERROR_MESSAGES.FAILED_TO_FIND_CHALLENGE);
 
             expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(mockChallengeId);
         });
@@ -179,7 +207,7 @@ describe('ChallengeService', () => {
             const invalidUserId = 'invalidUserId';
 
             await expect(challengeService.addParticipant(new mongoose.Types.ObjectId().toString(), invalidUserId))
-                .rejects.toThrow('Invalid user ID format');
+                .rejects.toThrow(ERROR_MESSAGES.INVALID_USER_ID);
         });
 
         it('should remove a participant from the challenge successfully', async () => {
@@ -197,7 +225,24 @@ describe('ChallengeService', () => {
             const invalidUserId = 'invalidUserId';
 
             await expect(challengeService.removeParticipant(new mongoose.Types.ObjectId().toString(), invalidUserId))
-                .rejects.toThrow('Invalid user ID format');
+                .rejects.toThrow(ERROR_MESSAGES.INVALID_USER_ID);
+        });
+
+        it('should mark a challenge as completed successfully', async () => {
+            const mockChallenge = createMockChallenge();
+            mockChallengeRepository.markChallengeAsCompleted.mockResolvedValue(mockChallenge);
+
+            const result = await challengeService.markChallengeAsCompleted(mockChallenge._id.toString());
+
+            expect(mockChallengeRepository.markChallengeAsCompleted).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(result).toEqual(mockChallenge);
+        });
+
+        it('should throw an error if challenge ID is invalid when marking challenge as completed', async () => {
+            const invalidChallengeId = 'invalidChallengeId';
+
+            await expect(challengeService.markChallengeAsCompleted(invalidChallengeId))
+                .rejects.toThrow(ERROR_MESSAGES.INVALID_CHALLENGE_ID);
         });
     });
 });
