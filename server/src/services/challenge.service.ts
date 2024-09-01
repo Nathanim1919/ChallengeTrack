@@ -63,7 +63,7 @@ class ChallengeService {
             throw new Error('Invalid challenge ID');
         }
         if (!mongoose.Types.ObjectId.isValid(userId)) {
-            throw new Error('Invalid user ID');
+            throw new Error('Invalid user ID format');
         }
         return this.challengeRepository.addParticipant(challengeId, userId);
     }
@@ -73,7 +73,7 @@ class ChallengeService {
             throw new Error('Invalid challenge ID');
         }
         if (!mongoose.Types.ObjectId.isValid(userId)) {
-            throw new Error('Invalid user ID');
+            throw new Error('Invalid user ID format');
         }
         return this.challengeRepository.removeParticipant(challengeId, userId);
     }
