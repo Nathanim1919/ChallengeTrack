@@ -57,6 +57,13 @@ export class ChallengeRepository {
         return challenge?.participants as IUser[] | [];
     }
 
+
+    async saveLogChallengeProgress(challengeId: string, userId: string, logs:string[], images:string[], day:number): Promise<IChallenge | null> {
+        return Challenge.findByIdAndUpdate(challengeId, {
+            $push: {logs: {userId, logs, images, day}},
+        }, {new: true}).exec();
+    }
+
     // TODO: Implement the following methods
     // distributeRewards(challengeId: ObjectId): Promise<IRewardDistributionResult>;
     // addChallengeStage(challengeId: ObjectId, stage: IChallengeStage): Promise<IChallenge>;
@@ -73,6 +80,4 @@ export class ChallengeRepository {
     // unbanChallenge(challengeId: ObjectId): Promise<IChallenge>;
     // translateChallengeContent(challengeId: ObjectId, language: string): Promise<IChallengeTranslation>;
     // getChallengeTranslations(challengeId: ObjectId): Promise<IChallengeTranslation[]>;
-
-
 }

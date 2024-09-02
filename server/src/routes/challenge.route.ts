@@ -15,6 +15,9 @@ class ChallengeRoute {
             .delete(this.challengeController.deleteChallenge.bind(this.challengeController))
             .get(this.challengeController.findChallengeById.bind(this.challengeController));
 
+        app.route(`${baseUrl}/challenges/:id/logs`)
+            .post(this.challengeController.saveDailyLogChallengeProgress.bind(this.challengeController));
+
         app.route(`${baseUrl}/challenges/:id/participants`)
             .post(this.challengeController.addParticipant.bind(this.challengeController))
             .get(this.challengeController.getChallengeParticipants.bind(this.challengeController))

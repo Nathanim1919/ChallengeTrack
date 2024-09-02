@@ -78,4 +78,17 @@ export class UserService {
     async getUserByEmailOrUsername(identifier: string): Promise<IUser | null> {
         return this.userRepository.findByEmailOrUsername(identifier);
     }
+
+    /**
+     * reward a user for completing a daily challenge
+     */
+    async rewardUserForDailyChallenge(userId: string): Promise<IUser | null> {
+        return this.userRepository.findById(userId)
+            .then(user => {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                return this.userRepository.rewardPoint(userId, RewardService.rewardDailyChallenge(user.points));
+            });
+    }
 }
