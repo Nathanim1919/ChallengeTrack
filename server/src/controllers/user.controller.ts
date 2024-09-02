@@ -6,12 +6,16 @@ import {formatError, formatResponse} from "../utils/responseFormat";
 import {AuthUtils} from "../utils/auth.utils";
 import redisInstance from '../config/redis.config';
 
+interface CustomRequest extends Request {
+    userId?: string;
+}
+
 export class UserController {
 
     // constructor
     constructor(private userService: UserService) {
     }
-    async register(req: Request, res:Response):Promise<Response<ApiResponse<IUser>>> {
+    async register(req: CustomRequest, res:Response):Promise<Response<ApiResponse<IUser>>> {
         try {
             const registeredUser = await this.userService.registerUser(req.body);
             return res.status(201).json(formatResponse(registeredUser, 'User registered successfully'));
@@ -19,7 +23,7 @@ export class UserController {
             return res.status(400).json(formatError("Registration failed"));
         }
     }
-    async login(req: Request, res:Response) {
+    async login(req: CustomRequest, res:Response) {
         // code here
         try{
             const user = await this.userService.loginUser(req.body.identifier, req.body.password);
@@ -57,7 +61,7 @@ export class UserController {
             return res.status(400).json(formatError("Login failed"));
         }
     }
-    async logout(req: Request, res:Response) {
+    async logout(req: CustomRequest, res:Response) {
         // code here
         try {
             await redisInstance.deleteKey(`refresh_token:${req.userId}`);
@@ -70,7 +74,7 @@ export class UserController {
             return res.status(400).json(formatError("Logout failed"));
         }
     }
-    async getUser(req: Request, res:Response):Promise<Response<ApiResponse<IUser>> | void> {
+    async getUser(req: CustomRequest, res:Response):Promise<Response<ApiResponse<IUser>> | void> {
         // code here
         try {
             const user = await this.userService.getUserById(req.userId as string);
@@ -82,15 +86,16 @@ export class UserController {
             return res.status(400).json(formatError("Failed to get user"));
         }
     }
-    async getUsers(req: Request, res:Response) {
+    async getUsers(req: CustomRequest, res:Response):Promise<Response<ApiResponse<IUser[]>> | void> {
         // code here
         try {
             const users = await this.userService.searchUsers({});
+            return res.status(200).json(formatResponse(users, 'Users fetched successfully'));
         } catch (error) {
             return res.status(400).json(formatError("Failed to get users"));
         }
     }
-    async updateUser(req: Request, res:Response) {
+    async updateUser(req: CustomRequest, res:Response) {
         // code here
         try {
             const updatedUser = await this.userService.updateUser(req.userId as string, req.body);
@@ -99,7 +104,7 @@ export class UserController {
             return res.status(400).json(formatError("Failed to update user"));
         }
     }
-    async deleteUser(req: Request, res:Response) {
+    async deleteUser(req: CustomRequest, res:Response) {
         // code here
         try {
             const deletedUser = await this.userService.deleteUser(req.userId as string);

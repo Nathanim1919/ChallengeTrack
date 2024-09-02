@@ -6,8 +6,9 @@
     "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/types/express/index.d.ts"],
   },
-  "include": ["src/**/*", "index.ts",],
+  "include": ["src/**/*", "index.ts","src/types/express/index.d.ts"],
   "exclude": ["node_modules"]
 }

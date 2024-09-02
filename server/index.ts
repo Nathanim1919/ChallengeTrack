@@ -17,7 +17,9 @@ const app = express();
 dotenv.config();
 
 // body-parser: Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // parse application/json
+app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
+app.use(express.json()); // parse application/json as json
 
 // cors: CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors({
@@ -29,9 +31,8 @@ app.use(cors({
 dbInstance.createConnection();
 
 // routes
-const BASE_API_URL = '/api/v1';
-Routes.configureRoutes(app, BASE_API_URL);
-
+const baseApiUrl = process.env.BASE_API_URL || '/api/v1'; // Provide a default value or handle undefined case
+Routes.configureRoutes(app, baseApiUrl);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

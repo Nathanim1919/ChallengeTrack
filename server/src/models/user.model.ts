@@ -33,6 +33,7 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Achievement'
     }],
+    logs: [{type: Schema.Types.ObjectId, ref: 'Log'}],
     createdChallenges: [{
         type: Schema.Types.ObjectId,
         ref: 'Challenge'

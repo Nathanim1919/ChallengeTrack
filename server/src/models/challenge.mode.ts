@@ -25,6 +25,7 @@ const challengeSchema = new Schema<IChallenge>({
         }
     ],
     progress: {type: Number, default: 0},
+    logs: [{type: Schema.Types.ObjectId, ref: 'Log'}],
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now}
 });

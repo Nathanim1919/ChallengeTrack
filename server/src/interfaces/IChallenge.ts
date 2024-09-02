@@ -11,13 +11,13 @@ export interface IChallenge {
     participants: string[]; // Array of user IDs
     status: ChallengeStatus;
     visibility: 'public' | 'private';
+    logs: ObjectId[]; // Log IDs
     createdAt?: Date;
     updatedAt?: Date;
     progress?: number; // Progress percentage
     rules: ChallengeRules[]; // Additional rules for the challenge
     rewards: ChallengeReward[]; // Potential rewards for completing the challenge
     leaderboard?: ObjectId; // Leaderboard ID
-
 }
 
 type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';

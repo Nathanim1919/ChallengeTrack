@@ -18,8 +18,8 @@ export class Routes {
         challengeRoute.configureRoutes(app, baseUrl);
 
         // User routes
-        // const userController = new UserController(new UserService(new UserRepository()));
-        // const userRoute = new UserRoute(userController);
-        // userRoute.configureRoutes(app);
+        const userController = new UserController(new UserService(new UserRepository()));
+        const userRoute = new UserRoute(userController);
+        userRoute.configureRoutes(app, baseUrl);
     }
 }

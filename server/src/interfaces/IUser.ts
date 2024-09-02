@@ -12,6 +12,7 @@ interface IUser {
     createdChallenges: ObjectId[];
     participatedChallenges: ObjectId[];
     wonChallenges: ObjectId[];
+    logs: ObjectId[];
     points: number;
     createdAt?: Date;
     updatedAt?: Date;
