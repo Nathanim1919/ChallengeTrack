@@ -6,6 +6,8 @@ import {UserRepository} from "../repositories/user.repository";
 import request from 'supertest';
 import express from "express";
 
+
+
 const app = express();
 app.use(express.json());
 
@@ -21,6 +23,8 @@ describe('UserController', () => {
         password: "securePassword123!",
         profilePicture: "https://example.com/images/john_doe.jpg",
         role: "user",
+        challengePoints: [],
+        logs: [],
         achievements: [],
         createdChallenges: [],
         participatedChallenges: [],
@@ -37,7 +41,10 @@ describe('UserController', () => {
             findByEmailOrUsername: jest.fn(),
             updateById: jest.fn(),
             deleteById: jest.fn(),
-            searchUsers: jest.fn()
+            searchUsers: jest.fn(),
+            addCreatedChallenge: jest.fn(),
+            addParticipatedChallenge: jest.fn(),
+            rewardPoint: jest.fn()
         } as jest.Mocked<UserRepository>;
 
         mockUserService = new UserService(mockUserRepository) as jest.Mocked<UserService>;
@@ -48,6 +55,12 @@ describe('UserController', () => {
         jest.spyOn(mockUserService, 'deleteUser').mockImplementation(jest.fn());
         jest.spyOn(mockUserService, 'searchUsers').mockImplementation(jest.fn());
         jest.spyOn(mockUserService, 'getUserByEmailOrUsername').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'addCreatedChallenge').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'rewardUserForDailyChallenge').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'rewardUserForCompletingChallenge').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'rewardUserForHalfWayChallengeCompletion').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'rewardUserForAchievementUnlock').mockImplementation(jest.fn());
+        jest.spyOn(mockUserService, 'addCreatedChallenge').mockImplementation(jest.fn());
 
         userController = new UserController(mockUserService);
         app.post('/register', userController.register.bind(userController));
@@ -56,7 +69,8 @@ describe('UserController', () => {
 
     afterEach(async () => {
         jest.clearAllMocks();
-        // await app.close(); // Close the server after each test
+        jest.clearAllTimers();
+        jest.useRealTimers();
     });
 
     describe("register", () => {
@@ -109,4 +123,6 @@ describe('UserController', () => {
     //         });
     //     });
     // });
+
+
 });

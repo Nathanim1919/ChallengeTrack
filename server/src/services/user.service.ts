@@ -2,6 +2,7 @@ import {UserRepository} from "../repositories/user.repository";
 import {IUser} from "../interfaces/IUser";
 import bcrypt from "bcrypt";
 import {RewardService} from "./reward.service";
+import {RewardType} from "../utils/enum.utils";
 
 export class UserService {
 
@@ -36,10 +37,9 @@ export class UserService {
 
         if (passwordMatch) {
             // reward user points for login
-            const updatedUser =  await this.userRepository.updateById(user._id.toString(), {
-                points: RewardService.rewardUserForDailyLogin(user.points)
+            return await this.userRepository.updateById(user._id.toString(), {
+                points: RewardService.reward(RewardType.DAILY_LOGIN, user.points)
             });
-            return updatedUser;
         }
         return null;
     }
@@ -88,7 +88,57 @@ export class UserService {
                 if (!user) {
                     throw new Error('User not found');
                 }
-                return this.userRepository.rewardPoint(userId, RewardService.rewardDailyChallenge(user.points));
+                return this.userRepository.rewardPoint(userId, RewardService.reward(RewardType.DAILY_CHALLENGE, user.points));
             });
     }
+
+    /**
+     * reward a user for completing  challenge
+     */
+    async rewardUserForCompletingChallenge(userId: string): Promise<IUser | null> {
+        return this.userRepository.findById(userId)
+            .then(user => {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                return this.userRepository.rewardPoint(userId, RewardService.reward(RewardType.CHALLENGE_COMPLETION, user.points));
+            });
+    }
+
+
+    async rewardUserForHalfWayChallengeCompletion(userId: string): Promise<IUser | null> {
+        return this.userRepository.findById(userId)
+            .then(user => {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                return this.userRepository.rewardPoint(userId, RewardService.reward(RewardType.HALF_WAY, user.points));
+            });
+    }
+
+    async rewardUserForAchievementUnlock(userId: string): Promise<IUser | null> {
+        return this.userRepository.findById(userId)
+            .then(user => {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                return this.userRepository.rewardPoint(userId, RewardService.reward(RewardType.ACHIEVEMENT_UNLOCK, user.points));
+            });
+    }
+
+
+    async rewardUserForTopPlacement(userId: string, rewardType: string): Promise<IUser | null> {
+        return this.userRepository.findById(userId)
+            .then(user => {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                return this.userRepository.rewardPoint(userId, RewardService.reward(rewardType, user.points));
+            });
+    }
+
+    async addCreatedChallenge(userId: string, challengeId: string): Promise<IUser | null> {
+        return this.userRepository.addCreatedChallenge(userId, challengeId);
+    }
+
 }

@@ -49,9 +49,13 @@ const userSchema = new Schema({
     points: {
         type: Number,
         default: 0
-    }
-}, {timestamps: true});
+    },
+    challengePoints: [{
+       type: Schema.Types.ObjectId,
+        ref: 'ChallengePoint'
+    }],
 
+}, {timestamps: true});
 
 
 export const User = model('User', userSchema);

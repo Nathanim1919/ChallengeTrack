@@ -3,12 +3,35 @@ import ChallengeService from '../services/challenge.service';
 import { IChallenge } from '../interfaces/IChallenge';
 import mongoose from 'mongoose';
 import { IUser } from "../interfaces/IUser";
+import {UserService} from "../services/user.service";
+import LeaderBoardService from "../services/leaderBoard.service";
+import {UserRepository} from "../repositories/user.repository";
+import LeaderboardRepository from "../repositories/leaderboard.repository";
+import {RankEntry} from "../interfaces/ILeaderBoard";
 
+// Mock the challenge repository
 jest.mock('../repositories/challenge.repository');
+// Mock the user service and repository
+jest.mock('../services/user.service');
+jest.mock('../repositories/user.repository');
+
+// Mock the leader board service and repository
+jest.mock('../services/leaderBoard.service');
+jest.mock('../repositories/leaderboard.repository');
+
 
 describe('ChallengeService', () => {
+    // Mock the challenge repository
     let challengeService: ChallengeService;
     let mockChallengeRepository: jest.Mocked<ChallengeRepository>;
+
+    // Mock the user service and repository
+    let mockUserService: jest.Mocked<UserService>;
+    let mockUserRepository: jest.Mocked<UserRepository>;
+
+    // Mock the leader board service and repository
+    let mockLeaderBoardService: jest.Mocked<LeaderBoardService>;
+    let mockLeaderBoardRepository: jest.Mocked<LeaderboardRepository>;
 
     const ERROR_MESSAGES = {
         FAILED_TO_CREATE_CHALLENGE: 'Failed to create challenge',
@@ -29,12 +52,15 @@ describe('ChallengeService', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         role: 'user',
+        logs: [],
+        challengePoints: [],
         achievements: [],
         createdChallenges: [],
         participatedChallenges: [],
         wonChallenges: [],
         profilePicture: 'https://via.placeholder.com/150'
     });
+
 
     const createMockChallenge = (): IChallenge => ({
         _id: new mongoose.Types.ObjectId(),
@@ -46,6 +72,7 @@ describe('ChallengeService', () => {
         participants: [new mongoose.Types.ObjectId().toString()],
         status: 'PENDING',
         visibility: 'public',
+        logs: [],
         createdAt: new Date(),
         updatedAt: new Date(),
         progress: 0,
@@ -62,6 +89,8 @@ describe('ChallengeService', () => {
         leaderboard: new mongoose.Types.ObjectId()
     });
 
+
+
     beforeEach(() => {
         mockChallengeRepository = {
             createChallenge: jest.fn(),
@@ -72,20 +101,35 @@ describe('ChallengeService', () => {
             addParticipant: jest.fn(),
             removeParticipant: jest.fn(),
             markChallengeAsCompleted: jest.fn(),
-            getChallengeParticipants: jest.fn()
+            getChallengeParticipants: jest.fn(),
+            saveLogChallengeProgress: jest.fn(),
+
         } as jest.Mocked<ChallengeRepository>;
 
-        challengeService = new ChallengeService(mockChallengeRepository);
+        mockLeaderBoardRepository = new LeaderboardRepository() as jest.Mocked<LeaderboardRepository>;
+        mockUserRepository = new UserRepository() as jest.Mocked<UserRepository>;
+
+        mockUserService = new UserService(mockUserRepository) as jest.Mocked<UserService>;
+        mockLeaderBoardService = new LeaderBoardService(mockLeaderBoardRepository) as jest.Mocked<LeaderBoardService>;
+
+        challengeService = new ChallengeService(mockChallengeRepository, mockUserService, mockLeaderBoardService);
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+        jest.useRealTimers();
+        jest.clearAllTimers();
     });
 
     describe('createChallenge', () => {
         it('should create a new challenge successfully', async () => {
             const mockChallenge = createMockChallenge();
             mockChallengeRepository.createChallenge.mockResolvedValue(mockChallenge);
+            mockLeaderBoardService.createChallengeSpecificLeaderboard.mockResolvedValue({
+                _id: new mongoose.Types.ObjectId(),
+                challengeId: mockChallenge._id,
+                rankings: []
+            })
 
             const result = await challengeService.createChallenge(mockChallenge);
 
@@ -230,11 +274,26 @@ describe('ChallengeService', () => {
 
         it('should mark a challenge as completed successfully', async () => {
             const mockChallenge = createMockChallenge();
+            mockChallengeRepository.findChallengeById.mockResolvedValue(mockChallenge);
             mockChallengeRepository.markChallengeAsCompleted.mockResolvedValue(mockChallenge);
+            mockUserService.rewardUserForCompletingChallenge = jest.fn();
+            mockLeaderBoardService.getLeaderBoardByChallengeId = jest.fn().mockResolvedValue({
+                rankings: [
+                    {userId: mockChallenge.participants[0], points: 100},
+                    {userId: new mongoose.Types.ObjectId().toString(), points: 50},
+                    {userId: new mongoose.Types.ObjectId().toString(), points: 25},
+                ]
+            });
+            mockUserService.rewardUserForTopPlacement = jest.fn();
 
             const result = await challengeService.markChallengeAsCompleted(mockChallenge._id.toString());
 
+            expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockUserService.rewardUserForCompletingChallenge).toHaveBeenCalledWith(mockChallenge.participants[0]);
+            expect(mockLeaderBoardService.getLeaderBoardByChallengeId).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockUserService.rewardUserForTopPlacement).toHaveBeenCalledTimes(3);
             expect(mockChallengeRepository.markChallengeAsCompleted).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockChallenge.status).toBe('COMPLETED');
             expect(result).toEqual(mockChallenge);
         });
 
@@ -245,4 +304,59 @@ describe('ChallengeService', () => {
                 .rejects.toThrow(ERROR_MESSAGES.INVALID_CHALLENGE_ID);
         });
     });
+
+    describe('markChallengeAsCompleted', () => {
+        it('should mark the challenge as completed successfully', async () => {
+            const mockChallenge = createMockChallenge();
+            mockChallengeRepository.findChallengeById.mockResolvedValue(mockChallenge);
+            mockChallengeRepository.markChallengeAsCompleted.mockResolvedValue(mockChallenge);
+            mockUserService.rewardUserForCompletingChallenge = jest.fn();
+            mockLeaderBoardService.getLeaderBoardByChallengeId = jest.fn().mockResolvedValue({
+                rankings: [
+                    {userId: mockChallenge.participants[0], points: 100},
+                    {userId: new mongoose.Types.ObjectId().toString(), points: 50},
+                    {userId: new mongoose.Types.ObjectId().toString(), points: 25},
+                ]
+            });
+            mockUserService.rewardUserForTopPlacement = jest.fn();
+
+            const ressult = await challengeService.markChallengeAsCompleted(mockChallenge._id.toString());
+
+            expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockUserService.rewardUserForCompletingChallenge).toHaveBeenCalledWith(mockChallenge.participants[0]);
+            expect(mockLeaderBoardService.getLeaderBoardByChallengeId).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockUserService.rewardUserForTopPlacement).toHaveBeenCalledTimes(3);
+            expect(mockChallengeRepository.markChallengeAsCompleted).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(ressult).toEqual(mockChallenge);
+        });
+
+        it('should throw an error if challenge ID is invalid', async () => {
+            const invalidChallengeId = 'invalidChallengeId';
+
+            await expect(challengeService.markChallengeAsCompleted(invalidChallengeId))
+                .rejects.toThrow(ERROR_MESSAGES.INVALID_CHALLENGE_ID);
+        });
+
+        it('should throw an error if challenge is not found', async () => {
+            const validChallengeId = new mongoose.Types.ObjectId().toString();
+            mockChallengeRepository.findChallengeById.mockResolvedValue(null);
+
+            await expect(challengeService.markChallengeAsCompleted(validChallengeId))
+                .rejects.toThrow('Challenge not found');
+
+            expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(validChallengeId);
+        });
+
+        it('should throw an error if leaderboard is not found', async () => {
+            const mockChallenge = createMockChallenge();
+            mockChallengeRepository.findChallengeById.mockResolvedValue(mockChallenge);
+            mockLeaderBoardService.getLeaderBoardByChallengeId.mockResolvedValue(null);
+
+            await expect(challengeService.markChallengeAsCompleted(mockChallenge._id.toString()))
+                .rejects.toThrow('Leaderboard not found');
+
+            expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(mockChallenge._id.toString());
+            expect(mockLeaderBoardService.getLeaderBoardByChallengeId).toHaveBeenCalledWith(mockChallenge._id.toString());
+        });
+    })
 });

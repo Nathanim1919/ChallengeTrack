@@ -14,8 +14,14 @@ interface IUser {
     wonChallenges: ObjectId[];
     logs: ObjectId[];
     points: number;
+    challengePoints: ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
+}
+
+export interface IChallengePoints {
+    challengeId: ObjectId;
+    points: number;
 }
 
 const UserRole = {

@@ -44,7 +44,7 @@ export class ChallengeRepository {
 
     async markChallengeAsCompleted(challengeId: string): Promise<IChallenge | null> {
         return Challenge.findByIdAndUpdate(challengeId, {
-            $addToSet: {
+            $Set: {
                 status: challengeStatus.COMPLETED
             }
         }, {new: true}).exec();

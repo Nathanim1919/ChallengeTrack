@@ -1,7 +1,8 @@
 import {Schema, model} from 'mongoose';
+import {ILeaderboard} from "../interfaces/ILeaderBoard";
 
 
-const LeaderboardSchema = new Schema({
+const LeaderboardSchema = new Schema<ILeaderboard>({
     challengeId: {
         type: Schema.Types.ObjectId,
         ref: 'Challenge',

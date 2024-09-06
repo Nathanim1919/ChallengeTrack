@@ -1,13 +1,20 @@
-interface Leaderboard {
-    id: string;
-    challengeId: string;
+import {ObjectId} from "bson";
+
+export interface ILeaderboard {
+    _id?: ObjectId;
+    challengeId: ObjectId;
     rankings: RankEntry[];
-    updatedAt: Date;
+    updatedAt?: Date;
 }
 
-interface RankEntry {
+export interface RankEntry {
     userId: string;
+    point: number;
+}
+
+
+export interface IGlobalLeaderboard {
+    userId: ObjectId;
+    totalPoints: number;
     rank: number;
-    points: number;
-    progress: string; // e.g., percentage completion
 }
