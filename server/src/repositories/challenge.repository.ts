@@ -15,6 +15,14 @@ export class ChallengeRepository {
         return Challenge.findByIdAndUpdate(id, updateData, {new: true}).exec();
     }
 
+    async changeChallengeStatus(id: string, status: string): Promise<IChallenge | null> {
+        return Challenge.findByIdAndUpdate(id, {
+            $set: {
+                status: status
+            }
+        }, { new: true }).exec();
+    }
+
     async deleteChallenge(id: string): Promise<IChallenge | null> {
         return Challenge.findByIdAndDelete(id).exec();
     }
@@ -44,10 +52,10 @@ export class ChallengeRepository {
 
     async markChallengeAsCompleted(challengeId: string): Promise<IChallenge | null> {
         return Challenge.findByIdAndUpdate(challengeId, {
-            $Set: {
+            $set: {
                 status: challengeStatus.COMPLETED
             }
-        }, {new: true}).exec();
+        }, { new: true }).exec();
     }
 
     async getChallengeParticipants(challengeId: string): Promise<IUser[] | []> {

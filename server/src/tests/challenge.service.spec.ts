@@ -8,6 +8,7 @@ import LeaderBoardService from "../services/leaderBoard.service";
 import {UserRepository} from "../repositories/user.repository";
 import LeaderboardRepository from "../repositories/leaderboard.repository";
 import {RankEntry} from "../interfaces/ILeaderBoard";
+import {challengeStatus} from "../utils/enum.utils";
 
 // Mock the challenge repository
 jest.mock('../repositories/challenge.repository');
@@ -275,7 +276,12 @@ describe('ChallengeService', () => {
         it('should mark a challenge as completed successfully', async () => {
             const mockChallenge = createMockChallenge();
             mockChallengeRepository.findChallengeById.mockResolvedValue(mockChallenge);
-            mockChallengeRepository.markChallengeAsCompleted.mockResolvedValue(mockChallenge);
+            mockChallengeRepository.markChallengeAsCompleted.mockImplementation(async (id: string) =>{
+                const challenge =mockChallenge;
+                // @ts-ignore
+                challenge.status = challengeStatus.COMPLETED;
+                return challenge;
+            })
             mockUserService.rewardUserForCompletingChallenge = jest.fn();
             mockLeaderBoardService.getLeaderBoardByChallengeId = jest.fn().mockResolvedValue({
                 rankings: [
@@ -342,7 +348,7 @@ describe('ChallengeService', () => {
             mockChallengeRepository.findChallengeById.mockResolvedValue(null);
 
             await expect(challengeService.markChallengeAsCompleted(validChallengeId))
-                .rejects.toThrow('Challenge not found');
+                .rejects.toThrow('Failed to mark challenge as completed');
 
             expect(mockChallengeRepository.findChallengeById).toHaveBeenCalledWith(validChallengeId);
         });

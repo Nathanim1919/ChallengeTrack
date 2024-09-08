@@ -3,7 +3,8 @@ export const challengeStatus = {
     ACCEPTED: 'ACCEPTED',
     REJECTED: 'REJECTED',
     CANCELED: 'CANCELED',
-    COMPLETED: 'COMPLETED'
+    COMPLETED: 'COMPLETED',
+    READY:'READY',
 };
 
 // notificationUtils.ts

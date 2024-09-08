@@ -13,17 +13,16 @@ const challengeSchema = new Schema<IChallenge>({
     leaderboard: {type: Schema.Types.ObjectId, ref: 'Leaderboard'},
     status: {
         type: String,
-        enum: ['PENDING', 'ONGOING', 'COMPLETED', 'CANCELED'],
+        enum: ['PENDING','READY', 'ONGOING', 'COMPLETED', 'CANCELED'],
         default: 'PENDING'
     },
     visibility: {type: String, enum: ['public', 'private'], required: true},
-    rules:[
+    rules:
         {
             minParticipants: {type: Number, required: true},
-            maxParticipants: {type: Number},
+            maxParticipants: {type: Number, required: true},
             verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], required: true}
-        }
-    ],
+        },
     progress: {type: Number, default: 0},
     logs: [{type: Schema.Types.ObjectId, ref: 'Log'}],
     createdAt: {type: Date, default: Date.now},

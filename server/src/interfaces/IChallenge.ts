@@ -15,7 +15,7 @@ export interface IChallenge {
     createdAt?: Date;
     updatedAt?: Date;
     progress?: number; // Progress percentage
-    rules: ChallengeRules[]; // Additional rules for the challenge
+    rules: ChallengeRules; // Additional rules for the challenge
     rewards: ChallengeReward[]; // Potential rewards for completing the challenge
     leaderboard?: ObjectId; // Leaderboard ID
 }
@@ -24,7 +24,7 @@ type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';
 
 export interface ChallengeRules {
     minParticipants: number; // Minimum participants required
-    maxParticipants?: number; // Optional maximum number of participants
+    maxParticipants: number; // Optional maximum number of participants
     verificationMethod: VerificationMethod; // How progress is verified
 }
 
