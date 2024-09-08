@@ -103,7 +103,6 @@ class ChallengeService {
         } catch (error) {
             throw new Error('Failed to set challenge ready to start');
         }
-
     }
 
     async isMaxParticipantsReached(challengeId: string): Promise<boolean> {
