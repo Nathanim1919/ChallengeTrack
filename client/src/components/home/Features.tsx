@@ -51,7 +51,7 @@ const Features: React.FC = () => {
 
 const FeatureBox: React.FC<{ title: string; description: string; image: string }> = ({ title, description, image }) => {
     return (
-        <div className="feature-box p-8 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-500">
+        <div className="feature-box p-8 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-5cd 00">
             <div className={"w-[130px] relative"}>
                <img src={image} alt={title} className="w-full h-full relative mx-auto mb-6" />
             </div>

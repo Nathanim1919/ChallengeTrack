@@ -6,7 +6,7 @@ const Hero: React.FC = () => {
         <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center">
             <div className="hero-content overflow-hidden">
                 <div className={'flex flex-col items-center gap-2 pt-16'}>
-                    <h1 className="hero-title text-5xl md:text-6xl lg:text-7xl font-bold text-center"> Discover New Challenges<br/>and
+                    <h1 className="hero-title text-5xl md:text-6xl font-bold text-center"> Discover New Challenges<br/>and
                         Achieve Greatness </h1>
                     <p className="hero-text text-center text-gray-500">Join the global platform where you can challenge
                         yourself, compete, and grow. </p>
