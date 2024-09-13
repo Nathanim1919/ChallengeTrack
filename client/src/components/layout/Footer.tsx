@@ -1,29 +1,53 @@
 // src/components/layout/Footer.tsx
 import React from 'react';
+import {FaFacebookSquare, FaYoutube} from "react-icons/fa";
+import { FaTwitterSquare } from "react-icons/fa";
+import {FaInstagram} from "react-icons/fa";
+import {FaLinkedin} from "react-icons/fa";
+import {Link} from "react-router-dom";
+import { CiSquareCheck } from "react-icons/ci";
+import BGImage from "../../assets/bg1.png"
+
 
 
 const Footer: React.FC = () => {
     return (
-        <footer className="footer">
-            <div className="footer-content">
-                <div className="footer-links">
-                    <a href="/privacy">Privacy Policy</a>
-                    <a href="/terms">Terms of Service</a>
-                    <a href="/contact">Contact Us</a>
+        <footer
+            className="footer overflow-hidden bg-gray-800 text-white grid grid-cols-1 items-center justify-between py-10 relative">
+            <img src={BGImage as string} alt="BG1" className="w-1/6 -left-10 -topcccc-10 bg1-image hidden md:block absolute opacity-30"/>
+            <img src={BGImage as string} alt="BG1" className="w-1/6 -right-10 -bottom-10 bg1-image hidden md:block absolute opacity-30"/>
+            <div className="footer-logo flex items-center justify-center">
+                <Link to={'/'}>Logo</Link>
+            </div>
+            <div className="footer-content grid grid-cols-1 gap-2 md:grid-cols-3 justify-between m-auto">
+                <div className="footer-links flex flex-col ">
+                    <a className={'flex items-center gap-2'} href="/privacy"><CiSquareCheck/>Privacy Policy</a>
+                    <a className={'flex items-center gap-2'} href="/terms"><CiSquareCheck/>Terms of Service</a>
+                    <a className={'flex items-center gap-2'} href="/contact"><CiSquareCheck/>Contact Us</a>
+                    <a className={'flex items-center gap-2'} href="/about"><CiSquareCheck/>About Us</a>
+                    <a className={'flex items-center gap-2'} href="/faq"><CiSquareCheck/>FAQ</a>
                 </div>
                 <div className="social-media">
-                    <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                        <img src="/icons/facebook.svg" alt="Facebook" />
-                    </a>
-                    <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                        <img src="/icons/twitter.svg" alt="Twitter" />
-                    </a>
-                    <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                        <img src="/icons/instagram.svg" alt="Instagram" />
-                    </a>
+                    <Link className={"flex items-center justify-start gap-2"}
+                          to={'/'}><FaFacebookSquare/>Facebook</Link>
+                    <Link className={"flex items-center justify-start gap-2"} to={'/'}><FaTwitterSquare/>Twitter</Link>
+                    <Link className={"flex items-center justify-start gap-2"} to={'/'}><FaInstagram/>Instagram</Link>
+                    <Link className={"flex items-center justify-start gap-2"} to={'/'}><FaLinkedin/>Linkedin</Link>
+                    <Link className={"flex items-center justify-start gap-2"} to={'/'}><FaYoutube/>YouTube</Link>
                 </div>
-                <p className="footer-copyright">© {new Date().getFullYear()} Your Company. All rights reserved.</p>
+                <div className="footer-newsletter">
+                    <h4>Subscribe to our newsletter</h4>
+                    <form className={'bg-white text-gray-500 py-1 px-3'}>
+                        <input type="email" placeholder="Enter your email"/>
+                        <button type="submit" className={'bg-sky-500 text-white py-1 px-2'}>Subscribe</button>
+                    </form>
+                </div>
             </div>
+            <div className={'self-center grid items-center justify-center text-center p-6'}>
+                <p className="footer-copyright">© {new Date().getFullYear()} Your Company. All rights reserved.</p>
+                <p className="footer-madeby">Made by Nathanim with love 2024</p>
+            </div>
+
         </footer>
     );
 };

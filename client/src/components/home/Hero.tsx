@@ -5,8 +5,8 @@ const Hero: React.FC = () => {
     return (
         <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center">
             <div className="hero-content overflow-hidden">
-                <div className={'flex flex-col items-center gap-2 pt-16'}>
-                    <h1 className="hero-title text-5xl md:text-6xl font-bold text-center"> Discover New Challenges<br/>and
+                <div className={'flex flex-col items-center gap-2 pt-3 md:pt-8 lg:pt-16'}>
+                    <h1 className="hero-title text-2xl md:text-4xl lg:text-6xl font-bold text-center"> Discover New Challenges<br/>and
                         Achieve Greatness </h1>
                     <p className="hero-text text-center text-gray-500">Join the global platform where you can challenge
                         yourself, compete, and grow. </p>

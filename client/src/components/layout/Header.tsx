@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const Header: React.FC = () => {
     return (
-        <header className={'font-Montserrat w-full bg-white sticky top-0 p-4 h-[4rem'}>
+        <header className={'font-Montserrat w-full bg-white sticky z-30 border-b-2 border-gray-200 top-0 p-4 h-[4rem'}>
             <nav className={'flex justify-around items-center'}>
                 <div className={'navbar-logo'}>
                     <Link to={'/'}>Logo</Link>
