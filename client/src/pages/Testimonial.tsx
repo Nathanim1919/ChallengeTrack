@@ -25,7 +25,7 @@ const Testimonial = () => {
     ]
     return (
         <div className={"py-8 bg-sky-400 grid gap-5 my-5"}>
-            <img src={BGImage as string} alt="BG1" className="w-1/2  bg1-image hidden md:block absolute opacity-30"/>
+            <img src={BGImage as string} alt="BG1" className="w-1/2 right-0  bg1-image hidden md:block absolute opacity-30"/>
             <h1 className={"p-7 grid items-center justify-center font-bold text-4xl text-white"}>What Our Users Are Saying</h1>
             <div className={"grid grid-cols-3 justify-center items-center w-[80%] m-auto"}>
                 {

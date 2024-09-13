@@ -13,9 +13,9 @@ import BGImage from "../../assets/bg1.png"
 const Footer: React.FC = () => {
     return (
         <footer
-            className="footer overflow-hidden bg-gray-800 text-white grid grid-cols-1 items-center justify-between py-10 relative">
-            <img src={BGImage as string} alt="BG1" className="w-1/6 -left-10 -topcccc-10 bg1-image hidden md:block absolute opacity-30"/>
-            <img src={BGImage as string} alt="BG1" className="w-1/6 -right-10 -bottom-10 bg1-image hidden md:block absolute opacity-30"/>
+            className="footer overflow-hidden bg-gray-900 text-white grid grid-cols-1 items-center justify-between py-10 relative">
+            <img src={BGImage as string} alt="BG1" className="w-1/3 -left-10 -top-10 bg1-image hidden md:block absolute opacity-5"/>
+            <img src={BGImage as string} alt="BG1" className="w-1/5 -right-10 -bottom-10 bg1-image hidden md:block absolute opacity-5"/>
             <div className="footer-logo flex items-center justify-center">
                 <Link to={'/'}>Logo</Link>
             </div>

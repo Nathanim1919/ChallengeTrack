@@ -53,7 +53,7 @@ const Features: React.FC = () => {
 const FeatureBox: React.FC<{ title: string; description: string; image: string }> = ({ title, description, image }) => {
     return (
         <div className="relative overflow-hidden feature-box p-8 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-5cd 00">
-            <img src={BG1Image as string} alt="badge" className="w-1/2 absolute -top-11c -right-11" />
+            <img src={BG1Image as string} alt="badge" className="w-1/2 absolute -top-11 -right-11" />
             <div className={"w-[130px] relative"}>
                <img src={image} alt={title} className="w-full h-full relative mx-auto mb-6" />
             </div>
