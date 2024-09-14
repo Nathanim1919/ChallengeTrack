@@ -13,7 +13,7 @@ const Testimonial = () => {
         },
         {
             author: "Jane Doe",
-            position: "Software Engineer",
+            position: "S.Engineer",
             text: "I’ve always been a fan of gamified learning, and this platform has exceeded my expectations. I love how I can track my progress, compete with others, and earn rewards for my hard work. It’s a fun and engaging way to improve my skills and stay motivated."
         },
         {
@@ -21,14 +21,23 @@ const Testimonial = () => {
             position: "Designer",
             text: "As a designer, I’m always looking for new ways to challenge myself and grow. This platform has been a great resource for discovering new skills and staying inspired. The challenges are creative and engaging, and I love the sense of community that comes with sharing my achievements."
         },
-
     ]
     return (
-        <div className={"py-8 bg-sky-400 grid gap-5 my-5"}>
-            <img src={BGImage as string} alt="BG1" className="w-1/2 right-0  bg1-image hidden md:block absolute opacity-30"/>
-            <h1 className={"p-7 grid items-center justify-center font-bold text-4xl text-white"}>What Our Users Are Saying</h1>
-            <div className={"grid grid-cols-3 justify-center items-center w-[80%] m-auto"}>
-                {
+        <div className={"my-10 px-5 py-24 bg-gray-900 grid grid-cols-[.4fr_.6fr] overflow-hidden relative"}>
+            <img src={BGImage as string} alt="BG1" className="w-1/2 right-0  bg1-image hidden md:block absolute opacity-100"/>
+            <div className={'flex flex-col justify-center items-center gap-1'}>
+                <h1 className={"p grid items-left justify-center font-bold text-4xl text-white"}>What Our Users Are
+                    Saying</h1>
+                <p className={"text-white text-left"}>
+                    See what our users have to say about their experience with our platform. We’re proud to have helped so many people achieve their goals and improve their skills.
+                </p>
+                <button className={'bg-white border-2 border-sky-500 px-4 py-2 hover:bg-gray-200 rounded-md shadow-md'}>
+                    Be Inspired and Get Started
+                </button>
+            </div>
+
+            <div className={"grid grid-cols-3"}>
+            {
                     testimonials.map((testimonial, index) => (
                         <TestimonialCard testimonial={testimonial} onClick={() => setActiveIndex(index)} isActive={index === activeIndex} key={index}/>
                     ))
