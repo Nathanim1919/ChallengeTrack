@@ -23,12 +23,12 @@ const Testimonial = () => {
         },
     ]
     return (
-        <div className={"my-10 px-5 py-24 bg-gray-900 grid grid-cols-[.4fr_.6fr] overflow-hidden relative"}>
+        <div className={"my-10 px-5 py-4 md:py-24 bg-gray-900 grid grid-cols-1 md:grid-cols-[.4fr_.6fr] overflow-hidden relative"}>
             <img src={BGImage as string} alt="BG1" className="w-1/2 right-0  bg1-image hidden md:block absolute opacity-100"/>
             <div className={'flex flex-col justify-center items-center gap-1'}>
-                <h1 className={"p grid items-left justify-center font-bold text-4xl text-white"}>What Our Users Are
+                <h1 className={"p grid text-center md:items-left justify-center font-bold text-4xl text-white"}>What Our Users Are
                     Saying</h1>
-                <p className={"text-white text-left"}>
+                <p className={"text-white text-center md:text-left"}>
                     See what our users have to say about their experience with our platform. We’re proud to have helped so many people achieve their goals and improve their skills.
                 </p>
                 <button className={'bg-white border-2 border-sky-500 px-4 py-2 hover:bg-gray-200 rounded-md shadow-md'}>
@@ -36,7 +36,7 @@ const Testimonial = () => {
                 </button>
             </div>
 
-            <div className={"grid grid-cols-3"}>
+            <div className={"grid grid-cols-1 md:grid-cols-3 md:gap-0 gap-2 mt-10"}>
             {
                     testimonials.map((testimonial, index) => (
                         <TestimonialCard testimonial={testimonial} onClick={() => setActiveIndex(index)} isActive={index === activeIndex} key={index}/>

@@ -59,19 +59,25 @@ const FAQ = () => {
     ];
     const [activeIndex, setActiveIndex] = React.useState(-1);
     return (
-        <div className={'bg-gray-200 grid items-center'}>
-            <h1 className={"font-bold text-4xl self-end"}>FAQ</h1>
-            <div className={'grid grid-cols-2 w-[70%] m-auto'}>
+        <div className={'bg-sky-200 grid items-center'}>
+            <div className={'grid grid-cols-1 md:grid-cols-2 w-[100%] md:w-[70%] m-auto'}>
                 <img src={FAQImage as string} alt="FAQ" className={"w-[450px] self-end"}/>
-                <div className={""}>
+                <div className={"flex flex-col bg-white px-5 justify-center items-center gap-5 font-Montserrat"}>
+                    <h1 className={"font-bold text-2xl"}>Frequently Asked Questions</h1>
+                    <div className={"rounded-3xl"}>
                     {
                         faqs.map((faq, index) => (
                             <div key={index}>
-                                <h2 onClick={()=>setActiveIndex(activeIndex === index?-1:index)} className={"flex cursor-pointer hover:text-gray-400 items-center gap-1 text-2xl"}><FcQuestions/>{faq.question}<IoIosArrowDown className={"self-end justify-self-end"}/></h2>
-                                {(index === activeIndex) && <p className={'flex items-center gap-1'}><MdOutlineQuestionAnswer/>{faq.answer}</p>}
+                                <h2 onClick={() => setActiveIndex(activeIndex === index ? -1 : index)}
+                                    className={"flex cursor-pointer hover:text-gray-400 items-center gap-1 text-[1.25rem]"}>
+                                    <FcQuestions/>{faq.question}<IoIosArrowDown
+                                    className={"self-end justify-self-end"}/></h2>
+                                {(index === activeIndex) &&
+                                    <p className={'flex items-center gap-1'}><MdOutlineQuestionAnswer/>{faq.answer}</p>}
                             </div>
                         ))
                     }
+                    </div>
                 </div>
             </div>
         </div>

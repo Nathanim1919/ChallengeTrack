@@ -6,7 +6,7 @@ import React from "react";
 
 const TestimonialCard = ({testimonial,key, isActive, onClick}) => {
     return (
-        <div key={key} className={`card rounded-md grid grid-cols-1 bg-white items-start relative py-6 cursor-pointer transition-transform duration-300 ${isActive ? 'scale-110 relative z-10 shadow-lg': 'scale-75'}`} onClick={onClick}>
+        <div key={key} className={`card rounded-md grid grid-cols-1 bg-white items-start relative py-6 cursor-pointer transition-transform duration-300 ${isActive ? 'scale-100 md:scale-110 relative z-10 md:shadow-lg': 'scale-100 md:scale-75'}`} onClick={onClick}>
             <div
                 className={" overflow-hidden flex flex-col p-1 rounded-2xl items-center justify-center relative bg-white w-full"}>
                 <img src={BGImage as string} alt="BG1"
