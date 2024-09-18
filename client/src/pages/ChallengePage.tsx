@@ -1,6 +1,6 @@
 import React from "react";
 import ChallengeCard from "../components/cards/ChallengeCard.tsx";
-
+import Abstract from "../assets/heroImages/hero3.png"
 
 const ChallengePage: React.FC = () => {
     const challenges = [
@@ -97,14 +97,15 @@ const ChallengePage: React.FC = () => {
     ];
 
     return (
-        <div className={'grid items-center justify-center gap-5 py-10 m-auto  w-[90%]'}>
+        <div className={'relative z-10 grid items-center justify-center gap-5 py-10 m-auto  w-[90%]'}>
             <h1 className={"self-center font-bold text-4xl grid items-center justify-center py-3"}>Latest Challenges</h1>
-            <div className={"flex justify-center  gap-8 flex-wrap"}>
+            <div className={"flex justify-center  gap-8 flex-wrap "}>
                 {challenges.map(challenge => {
                     return (
                         <ChallengeCard challenge={challenge}/>
                     )
                 })}
+                <img src={Abstract as string} alt="Abstract" className="absolute w-[50vw] transform rotate-180 -bottom-16 left-0 opacity-80 object-cover"/>
             </div>
         </div>
     )

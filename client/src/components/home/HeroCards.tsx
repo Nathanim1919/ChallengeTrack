@@ -3,8 +3,8 @@ const HeroCard = ({ imgSrc, title, description, bgColor, customClasses, childCla
         <div className={`${childClasses}`}>
             <img src={imgSrc} alt={title} />
         </div>
-        <div className="flex flex-col items-center relative -top-10 p-3">
-            <h3 className="m-0 text-black font-bold text-2xl">{title}</h3>
+        <div className="flex flex-col items-center relative -top-3 p-3">
+            <h3 className="m-0 text-white font-bold text-2xl">{title}</h3>
             <h3>Challenges</h3>
             {/*<p className="m-0">{description}</p>*/}
         </div>

@@ -2,6 +2,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
 import BGImage from "../../assets/bg1.png";
 import React from "react";
+import AvatorImage from "../../assets/heroImages/avator.jpg";
 
 
 const TestimonialCard = ({testimonial,key, isActive, onClick}) => {
@@ -11,7 +12,9 @@ const TestimonialCard = ({testimonial,key, isActive, onClick}) => {
                 className={" overflow-hidden flex flex-col p-1 rounded-2xl items-center justify-center relative bg-white w-full"}>
                 <img src={BGImage as string} alt="BG1"
                      className="w-1/2 right-0 -top-24  bg1-image hidden md:block absolute opacity-100"/>
-                <div className={"w-[60px] h-[60px] relative z-10 rounded-full bg-sky-400 m-0"}></div>
+                <div className={"w-[60px] h-[60px] relative z-10 rounded-full bg-sky-400 m-0"}>
+                    <img src={AvatorImage as string} alt="Avator" className={"w-full h-full rounded-full"}/>
+                </div>
                 <div className={"m-0 w-full flex justify-center items-center flex-col"}>
                     <h3 className={"font-bold text-[15px] m-0"}>{testimonial.author}</h3>
                     <p className={"text-[12px] m-0"}>{testimonial.position}</p>

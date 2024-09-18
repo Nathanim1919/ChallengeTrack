@@ -6,12 +6,14 @@ import Progress from "../../assets/progress.png"
 import trophy from "../../assets/trophy.png"
 import competition from "../../assets/competition.png"
 import BG1Image from "../../assets/bg1.png";
+import Abstract from "../../assets/heroImages/hero3.png";
 
 
 const Features: React.FC = () => {
     return (
-        <section className="features py-20 bg-gray-100">
-            <div className="container mx-auto px-6 w-[80%]">
+        <section className="features py-20 bg-gray-100 relative">
+            <img src={Abstract as string} className={"absolute opacity-50"}/>
+            <div className="container mx-auto px-6 w-[80%] relative z-10">
                 <h2 className="text-center text-4xl font-bold mb-12">Our Features</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <FeatureBox

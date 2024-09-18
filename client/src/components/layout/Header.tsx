@@ -1,24 +1,38 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {IoMdMenu} from "react-icons/io";
+import {IoMdClose} from "react-icons/io";
+
 
 const Header: React.FC = () => {
     return (
-        <header className={'font-Montserrat w-full bg-white sticky z-30 border-b-2 border-gray-200 top-0 p-4 h-[4rem'}>
-            <nav className={'flex justify-around items-center'}>
-                <div className={'navbar-logo'}>
+        <header className={'font-Montserrat bg-white flex justify-around md:items-center md:sticky top-0 z-50'}>
+            <div className={'navbar-logo lg:w-full'}>
+                <Link to={'/'}>Logo</Link>
+            </div>
+            <nav
+                className={'absolute md:relative justify-around md:justify-between bg-white items-center flex z-30 flex-col md:flex-row text-black py-3 w-screen gap-2'}>
+                <div className={'flex justify-around md:hidden w-full'}>
                     <Link to={'/'}>Logo</Link>
+                    <IoMdClose className={'cursor-pointer text-3xl'}/>
                 </div>
-                <ul className={'navbar-Links flex justify-between items-center gap-8'}>
-                    <i><Link to={'/'}>Home</Link></i>
-                    <i><Link to={'/features'}>Features</Link></i>
-                    <i><Link to={'/about'}>About</Link></i>
-                    <i><Link to={'/contact'}>Contact</Link></i>
-                </ul>
-                <div className={'navbar-actions flex items-center justify-center gap-3'}>
-                    <button className={'btn btn-primary py-1 px-3 bg-blue-500 text-white rounded-sm'}>Sign In</button>
-                    <button className={'btn btn-secondary'}>Sign Up</button>
+                <div className={"flex flex-col md:flex-row justify-end items-center w-full"}>
+                    <ul className={'flex flex-col md:flex-row w-full'}>
+                        <Link className={"py-2 px-3"} to={'/'}>Home</Link>
+                        <Link className={"py-2 px-3"} to={'/features'}>Features</Link>
+                        <Link className={"py-2 px-3"} to={'/about'}>About</Link>
+                        <Link className={"py-2 px-3"} to={'/contact'}>Contact</Link>
+                    </ul>
+                    <div className={'navbar-actions flex items-center justify-center gap-3 w-full'}>
+                        <button className={'btn btn-primary py-1 px-3 bg-blue-500 text-white rounded-sm'}>Sign In
+                        </button>
+                        <button className={'btn btn-secondary'}>Sign Up</button>
+                    </div>
                 </div>
             </nav>
+            <div className={'md:hidden md:absolute'}>
+                <IoMdMenu/>
+            </div>
         </header>
     )
 };

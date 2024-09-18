@@ -4,7 +4,7 @@ import BG1Image from "../../assets/bg1.png";
 
 const CTA: React.FC = () => {
     return (
-        <section className="cta bg-sky-500 text-white grid items-center justify-center overflow-hidden">
+        <section className="relative z-10 cta bg-sky-500 text-white grid items-center justify-center overflow-hidden">
             <div className={"p-5 grid items-center justify-center grid-cols-1 md:grid-cols-2 w-[80%] m-auto"}>
                 <div className={'w-[300px] md:w-[500px] relative'}>
                     <img src={CTAImage as string} alt="CTA" className="cta-image relative w-full h-full"/>
