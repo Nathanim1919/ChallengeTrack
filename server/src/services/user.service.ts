@@ -13,18 +13,13 @@ export class UserService {
      * Create a new user
      */
     async registerUser(userData: IUser): Promise<IUser> {
-        console.log("registerUser function called with userData:", userData); // Check if function is called
         try {
             const hashedPassword = await bcrypt.hash(userData.password, 10);
-            console.log("Password hashed successfully:", hashedPassword); // Check if password is hashed
-            const result = await this.userRepository.create({
+            return this.userRepository.create({
                 ...userData,
                 password: hashedPassword
             });
-            console.log("User created successfully, result is:", result); // Check if user is created
-            return result;
         } catch (error) {
-            console.log("Error occurred during registration:", error); // Log any errors
             throw new Error("Registration failed");
         }
     }
@@ -34,6 +29,7 @@ export class UserService {
      */
     async loginUser(identifier: string, password: string): Promise<IUser | null> {
         const user = await this.userRepository.findByEmailOrUsername(identifier);
+       
         if (!user) {
             return null;
         }

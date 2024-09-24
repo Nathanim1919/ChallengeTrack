@@ -11,7 +11,7 @@ const registerUser = async (userData: Partial<IUser>) => {
 
 // Define an api for logging in a user
 const loginUser = async (userData:Partial<IUser>) => {
-    const response = await apiConfig.post("/auth/login", userData);
+    const response = await apiConfig.post("/login", userData);
     return response.data;
 }
 

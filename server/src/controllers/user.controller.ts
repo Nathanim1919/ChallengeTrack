@@ -19,23 +19,24 @@ export class UserController {
         // code here
         try {
             const registeredUser = await this.userService.registerUser(req.body);
-            return res.status(201).json(formatResponse(registeredUser, 'User registered successfully'));
+            return res.status(201).json(formatResponse(registeredUser, 'Registration successful'));
         } catch (error) {
-            return res.status(400).json(formatError("Registration failed"));
+            return res.status(400).json(formatError("Registration failed, please try again"));
         }
     }
     async login(req: CustomRequest, res:Response) {
         // code here
         try{
             const user = await this.userService.loginUser(req.body.identifier, req.body.password);
+          
             if(!user){
-                return res.status(400).json(formatError("Login failed"));
+                return res.status(400).json(formatError("Invalid credentials, please try again"));
             }
 
             const tokens = AuthUtils.generateAccessToken(user);
 
             if (!tokens) {
-                return res.status(400).json(formatError("Login failed"));
+                return res.status(400).json(formatError("Invalid credentials, please try again"));
             }
             // save refresh token in redis
             await redisInstance.saveStringDataWithExpiration(`refresh_token:${user._id}`, tokens.refreshToken, 7 * 24 * 60 * 60); // 7 days
@@ -59,7 +60,7 @@ export class UserController {
                 }, 'Login successful'));
 
         }catch(error){
-            return res.status(400).json(formatError("Login failed"));
+            return res.status(400).json(formatError("Login failed, please try again"));
         }
     }
     async logout(req: CustomRequest, res:Response) {

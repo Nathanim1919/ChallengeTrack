@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk(
     "auth/registerUser",
     async ({name, email, username, password}: {name: string, username: string, email: string, password: string }, {rejectWithValue}) => {
         try {
-            console.log("registerUser thunk");
+
             return await authServices.registerUser({name, email, username, password});
         } catch (error) {
             if (error instanceof Error) {
@@ -22,9 +22,9 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    async ({email, password}: { email: string, password: string }, {rejectWithValue}) => {
+    async ({identifier, password}: { identifier: string, password: string }, {rejectWithValue}) => {
         try {
-            return await authServices.loginUser({email, password});
+            return await authServices.loginUser({identifier, password});
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

@@ -8,7 +8,7 @@ const registerUser = async (userData: Partial<IUser>) => {
     return await authApi.registerUser(userData);
 };
 
-const loginUser = async (userData: Partial<IUser>) => {
+const loginUser = async (userData: {identifier: string, password: string}) => {
     return await authApi.loginUser(userData);
 };
 
