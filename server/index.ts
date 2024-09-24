@@ -23,7 +23,7 @@ app.use(express.json()); // parse application/json as json
 
 // cors: CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     credentials: true
 }));
 

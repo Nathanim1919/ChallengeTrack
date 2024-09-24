@@ -8,12 +8,14 @@ import ChallengeController from "../controllers/challenge.controller";
 import {UserService} from "../services/user.service";
 import {UserRepository} from "../repositories/user.repository";
 import {UserController} from "../controllers/user.controller";
+import LeaderBoardService from '../services/leaderBoard.service';
+import LeaderboardRepository from '../repositories/leaderboard.repository';
 
 
 export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
         // Challenge routes
-        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository()));
+        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), new UserService(new UserRepository()), new LeaderBoardService(new LeaderboardRepository())));
         const challengeRoute = new ChallengeRoute(challengeController);
         challengeRoute.configureRoutes(app, baseUrl);
 
@@ -21,5 +23,7 @@ export class Routes {
         const userController = new UserController(new UserService(new UserRepository()));
         const userRoute = new UserRoute(userController);
         userRoute.configureRoutes(app, baseUrl);
+
+    
     }
 }

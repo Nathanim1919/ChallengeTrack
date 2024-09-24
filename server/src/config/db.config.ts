@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 class Database {
 
   // Database URI and connection instance
-  private DB_URI = "mongodb://localhost:27017/test";
+  private DB_URI = "mongodb://localhost:27017/ChallengeTrack";
   private DB_CONNECTION = mongoose.connection;
 
   // Constructor

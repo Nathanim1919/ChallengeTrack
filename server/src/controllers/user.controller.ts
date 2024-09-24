@@ -16,6 +16,7 @@ export class UserController {
     constructor(private userService: UserService) {
     }
     async register(req: CustomRequest, res:Response):Promise<Response<ApiResponse<IUser>>> {
+        // code here
         try {
             const registeredUser = await this.userService.registerUser(req.body);
             return res.status(201).json(formatResponse(registeredUser, 'User registered successfully'));

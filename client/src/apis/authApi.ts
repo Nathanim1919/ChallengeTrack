@@ -4,7 +4,7 @@ import apiConfig from "./apiConfig.ts";
 
 // Define an api for registering a new user
 const registerUser = async (userData: Partial<IUser>) => {
-    const response = await apiConfig.post("/auth/register", userData);
+    const response = await apiConfig.post("/register", userData);
     return response.data;
 }
 

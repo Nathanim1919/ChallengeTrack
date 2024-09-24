@@ -5,9 +5,10 @@ import {authServices} from "../../services/index.ts";
 // Define the thunk for registering a user
 export const registerUser = createAsyncThunk(
     "auth/registerUser",
-    async ({email, username, password}: { username: string, email: string, password: string }, {rejectWithValue}) => {
+    async ({name, email, username, password}: {name: string, username: string, email: string, password: string }, {rejectWithValue}) => {
         try {
-            return await authServices.registerUser({email, username, password});
+            console.log("registerUser thunk");
+            return await authServices.registerUser({name, email, username, password});
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
