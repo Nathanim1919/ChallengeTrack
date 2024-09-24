@@ -1,6 +1,7 @@
 import React from "react";
 import CTAImage from "../../assets/cta.png";
 import BG1Image from "../../assets/bg1.png";
+import { Link } from "react-router-dom";
 
 const CTA: React.FC = () => {
     return (
@@ -18,9 +19,9 @@ const CTA: React.FC = () => {
                         productivity.
                         Sign up for free and take the first step towards personal growth today.
                     </p>
-                    <button className="btn btn-primary bg-white text-gray-500 font-Montserrat px-3 py-2 z-10">Create Your
+                    <Link to={'/register'} className="btn grid items-center text-center rounded-full btn-primary bg-white text-gray-500 font-Montserrat px-3 py-2 z-10">Create Your
                         Free Account
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

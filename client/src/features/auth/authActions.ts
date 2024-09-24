@@ -2,6 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {authServices} from "../../services/index.ts";
 
 
+
 // Define the thunk for registering a user
 export const registerUser = createAsyncThunk(
     "auth/registerUser",
@@ -9,6 +10,7 @@ export const registerUser = createAsyncThunk(
         try {
 
             return await authServices.registerUser({name, email, username, password});
+        
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
