@@ -1,18 +1,31 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect } from "react";
+import {Link, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../app/store";
 import { loginUser } from "../features/auth/authActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import ButtonLoading from "../components/loading/buttonLoading";
 
 const LoginPage:React.FC = () => {
     const [credentials, setCredentials] = React.useState({identifier: '', password: ''});
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const {isAuthenticated, loading, error} = useSelector((state: RootState) => state.auth);
 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(loginUser(credentials));
     }
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            navigate('/in');
+        }
+    }, [isAuthenticated, navigate]);
+
+    console.log(isAuthenticated);
 
     return (
         <div className={'grid grid-cols-2 h-screen w-screen shadow-lg'}>
@@ -23,7 +36,7 @@ const LoginPage:React.FC = () => {
                     <input onChange={(e) => setCredentials({...credentials, identifier:e.target.value})} name="identifier" id="identifier" className={"py-1 bg-gray-100 outline-0 focus:bg-white px-2 border border-gray-400 font-Montserrat"} placeholder="Username or Email"/>
                     <label htmlFor="password"  className={"font-bold mt-3"}>Password</label>
                     <input onChange={(e) => setCredentials({...credentials, password: e.target.value})} name="password" id="password" className={"py-1 bg-gray-100 outline-0 focus:bg-white px-2 border border-gray-400 font-Montserrat"} type="password" placeholder="Password"/>
-                    <button className={"mt-3 font-Montserrat p-2 bg-sky-400 text-teal-50"}>Login</button>
+                    <button className={"mt-3 font-Montserrat p-2 bg-sky-400 text-teal-50"}>{loading??<ButtonLoading/>}Login</button>
                 </form>
                 <p>Don&apos;t have an account? <Link className={'text-blue-600'} to={"/register"}>Register</Link></p>
             </div>

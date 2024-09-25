@@ -1,6 +1,6 @@
 import React from "react";
-import ChallengeCard from "../components/cards/ChallengeCard.tsx";
-import Abstract from "../assets/heroImages/hero3.png"
+import ChallengeCard from "../../components/cards/ChallengeCard";
+import Abstract from "../../assets/heroImages/hero3.png"
 
 const ChallengePage: React.FC = () => {
     const challenges = [

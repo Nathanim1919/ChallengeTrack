@@ -16,7 +16,7 @@ interface ChallengeCardProps {
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({challenge}) => {
     return (
-        <div
+        <div key={challenge.title}
             className="max-w-[300px] relative z-10 py-3 h-[400px] bg-sky-500 grid grid-rows-1 justify-between rounded-2xl shadow-lg hover:shadow-md cursor-pointer hover:bg-blue-500">
             <div className={"bg-white px-3 border-sky-500 grid grid-rows-3 justify-between shadow-lg"}>
                 <div className={"flex justify-between px-3 py-1 items-center gap-3.5"}>
