@@ -19,7 +19,7 @@ const Sidebar: React.FC = () => {
                 <ul className="flex justify-center align-center flex-col gap-5">
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <LuLayoutDashboard />
-                       <Link to="/in/dashboard">Dashboard</Link>
+                       <Link to="/in">Dashboard</Link>
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <LuLayoutDashboard />

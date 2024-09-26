@@ -15,7 +15,7 @@ const PopularChallengeCard = () => {
                 </div>
             </div>
             <div>
-                <p>PENDING</p>
+                <p className="font-bold">PENDING</p>
             </div>
         </div>
         <div className="flex items-center justify-between">
@@ -41,7 +41,7 @@ const PopularChallengeCard = () => {
                     </div>
                     <p className="relative right-3">+200</p>
                 </div>
-                <button>Join</button>
+                <button className="bg-orange-300 px-3 rounded-full cursor-pointer hover:bg-orange-200 font-bold">Join</button>
             </div>
         </div>
     </div>
