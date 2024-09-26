@@ -37,39 +37,11 @@ const RecommandedChallenges = () => {
             status:"PENDING",
             creator: "muse",
             image: avatorImage
-        },
-        {
-            title: "Challenge 2",
-            description: "This is a challenge",
-            status:"PENDING",
-            creator: "muse",
-            image: avatorImage
-        },   
-        {
-            title: "Challenge 2",
-            description: "This is a challenge",
-            status:"PENDING",
-            creator: "muse",
-            image: avatorImage
-        },   
-        {
-            title: "Challenge 2",
-            description: "This is a challenge",
-            status:"PENDING",
-            creator: "muse",
-            image: avatorImage
-        },   
-        {
-            title: "Challenge 2",
-            description: "This is a challenge",
-            status:"PENDING",
-            creator: "muse",
-            image: avatorImage
-        },   
+        }
     ]
     return (
-        <div className="grid items-center">
-        <h1 className="grid items-center font-bold px-3">similar Challenges</h1>
+        <div className="grid items-center gap-2">
+        <h1 className="grid items-center font-bold px-3">Recommanded Challenges</h1>
         <div className="flex flex-col gap-1 overflow-x-auto h-[300px] px-2">
             {
                 challenges.map((challenge, index) => (

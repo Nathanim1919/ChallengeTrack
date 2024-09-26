@@ -70,7 +70,7 @@ const ChallengeOverview = () => {
         },   
     ]
     return (
-        <div className=" grid items-center">
+        <div className=" grid items-center gap-2">
         <h1 className="grid items-center font-bold px-3">My Challenges</h1>
         <div className="flex flex-col gap-1 overflow-x-auto h-[300px] px-2">
 
