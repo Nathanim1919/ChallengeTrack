@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard.tsx';
 import PrivateRoute from './routes/PrivateRoute.tsx';
 import AuthChallengesPage from './pages/Challenges/AuthChallengesPage.tsx';
 import Leaderboard from './pages/Leaderboard/Leaderboard.tsx';
+import NotificationPage from './pages/NotificationPage.tsx';
 
 function App() {
 
@@ -29,6 +30,12 @@ function App() {
               <Route path={'/in/leaderboard'} element={
             <PrivateRoute>
                     <Leaderboard />
+                </PrivateRoute>
+            }/>
+
+            <Route path={'/in/notifications'} element={
+            <PrivateRoute>
+                    <NotificationPage />
                 </PrivateRoute>
             }/>
             

@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <IoNotificationsOutline />
-                        <Link to="/in/notification">Notification</Link>
+                        <Link to="/in/notifications">Notification</Link>
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <IoSettingsOutline />
