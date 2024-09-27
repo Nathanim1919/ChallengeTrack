@@ -43,6 +43,42 @@ const ChallengeList = () => {
             name: 'Complete a Personal Project',
             rank: "6th",
         },
+        {
+            name: '30-Day Fitness Challenge',
+            rank: "1st",
+        },
+        {
+            name: 'Read 5 Books in a Month',
+            rank: "2nd",
+        },
+        {
+            name: '100 Days of Code',
+            rank: "3rd",
+        },
+        {
+            name: 'Healthy Eating Challenge',
+            rank: "4th",
+        },
+        {
+            name: 'Learn a New Language',
+            rank: "5th",
+        },
+        {
+            name: 'Complete a Personal Project',
+            rank: "6th",
+        },
+        {
+            name: 'Healthy Eating Challenge',
+            rank: "4th",
+        },
+        {
+            name: 'Learn a New Language',
+            rank: "5th",
+        },
+        {
+            name: 'Complete a Personal Project',
+            rank: "6th",
+        },
     ];
     return (
         <div className="p-3">
@@ -55,7 +91,7 @@ const ChallengeList = () => {
                 </form>
                
             </div>
-            <div className="grid gap-1 overflow-auto h-[83%]">
+            <div className="grid gap-1 overflow-auto h-[85vh]">
                 {challenges.map((challenge, index) => (
                         <div key={index} className="grid grid-cols-[_.5fr_.3fr_.2fr] justify-between py-2 px-1 cursor-pointer hover:bg-gray-100">
                             <div className="flex items-center gap-2">

@@ -2,6 +2,7 @@ import React from "react";
 import { GiTwoCoins } from "react-icons/gi";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
+import AvatorImage from "../../assets/heroImages/avator.jpg";
 
 
 
@@ -116,10 +117,15 @@ const GlobalLeaderBoard = () => {
                   
                 {users.map((user, index) => (
                   
-                        <div key={index} className="p-3 grid grid-cols-[_.3fr_.2fr_.2fr_.3fr] border-b border-gray-200">
-                            <div className="flex items-center gap-2">
-                                <h3 className="w-8 h-8 bg-orange-400 text-white grid items-center justify-center font-bold ">{index}</h3>
-                                <h2>{user.name}</h2>
+                        <div key={index} className="p-3 grid grid-cols-[_.3fr_.2fr_.2fr_.3fr] cursor-pointer border-b border-gray-200">
+                            <div className="flex items-center gap-5">
+                                <h3 className="w-8 h-8 bg-gray-400 text-white grid items-center justify-center font-bold ">{index}</h3>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 bg-gray-200 rounded-full">
+                                        <img src={AvatorImage} alt="avator" className="w-full h-full object-cover rounded-full"/>
+                                    </div>
+                                    <h2>{user.name}</h2>
+                                </div>
                             </div>
                             <div>
                                 <h3 className="flex items-center gap-2 text-orange-500"><GiTwoCoins/>3000</h3>
@@ -128,7 +134,7 @@ const GlobalLeaderBoard = () => {
                                 <h3 className="flex items-center gap-1"><MdOutlineLeaderboard/>{user.rank}</h3>
                             </div>
                             <div>
-                                <h3 className="flex items-center gap-1 text-black font-bold"><FaRegCheckCircle/>3400 completed</h3>
+                                <h3 className="flex items-center gap-1 text-black font-bold text-[13px]"><FaRegCheckCircle/>3400 completed</h3>
                             </div>
                         </div>
                   
