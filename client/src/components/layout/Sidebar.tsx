@@ -4,6 +4,10 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BsCollection } from "react-icons/bs";
+import { MdOutlineLeaderboard } from "react-icons/md";
+import { LuUsers } from "react-icons/lu";
+
+
 
 
 
@@ -22,12 +26,16 @@ const Sidebar: React.FC = () => {
                        <Link to="/in">Dashboard</Link>
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
-                        <LuLayoutDashboard />
+                        <LuUsers />
                        <Link to="/in/users">Users</Link>
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <BsCollection />
                         <Link to="/in/challenges">Challenges</Link>
+                    </li>
+                    <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
+                        <MdOutlineLeaderboard />
+                        <Link to="/in/leaderboard">LeaderBoard</Link>
                     </li>
                     <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-white border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200">
                         <IoNotificationsOutline />

@@ -6,7 +6,8 @@ import LoginPage from "./pages/LoginPage.tsx";
 import RegistrationPage  from "./pages/RegistrationPage.tsx";
 import Dashboard from './pages/Dashboard/Dashboard.tsx';
 import PrivateRoute from './routes/PrivateRoute.tsx';
-import ChallengePage from './pages/Challenges/ChallengePage.tsx';
+import AuthChallengesPage from './pages/Challenges/AuthChallengesPage.tsx';
+import Leaderboard from './pages/Leaderboard/Leaderboard.tsx';
 
 function App() {
 
@@ -22,7 +23,12 @@ function App() {
             }/>
              <Route path={'/in/challenges'} element={
             <PrivateRoute>
-                    <ChallengePage />
+                    <AuthChallengesPage />
+                </PrivateRoute>
+            }/>
+              <Route path={'/in/leaderboard'} element={
+            <PrivateRoute>
+                    <Leaderboard />
                 </PrivateRoute>
             }/>
             
