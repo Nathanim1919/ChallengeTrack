@@ -11,7 +11,7 @@ const GlobalLeaderBoard=  () => {
         <div className={'grid grid-cols-1 relative z-10 md:grid-cols-[.2fr_.8fr] justify-center my-10 mx-auto bg-gray-900 pt-10 md:pt-32 overflow-hidden relative'}>
             <img src={BGImage as string} alt="BG1" className="w-1/2  bg1-image hidden md:block absolute opacity-10"/>
             <div className={'ml-10'}>
-                <h1 className={"font-bold text-3xl md:text-6xl text-white"}>Global Leaderboard</h1>
+                <h1 className={"font-bold text-3xl md:text-6xl text-black"}>Global Leaderboard</h1>
                 <p className={'text-gray-100'}>
                     Compete with users from around the world and climb your way to the top of the leaderboard.
                 </p>
