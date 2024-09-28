@@ -1,4 +1,5 @@
 import React from "react";
+import BellImage from '../assets/icons/bell.png'
 
 
 const NotificationPage = () => {
@@ -31,14 +32,17 @@ const NotificationPage = () => {
             <div className="notification-header bg-black text-white p-5 grid items-center justify-center">
                 <h1 className="text-3xl font-bold">Notifications</h1>
             </div>
-            <div className="notification-list grid items-center justify-center gap-5">
+            <div className="notification-list grid items-center justify-center">
                 {notifications.map((notification, index) => (
-                    <div key={index} className="notification-item grid grid-cols-2">
-                        <div className="notification-content">
-                            <p>{notification.content}</p>
-                            <p className="time">{notification.time}</p>
+                    <div key={index} className="notification-item grid grid-cols-[_.5fr_.5fr] p-4 border-b border-gray-300 hover:bg-gray-100 cursor-pointer">
+                        <div className="notification-content flex items-center gap-5">
+                            <img src={BellImage} alt="bell" className="bell-icon"/>
+                            <div className="flex flex-col">
+                                <h2 className="font-bold">{notification.content}</h2>
+                                <p className="time text-gray-500">{notification.time}</p>
+                            </div>
                         </div>
-                        <div className="notification-status">
+                        <div className="notification-status justify-self-end">
                             {notification.isRead ? (
                                 <span className="read">Read</span>
                             ) : (
