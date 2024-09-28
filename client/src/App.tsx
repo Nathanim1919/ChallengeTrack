@@ -10,6 +10,7 @@ import AuthChallengesPage from './pages/Challenges/AuthChallengesPage.tsx';
 import Leaderboard from './pages/Leaderboard/Leaderboard.tsx';
 import NotificationPage from './pages/NotificationPage.tsx';
 import SettingPage from './pages/SettingPage.tsx';
+import ChallengeForm from './pages/ChallegeForm.tsx';
 
 function App() {
 
@@ -43,6 +44,12 @@ function App() {
              <Route path={'/in/settings'} element={
              <PrivateRoute>
                     <SettingPage />
+                </PrivateRoute>
+            }/>
+
+            <Route path={'/in/create-new'} element={
+             <PrivateRoute>
+                    <ChallengeForm />
                 </PrivateRoute>
             }/>
             

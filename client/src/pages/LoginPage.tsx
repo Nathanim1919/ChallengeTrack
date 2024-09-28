@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import {Link, useNavigate} from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../app/store";
 import { loginUser } from "../features/auth/authActions";
-import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import ButtonLoading from "../components/loading/buttonLoading";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const LoginPage:React.FC = () => {
     const [credentials, setCredentials] = React.useState({identifier: '', password: ''});
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const {isAuthenticated, loading, error} = useSelector((state: RootState) => state.auth);
+    const {isAuthenticated, loading, error} = useAppSelector((state: RootState) => state.auth);
 
 
     const handleSubmit = (e: React.FormEvent) => {

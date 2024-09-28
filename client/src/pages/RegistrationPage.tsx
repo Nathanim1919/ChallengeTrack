@@ -1,8 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../features/auth/authActions';
-import { AppDispatch } from '../app/store';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 // Define the type for form data
 type FormDataType = {
     name: string;
@@ -18,7 +17,7 @@ const RegistrationPage: React.FC = () => {
         username: "",
         password: "",
     });
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
