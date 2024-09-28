@@ -8,8 +8,8 @@ const Leaderboard = () => {
         <div>
             <main className="grid grid-cols-[_.4fr_.6fr]">
                 <ChallengeList />
-                <ChallengeSpecificLeaderBoard />
-                {/* <GlobalLeaderBoard /> */}
+                {/* <ChallengeSpecificLeaderBoard /> */}
+                <GlobalLeaderBoard />
             </main>
         </div>
     );

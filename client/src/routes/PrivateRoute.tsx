@@ -1,8 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { Navigate } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
-
+import { useAppSelector } from "../hooks/useAppSelector";
 
 // define the props type
 interface PrivateRouteProps {
@@ -10,9 +9,15 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const { isAuthenticated } = useAppSelector((state) => state.auth);
     
-    return isAuthenticated ? <DashboardLayout>{children}</DashboardLayout> : null;
+    // If user is authenticated, render the dashboard layout with the children
+    if (isAuthenticated) {
+        return <DashboardLayout>{children}</DashboardLayout>;
+    }
+
+    // If user is not authenticated, redirect to the login page
+    return <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

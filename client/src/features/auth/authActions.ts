@@ -36,7 +36,7 @@ export const loginUser = createAsyncThunk(
                 return rejectWithValue("An unknown error occurred");
             }
         }
-})
+});
 
 
 
@@ -52,4 +52,4 @@ export const logoutUser = createAsyncThunk(
                 return rejectWithValue("An unknown error occurred");
             }
         }
-})
+});

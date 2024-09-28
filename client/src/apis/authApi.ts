@@ -18,7 +18,7 @@ const loginUser = async (userData:Partial<IUser>) => {
 
 // Define an api for logging out a user
 const logoutUser = async () => {
-    const response = await apiConfig.post("/auth/logout");
+    const response = await apiConfig.post("/logout");
     return response.data;
 }
 

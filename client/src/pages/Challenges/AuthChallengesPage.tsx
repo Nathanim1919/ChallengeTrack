@@ -3,6 +3,7 @@ import PopularCategories from "./PopularCategories";
 import LatestChalleges from "./LatestChallenges";
 import { CiSearch } from "react-icons/ci";
 import { IoCreateOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 
 
@@ -37,7 +38,7 @@ const AuthChallengesPage: React.FC = () => {
                     <button className=" p-2 font-bold text-2xl"><CiSearch/></button>
                 </form>
               
-                    <button className="bg-black text-white px-3 py-1 mr-3 border-0 outline-none hover:bg-gray-700 flex items-center gap-1"><IoCreateOutline/>Create</button>
+                    <Link to={'/in/create-new'} className="bg-black text-white px-3 py-1 mr-3 border-0 outline-none hover:bg-gray-700 flex items-center gap-1"><IoCreateOutline/>Create</Link>
                
             </div>
             <LatestChalleges/>
