@@ -9,6 +9,7 @@ import PrivateRoute from './routes/PrivateRoute.tsx';
 import AuthChallengesPage from './pages/Challenges/AuthChallengesPage.tsx';
 import Leaderboard from './pages/Leaderboard/Leaderboard.tsx';
 import NotificationPage from './pages/NotificationPage.tsx';
+import SettingPage from './pages/SettingPage.tsx';
 
 function App() {
 
@@ -36,6 +37,12 @@ function App() {
             <Route path={'/in/notifications'} element={
             <PrivateRoute>
                     <NotificationPage />
+                </PrivateRoute>
+            }/>
+
+             <Route path={'/in/settings'} element={
+             <PrivateRoute>
+                    <SettingPage />
                 </PrivateRoute>
             }/>
             
