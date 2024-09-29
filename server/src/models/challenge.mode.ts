@@ -5,8 +5,15 @@ import {IChallenge} from "../interfaces/IChallenge";
 const challengeSchema = new Schema<IChallenge>({
     title: {type: String, required: true},
     description: {type: String, required: true},
-    startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true},
+    startDate: {type: Date, required: false},
+    endDate: {type: Date, required: false},
+    level: {
+        type: String,
+        enum: ['beginner', 'intermediate', 'advanced'],
+        default: 'beginner',
+        required: true
+    },
+    duration: {type: Number, required: true},
     createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     participants: [{type: Schema.Types.ObjectId, ref: 'User'}],
     rewards: [{type: Schema.Types.ObjectId, ref: 'Reward'}],
@@ -16,11 +23,11 @@ const challengeSchema = new Schema<IChallenge>({
         enum: ['PENDING','READY', 'ONGOING', 'COMPLETED', 'CANCELED'],
         default: 'PENDING'
     },
-    visibility: {type: String, enum: ['public', 'private'], required: true},
+    visibility: {type: String, enum: ['public', 'private'], required: false},
     rules:
         {
-            minParticipants: {type: Number, required: true},
-            maxParticipants: {type: Number, required: true},
+            minParticipants: {type: Number, required: false},
+            maxParticipants: {type: Number, required: false},
             verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], default: 'self-report'},
         },
     progress: {type: Number, default: 0},

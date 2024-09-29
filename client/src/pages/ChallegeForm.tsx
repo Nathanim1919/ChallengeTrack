@@ -1,16 +1,40 @@
 import React from "react";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { createChallenge } from "../features/challenges/challengesActions";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { IUser } from "../interfaces/IUser";
 
+interface ChallengeData {
+    title: string;
+    description: string;
+    duration: string;
+    category: string;
+    level: string;
+    rule: {
+        minParticipants: number;
+        maxParticipants: number;
+    };
+    visibility: "public" | "private";
+    createdBy: IUser['_id'];
+}
 
 const ChallengeForm = () => {
-    const [challengeData, setChallengeData] = React.useState({
+    const {user} = useAppSelector((state) => state.auth);
+    const [challengeData, setChallengeData] = React.useState<ChallengeData>({
         title: "",
         description: "",
         duration: "",
         category: "",
         level: "",
-        isPrivate: false,
+        rule:{
+            minParticipants: 0,
+            maxParticipants: 0,
+        },
+        visibility: "public",
+        createdBy: user?._id,
     });
-
+    const dispatch = useAppDispatch();
+   
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChallengeData({
@@ -22,7 +46,7 @@ const ChallengeForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(challengeData);
+        dispatch(createChallenge(challengeData));
     };
 
 

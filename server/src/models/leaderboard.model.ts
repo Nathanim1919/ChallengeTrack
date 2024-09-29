@@ -10,7 +10,7 @@ const LeaderboardSchema = new Schema<ILeaderboard>({
     },
     rankings: [{
         userId: {type: Schema.Types.ObjectId, ref:'User', required: true},
-        score: {type: Number, required: true}
+        score: {type: Number,required: true,default: 0}
     }],
     updatedAt: {type: Date, default: Date.now},
 });

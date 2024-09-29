@@ -17,7 +17,17 @@ class ChallengeService {
 
     async createChallenge(challengeData: IChallenge): Promise<IChallenge> {
         try {
-            const createdChallenge = await this.challengeRepository.createChallenge(challengeData);
+            const {duration, startDate} = challengeData;
+
+            // calculate the end data
+            // const endDate = new Date(startDate);
+            // endDate.setDate(startDate.getDate() + duration);
+
+            // console.log("end date is: "+endDate);
+            // console.log("start date is: "+startDate);
+            // console.log("duration is: "+duration);
+
+            const createdChallenge = await this.challengeRepository.createChallenge({...challengeData});
 
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');
@@ -34,6 +44,8 @@ class ChallengeService {
                 ]
             });
 
+            console.log("created challenge is: "+leaderBoard);
+
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
 
@@ -41,6 +53,7 @@ class ChallengeService {
             await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
             return createdChallenge;
         } catch (error) {
+            console.log("error is: "+error);
             throw new Error('Failed to create challenge');
         }
     }
