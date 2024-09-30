@@ -6,11 +6,12 @@ import { IUser } from "../interfaces/IUser";
 
 interface ChallengeData {
     title: string;
+    startDate: Date;
     description: string;
     duration: string;
     category: string;
     level: string;
-    rule: {
+    rules: {
         minParticipants: number;
         maxParticipants: number;
     };
@@ -22,11 +23,12 @@ const ChallengeForm = () => {
     const {user} = useAppSelector((state) => state.auth);
     const [challengeData, setChallengeData] = React.useState<ChallengeData>({
         title: "",
+        startDate: new Date(),
         description: "",
         duration: "",
         category: "",
         level: "",
-        rule:{
+        rules:{
             minParticipants: 0,
             maxParticipants: 0,
         },
@@ -43,9 +45,28 @@ const ChallengeForm = () => {
         })
     };
 
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setChallengeData({
+            ...challengeData,
+            [e.target.name]: e.target.checked
+        })
+    };
+
+
+    const handleRuleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setChallengeData({
+            ...challengeData,
+            rules: {
+                ...challengeData.rules,
+                [e.target.name]: e.target.value
+            } 
+        })
+    };
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        console.log(challengeData);
         dispatch(createChallenge(challengeData));
     };
 
@@ -72,7 +93,7 @@ const ChallengeForm = () => {
                         </div>
                         <div className="grid gap-2 flex-1">
                             <label htmlFor="category">Start Date</label>
-                            <input type="date" name="startdate" id="startdate" placeholder="startdate" className="p-2 border border-gray-300 bg-gray-100" onChange={handleChange}/>
+                            <input type="date" name="startDate" id="startdate" placeholder="startdate" className="p-2 border border-gray-300 bg-gray-100" onChange={handleChange}/>
                         </div>
                     </div>
                     <div className="flex justify-between gap-2">
@@ -88,17 +109,17 @@ const ChallengeForm = () => {
                     <div className="flex justify-between gap-2">
                         <div className="grid gap-2 flex-1">
                             <label htmlFor="minParticipants">Minimum Participants</label>
-                            <input type="number" name="minParticipants" id="minParticipants" placeholder="Minimum Participants" className="p-2 border border-gray-300 bg-gray-100" onChange={handleChange}/>
+                            <input type="number" name="minParticipants" id="minParticipants" placeholder="Minimum Participants" className="p-2 border border-gray-300 bg-gray-100" onChange={handleRuleChange}/>
                         </div>
                         <div className="grid gap-2 flex-1">
                             <label htmlFor="maxParticipants">Maximum Participants</label>
-                            <input type="number" name="maxParticipants" id="maxParticipants" placeholder="Maximum Participants" className="p-2 border border-gray-300 bg-gray-100" onChange={handleChange}/>
+                            <input type="number" name="maxParticipants" id="maxParticipants" placeholder="Maximum Participants" className="p-2 border border-gray-300 bg-gray-100" onChange={handleRuleChange}/>
                         </div>
                     </div>
                     <div className="flex justify-between">
                         <div className="flex flex-row-reverse items-center gap-2">
                             <label htmlFor="isPrivate">Publish Now?</label>
-                            <input type="checkbox" name="isPrivate" id="isPrivate" className="p-2 border border-gray-300" onChange={handleChange}/>
+                            <input type="checkbox" name="visibility" id="visibility" className="p-2 border border-gray-300" onChange={handleCheckboxChange}/>
                         </div>
                         <button className="bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm" type="submit">Create</button>
                     </div>

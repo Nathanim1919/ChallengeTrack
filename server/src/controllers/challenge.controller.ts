@@ -9,6 +9,7 @@ class ChallengeController {
     }
 
     async createChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>> {
+        console.log(req.body);
         try {
             const challenge = await this.challengeService.createChallenge((req.body))
             return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));

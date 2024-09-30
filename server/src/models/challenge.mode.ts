@@ -5,8 +5,8 @@ import {IChallenge} from "../interfaces/IChallenge";
 const challengeSchema = new Schema<IChallenge>({
     title: {type: String, required: true},
     description: {type: String, required: true},
-    startDate: {type: Date, required: false},
-    endDate: {type: Date, required: false},
+    startDate: {type: Date, required: true},
+    endDate: {type: Date, required: true},
     level: {
         type: String,
         enum: ['beginner', 'intermediate', 'advanced'],
@@ -23,11 +23,15 @@ const challengeSchema = new Schema<IChallenge>({
         enum: ['PENDING','READY', 'ONGOING', 'COMPLETED', 'CANCELED'],
         default: 'PENDING'
     },
-    visibility: {type: String, enum: ['public', 'private'], required: false},
+    visibility: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     rules:
         {
-            minParticipants: {type: Number, required: false},
-            maxParticipants: {type: Number, required: false},
+            minParticipants: {type: Number, required: true},
+            maxParticipants: {type: Number, required: true},
             verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], default: 'self-report'},
         },
     progress: {type: Number, default: 0},

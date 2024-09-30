@@ -82,9 +82,6 @@ const ChallengeSpecificLeaderBoard = () => {
                 </div>
             </div>
             <div className="leaderboard-list">
-                {/* <div className="leaderboard-list-header bg-gray-100 p-3 grid grid-cols-3 gap-3">
-                  
-                </div> */}
                 <div className="leaderboard-list-body h-[75vh] overflow-y-auto">
                     {
                         users.map((user, index) => (

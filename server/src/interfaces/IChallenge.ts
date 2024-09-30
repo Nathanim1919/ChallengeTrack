@@ -12,7 +12,7 @@ export interface IChallenge {
     duration: number; // Duration in days
     participants: string[]; // Array of user IDs
     status: ChallengeStatus;
-    visibility: 'public' | 'private';
+    visibility: boolean;
     logs: ObjectId[]; // Log IDs
     createdAt?: Date;
     updatedAt?: Date;

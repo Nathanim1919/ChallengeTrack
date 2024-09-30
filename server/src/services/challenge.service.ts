@@ -17,17 +17,20 @@ class ChallengeService {
 
     async createChallenge(challengeData: IChallenge): Promise<IChallenge> {
         try {
-            const {duration, startDate} = challengeData;
+            let {duration, startDate} = challengeData;
 
-            // calculate the end data
-            // const endDate = new Date(startDate);
-            // endDate.setDate(startDate.getDate() + duration);
+            // Convert startDate to a Date object
+            startDate = new Date(challengeData.startDate);
 
-            // console.log("end date is: "+endDate);
-            // console.log("start date is: "+startDate);
-            // console.log("duration is: "+duration);
+            // Calculate the end date
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + Number(challengeData.duration));
 
-            const createdChallenge = await this.challengeRepository.createChallenge({...challengeData});
+            console.log("end date is: "+endDate);
+            console.log("start date is: "+startDate);
+            console.log("duration is: "+duration);
+
+            const createdChallenge = await this.challengeRepository.createChallenge({...challengeData, endDate});
 
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');

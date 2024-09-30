@@ -67,21 +67,23 @@ describe('ChallengeService', () => {
         _id: new mongoose.Types.ObjectId(),
         title: 'Challenge 1',
         description: 'This is a challenge',
+        level: 'beginner',
+        duration: 7,
         createdBy: new mongoose.Types.ObjectId(),
         startDate: new Date(),
         endDate: new Date(),
         participants: [new mongoose.Types.ObjectId().toString()],
         status: 'PENDING',
-        visibility: 'public',
+        visibility: false,
         logs: [],
         createdAt: new Date(),
         updatedAt: new Date(),
         progress: 0,
-        rules: [{
+        rules: {
             minParticipants: 1,
             maxParticipants: 10,
             verificationMethod: 'self-report'
-        }],
+        },
         rewards: [{
             description: 'Reward 1',
             points: 100,
@@ -104,6 +106,7 @@ describe('ChallengeService', () => {
             markChallengeAsCompleted: jest.fn(),
             getChallengeParticipants: jest.fn(),
             saveLogChallengeProgress: jest.fn(),
+            changeChallengeStatus: jest.fn(),
 
         } as jest.Mocked<ChallengeRepository>;
 
