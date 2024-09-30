@@ -2,11 +2,13 @@ import React from "react";
 import { IoMdAdd } from "react-icons/io";
 import AvatorImage from '../../assets/heroImages/avator.jpg'
 import { LuExpand } from "react-icons/lu";
+import DailyLogModal from "../../components/modals/DailyLogModal";
 
 
 
 
 const DailyLog = () => {
+    const [openModal, setOpenModal] = React.useState(false);
     const dailyLogs = [
       {
         day: 1,
@@ -71,9 +73,10 @@ const DailyLog = () => {
             </div>
           </div>
           <div>
+            <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
-                <IoMdAdd className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
+                <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
               </div>
             <div className="h-[75vh] overflow-y-auto">
               {
