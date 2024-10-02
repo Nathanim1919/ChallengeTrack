@@ -5,6 +5,7 @@ import {ObjectId} from "bson";
 import {UserRepository} from "../repositories/user.repository";
 import request from 'supertest';
 import express from "express";
+import { AuthUtils } from "../utils/auth.utils";
 
 
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 describe('UserController', () => {
     let mockUserService: jest.Mocked<UserService>;
+    let mockAuthUtils: jest.Mocked<AuthUtils>;
     let userController: UserController;
 
     const mockUser: IUser = {
@@ -62,7 +64,16 @@ describe('UserController', () => {
         jest.spyOn(mockUserService, 'rewardUserForAchievementUnlock').mockImplementation(jest.fn());
         jest.spyOn(mockUserService, 'addCreatedChallenge').mockImplementation(jest.fn());
 
-        userController = new UserController(mockUserService);
+ 
+        mockAuthUtils = new AuthUtils(mockUserService) as jest.Mocked<AuthUtils>;
+        jest.spyOn(AuthUtils, 'generateAccessToken').mockImplementation(jest.fn());
+        jest.spyOn(mockAuthUtils, 'getUserInfoFromToken').mockImplementation(jest.fn());
+        jest.spyOn(AuthUtils, 'getRefreshToken').mockImplementation(jest.fn());
+        jest.spyOn(AuthUtils, 'refreshAccessToken').mockImplementation(jest.fn());
+
+        
+
+        userController = new UserController(mockUserService, mockAuthUtils);
         app.post('/register', userController.register.bind(userController));
         app.post('/login', userController.login.bind(userController));
     });

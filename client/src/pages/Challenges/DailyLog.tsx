@@ -3,12 +3,20 @@ import { IoMdAdd } from "react-icons/io";
 import AvatorImage from '../../assets/heroImages/avator.jpg'
 import { LuExpand } from "react-icons/lu";
 import DailyLogModal from "../../components/modals/DailyLogModal";
+import { ILogs } from "../../interfaces/ILogs";
+import DailyLogDetail from "../../components/modals/DailyLogDetail";
 
 
 
 
 const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
+    const [showLogDetail, setShowLogDetail] = React.useState<{
+      day: number;
+      date: string;
+      log: string;
+      status: string;
+    } | null>(null);
     const dailyLogs = [
       {
         day: 1,
@@ -78,6 +86,7 @@ const DailyLog = () => {
                 <h1 className="font-bold">Your Daily Log</h1>
                 <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
               </div>
+            <DailyLogDetail showLogDetail={showLogDetail} setShowLogDetail={setShowLogDetail}/>  
             <div className="h-[75vh] overflow-y-auto">
               {
                 dailyLogs.map((log, index) => (
@@ -92,7 +101,7 @@ const DailyLog = () => {
                           </div>
                         </div>
                       </div>
-                     <LuExpand/>
+                     <LuExpand className="cursor-pointer w-6 hover:bg-gray-100 h-6 rounded-full bg-gray-200 grid place-items-center p-1" onClick={() => setShowLogDetail(log)}/>
                     </div>
                   </div>))
               }

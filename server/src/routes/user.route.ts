@@ -12,6 +12,9 @@ class UserRoute {
 
         app.route(`${baseUrl}/login`)
             .post(this.userController.login.bind(this.userController));
+        
+        app.route(`${baseUrl}/current_user`)
+            .get(this.userController.getCurrentUser.bind(this.userController));
 
         app.route(`${baseUrl}/logout`)
             .post(this.userController.logout.bind(this.userController));

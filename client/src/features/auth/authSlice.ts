@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../interfaces/IUser.ts";
-import { registerUser, loginUser, logoutUser } from "./authActions.ts";
+import { registerUser, loginUser, logoutUser, getCurrentUser } from "./authActions.ts";
 
 
 // Define the shape of your authentication state
@@ -80,7 +80,23 @@ const authSlice = createSlice({
             .addCase(logoutUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+            })
+            .addCase(getCurrentUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getCurrentUser.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.accessToken = action.payload.accessToken;
+                state.isAuthenticated = true;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getCurrentUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             });
+
     },
 });
 

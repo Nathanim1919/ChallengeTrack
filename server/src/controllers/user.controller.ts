@@ -13,7 +13,7 @@ interface CustomRequest extends Request {
 export class UserController {
 
     // constructor
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private authUtils: AuthUtils) {
     }
     async register(req: CustomRequest, res:Response):Promise<Response<ApiResponse<IUser>>> {
         // code here
@@ -113,6 +113,19 @@ export class UserController {
             return res.status(200).json(formatResponse(deletedUser, 'User deleted successfully'));
         } catch (error) {
             return res.status(400).json(formatError("Failed to delete user"));
+        }
+    }
+
+    async getCurrentUser(req: CustomRequest, res:Response) {
+        // code here
+        try {
+            const user = await this.authUtils.getUserInfoFromToken(req.cookies.accessToken);
+            if (!user) {
+                return res.status(404).json(formatError("User not found"));
+            }
+            return res.status(200).json(formatResponse(user, 'User retrieved successfully'));
+        } catch (error) {
+            return res.status(400).json(formatError("Failed to get user"));
         }
     }
 }

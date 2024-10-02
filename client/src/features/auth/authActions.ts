@@ -39,6 +39,23 @@ export const loginUser = createAsyncThunk(
 });
 
 
+export const getCurrentUser = createAsyncThunk(
+    'auth/getCurrentUser',
+    async (_, {rejectWithValue}) => {
+        try {
+            const {data} = await authServices.getCurrentUser();
+            return data;
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+) 
+
+
 
 export const logoutUser = createAsyncThunk(
     "auth/logoutUser",

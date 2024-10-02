@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Response, Request } from 'express';
 import bodyParser  from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,6 +7,7 @@ import expressSession from "express-session";
 import {dbInstance} from "./src/config/db.config";
 import ChallengeRoute from "./src/routes/challenge.route";
 import {Routes} from "./src/routes";
+import logger from './src/config/logger';
 
 // Create express app
 const app = express();
@@ -20,6 +21,18 @@ dotenv.config();
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 app.use(express.json()); // parse application/json as json
+app.use((req: Request, res: Response, next: NextFunction) => {
+    logger.info({method: req.method, path: req.path}, 'Incoming request');
+    next();
+});
+
+// Log unhandled errors
+app.use((err:Error, req:Request, res: Response, next:NextFunction) => {
+    logger.error({err}, 'Unhandled error');
+    res.status(500).send('Something went wrong');
+    next(err);
+});
+
 
 // cors: CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors({

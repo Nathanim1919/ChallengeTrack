@@ -26,7 +26,7 @@ const logoutUser = async () => {
 // Define an api for getting the current user
 const getCurrentUser = async () => {
 
-    const response = await apiConfig.get("/auth/current_user");
+    const response = await apiConfig.get("/current_user");
     return response.data;
 }
 
