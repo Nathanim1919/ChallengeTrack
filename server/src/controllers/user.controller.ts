@@ -117,14 +117,17 @@ export class UserController {
     }
 
     async getCurrentUser(req: CustomRequest, res:Response) {
+        console.log(req.cookies.accessToken);
         // code here
         try {
+
             const user = await this.authUtils.getUserInfoFromToken(req.cookies.accessToken);
             if (!user) {
                 return res.status(404).json(formatError("User not found"));
             }
             return res.status(200).json(formatResponse(user, 'User retrieved successfully'));
         } catch (error) {
+            console.log(error);
             return res.status(400).json(formatError("Failed to get user"));
         }
     }

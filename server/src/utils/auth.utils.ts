@@ -48,6 +48,7 @@ class AuthUtils {
      * @param token
      */
      async getUserInfoFromToken(token: string) {
+        console.log(token);
          // if token is not defined or access token secret is not defined, return null
         if (!token || !process.env.ACCESS_WEB_TOKEN_SECRET) {
             return null;

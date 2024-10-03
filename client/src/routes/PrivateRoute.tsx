@@ -1,7 +1,9 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { getCurrentUser } from "../features/auth/authActions";
 
 // define the props type
 interface PrivateRouteProps {
@@ -9,7 +11,21 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
-    const { isAuthenticated } = useAppSelector((state) => state.auth);
+   
+
+    const dispatch = useAppDispatch();
+    const {loading, isAuthenticated} = useAppSelector((state) => state.auth);
+    const location = useLocation();
+    console.log(location)
+    useEffect(() => {
+        if(!isAuthenticated) {
+            dispatch(getCurrentUser());
+        }
+    },[dispatch, isAuthenticated])
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
     
     // If user is authenticated, render the dashboard layout with the children
     if (isAuthenticated) {
@@ -17,7 +33,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
     }
 
     // If user is not authenticated, redirect to the login page, and we used replace to replace the current location in the history stack, so the user can't go back to the private route
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;

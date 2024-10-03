@@ -3,6 +3,9 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { createChallenge } from "../features/challenges/challengesActions";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { IUser } from "../interfaces/IUser";
+import ChallengeCoverImage from "../assets/heroImages/challenge.jpg"
+import { MdAddToPhotos } from "react-icons/md";
+
 
 interface ChallengeData {
     title: string;
@@ -76,7 +79,7 @@ const ChallengeForm = () => {
             <div className="form-header bg-black text-white p-5 grid items-center justify-center">
                 <h1 className="text-3xl font-bold">Create Challenge</h1>
             </div>
-            <div className="form-body grid w-[60%] m-auto mt-5">
+            <div className="form-body w-[80%] m-auto mt-5 grid grid-cols-[_.6fr_.4fr]">
                 <form onSubmit={handleSubmit} className="w-[90%] m-auto grid gap-2">
                     <div className="grid gap-2">
                         <label htmlFor="title">Title</label>
@@ -124,6 +127,10 @@ const ChallengeForm = () => {
                         <button className="bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm" type="submit">Create</button>
                     </div>
                 </form>
+                <div className="relative challengeCoverImage w-full h-[50%] bg-gray-200 rounded-md">
+                    <MdAddToPhotos className="absolute top-2 right-2 "/>
+                    <img src={ChallengeCoverImage} alt="challenge cover" className="w-full h-full object-cover"/>
+                </div>
             </div>
         </div>
     );
