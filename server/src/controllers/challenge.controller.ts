@@ -11,7 +11,7 @@ class ChallengeController {
     async createChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>> {
         console.log(req.body);
         try {
-            const challenge = await this.challengeService.createChallenge((req.body))
+            const challenge = await this.challengeService.createChallenge(req.body, req.userId??'');
             return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));
         } catch(error){
             return res.status(400).json(formatError("Failed to create challenge"));

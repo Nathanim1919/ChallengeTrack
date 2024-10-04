@@ -5,6 +5,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { IUser } from "../interfaces/IUser";
 import ChallengeCoverImage from "../assets/heroImages/challenge.jpg"
 import { MdAddToPhotos } from "react-icons/md";
+import ButtonLoading from "../components/loading/buttonLoading";
 
 
 interface ChallengeData {
@@ -23,6 +24,7 @@ interface ChallengeData {
 }
 
 const ChallengeForm = () => {
+    const {loading} = useAppSelector((state) => state.challenges);
     const {user} = useAppSelector((state) => state.auth);
     const [challengeData, setChallengeData] = React.useState<ChallengeData>({
         title: "",
@@ -124,8 +126,14 @@ const ChallengeForm = () => {
                             <label htmlFor="isPrivate">Publish Now?</label>
                             <input type="checkbox" name="visibility" id="visibility" className="p-2 border border-gray-300" onChange={handleCheckboxChange}/>
                         </div>
-                        <button className="bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm" type="submit">Create</button>
-                    </div>
+                        <button 
+                                    disabled={!loading} 
+                                    className={loading?"bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2":"bg-gray-700 text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2"} 
+                                    type="submit"
+                                    >
+                                    {!loading ? <><ButtonLoading /> Creating</> : <> Create</>}
+                        </button>                   
+                         </div>
                 </form>
                 <div className="relative challengeCoverImage w-full h-[50%] bg-gray-200 rounded-md">
                     <MdAddToPhotos className="absolute top-2 right-2 "/>

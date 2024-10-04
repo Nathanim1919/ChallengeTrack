@@ -15,7 +15,7 @@ class ChallengeService {
     ) {
     }
 
-    async createChallenge(challengeData: IChallenge): Promise<IChallenge> {
+    async createChallenge(challengeData: IChallenge, creatorId: string): Promise<IChallenge> {
         try {
             let {duration, startDate} = challengeData;
 
@@ -41,7 +41,7 @@ class ChallengeService {
                 challengeId: createdChallenge._id,
                 rankings: [
                     {
-                        userId: createdChallenge.createdBy.toString(),
+                        userId: creatorId,
                         point: 0
                     } as RankEntry
                 ]
