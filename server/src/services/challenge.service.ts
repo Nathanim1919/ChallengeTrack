@@ -5,7 +5,7 @@ import {UserService} from "./user.service";
 import LeaderBoardService from "./leaderBoard.service";
 import {challengeStatus, RewardType} from "../utils/enum.utils";
 import {RankEntry} from "../interfaces/ILeaderBoard";
-
+import { Types } from 'mongoose';
 
 class ChallengeService {
     constructor(
@@ -17,25 +17,30 @@ class ChallengeService {
 
     async createChallenge(challengeData: IChallenge, creatorId: string): Promise<IChallenge> {
         try {
-            let {duration, startDate} = challengeData;
-
+            let { duration, startDate } = challengeData;
+    
             // Convert startDate to a Date object
             startDate = new Date(challengeData.startDate);
-
+    
             // Calculate the end date
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + Number(challengeData.duration));
-
-            console.log("end date is: "+endDate);
-            console.log("start date is: "+startDate);
-            console.log("duration is: "+duration);
-
-            const createdChallenge = await this.challengeRepository.createChallenge({...challengeData, endDate});
-
+    
+            console.log("end date is: " + endDate);
+            console.log("start date is: " + startDate);
+            console.log("duration is: " + duration);
+    
+            // Include createdBy in the initial challenge creation
+            const createdChallenge = await this.challengeRepository.createChallenge({
+                ...challengeData,
+                endDate,
+                createdBy: new Types.ObjectId(creatorId)
+            });
+    
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');
             }
-
+    
             // Initialize the leaderboard with the creator's entry
             const leaderBoard = await this.leaderBoard.createChallengeSpecificLeaderboard({
                 challengeId: createdChallenge._id,
@@ -46,17 +51,16 @@ class ChallengeService {
                     } as RankEntry
                 ]
             });
-
-            console.log("created challenge is: "+leaderBoard);
-
+    
+    
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
-
-            // update the challenge with the leaderboard reference
+    
+            // Update the challenge with the leaderboard reference
             await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
             return createdChallenge;
         } catch (error) {
-            console.log("error is: "+error);
+            console.log("error is: " + error);
             throw new Error('Failed to create challenge');
         }
     }

@@ -14,7 +14,7 @@ const challengeSchema = new Schema<IChallenge>({
         required: true
     },
     duration: {type: Number, required: true},
-    createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: false},
+    createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     participants: [{type: Schema.Types.ObjectId, ref: 'User'}],
     rewards: [{type: Schema.Types.ObjectId, ref: 'Reward'}],
     leaderboard: {type: Schema.Types.ObjectId, ref: 'Leaderboard'},

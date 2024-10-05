@@ -3,9 +3,9 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { createChallenge } from "../features/challenges/challengesActions";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { IUser } from "../interfaces/IUser";
-import ChallengeCoverImage from "../assets/heroImages/challenge.jpg"
-import { MdAddToPhotos } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import ButtonLoading from "../components/loading/buttonLoading";
+import { CustomeToast } from "../components/ui/customeToast";
 
 
 interface ChallengeData {
@@ -24,8 +24,9 @@ interface ChallengeData {
 }
 
 const ChallengeForm = () => {
-    const {loading} = useAppSelector((state) => state.challenges);
+    const {loading, message, error} = useAppSelector((state) => state.challenges);
     const {user} = useAppSelector((state) => state.auth);
+    const navigate = useNavigate();
     const [challengeData, setChallengeData] = React.useState<ChallengeData>({
         title: "",
         startDate: new Date(),
@@ -73,15 +74,22 @@ const ChallengeForm = () => {
         e.preventDefault();
         console.log(challengeData);
         dispatch(createChallenge(challengeData));
+
+        if (error) {
+        setTimeout(() => {
+            navigate("/in/my-challenges");
+        }, 1000);
+    }
     };
 
 
     return (
         <div className="challenge-form">
+             <CustomeToast message={message} type={error?"error":"success"}/>
             <div className="form-header bg-black text-white p-5 grid items-center justify-center">
                 <h1 className="text-3xl font-bold">Create Challenge</h1>
             </div>
-            <div className="form-body w-[80%] m-auto mt-5 grid grid-cols-[_.6fr_.4fr]">
+            <div className="form-body w-[60%] m-auto mt-5">
                 <form onSubmit={handleSubmit} className="w-[90%] m-auto grid gap-2">
                     <div className="grid gap-2">
                         <label htmlFor="title">Title</label>
@@ -127,18 +135,18 @@ const ChallengeForm = () => {
                             <input type="checkbox" name="visibility" id="visibility" className="p-2 border border-gray-300" onChange={handleCheckboxChange}/>
                         </div>
                         <button 
-                                    disabled={!loading} 
-                                    className={loading?"bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2":"bg-gray-700 text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2"} 
-                                    type="submit"
-                                    >
-                                    {!loading ? <><ButtonLoading /> Creating</> : <> Create</>}
+                            disabled={loading} 
+                            className={!loading?"bg-black text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2":"bg-gray-700 text-white py-2 px-5 font-bold hover:bg-gray-700 rounded-sm flex items-center gap-2"} 
+                            type="submit"
+                            >
+                            {loading ? <><ButtonLoading /> Creating</> : <> Create</>}
                         </button>                   
                          </div>
                 </form>
-                <div className="relative challengeCoverImage w-full h-[50%] bg-gray-200 rounded-md">
+                {/* <div className="relative challengeCoverImage w-full h-[50%] bg-gray-200 rounded-md">
                     <MdAddToPhotos className="absolute top-2 right-2 "/>
                     <img src={ChallengeCoverImage} alt="challenge cover" className="w-full h-full object-cover"/>
-                </div>
+                </div> */}
             </div>
         </div>
     );

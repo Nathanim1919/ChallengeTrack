@@ -13,7 +13,6 @@ import ChallengeStats from "./ChallengeStatus";
 import AchievementOverview from "./AchievementOverview";
 
 
-
 const Dashboard: React.FC = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     console.log(user);

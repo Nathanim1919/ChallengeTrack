@@ -12,6 +12,7 @@ import NotificationPage from './pages/NotificationPage.tsx';
 import SettingPage from './pages/SettingPage.tsx';
 import ChallengeForm from './pages/ChallegeForm.tsx';
 import ChallengeDetailPage from './pages/Challenges/ChallengeDetailPage.tsx';
+import MyChallenges from './pages/Challenges/MyChallenges.tsx';
 
 function App() {
 
@@ -39,6 +40,12 @@ function App() {
             <Route path={'/in/notifications'} element={
             <PrivateRoute>
                     <NotificationPage />
+                </PrivateRoute>
+            }/>
+
+            <Route path={'/in/my-challenges'} element={
+            <PrivateRoute>
+                   <MyChallenges/>
                 </PrivateRoute>
             }/>
 

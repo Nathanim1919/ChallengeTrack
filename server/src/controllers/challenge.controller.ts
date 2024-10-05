@@ -8,12 +8,19 @@ class ChallengeController {
     constructor(private challengeService: ChallengeService) {
     }
 
-    async createChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>> {
-        console.log(req.body);
+    async createChallenge(req: Request<{}, {}, IChallenge>, res: Response): Promise<Response<ApiResponse<IChallenge>>> {
         try {
-            const challenge = await this.challengeService.createChallenge(req.body, req.userId??'');
+            const { body } = req;
+            const { userId } = req;
+
+            console.log(body);
+            console.log("User id: ", userId)
+
+            const challenge = await this.challengeService.createChallenge(body, userId!);
             return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));
         } catch(error){
+            // Log the actual error for debugging purposes
+            console.error("Error in creating challenge: ", error);
             return res.status(400).json(formatError("Failed to create challenge"));
         }
     }
