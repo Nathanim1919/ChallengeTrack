@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getAllChallenges } from "../../features/challenges/challengesActions";
-import AuthChallengeCard from "../../components/cards/AuthChallengeCard";
+import MyChallengeCard from "../../components/cards/MyChallengeCard";
 
 const MyChallenges = () => {
     const dispatch = useAppDispatch();
@@ -15,11 +15,11 @@ const MyChallenges = () => {
 
 
     return (
-        <div className="w-[90%] mx-auto py-5">
-            <h1 className="py-4 font-bold text-2xl">My Challenges</h1>
-            <div className="grid grid-cols-4 gap-2">
+        <div className="w-[90%] h-[90vh] mx-auto overflow-auto">
+            <h1 className="py-4 font-bold text-2xl sticky top-0 bg-white z-50">My Challenges</h1>
+            <div className="flex flex-wrap gap-2 p-3 overflow-auto">
                 {challenges?.map((challenge, index) => (
-                   <AuthChallengeCard key={index} challenge={challenge}/>
+                   <MyChallengeCard key={index} challenge={challenge}/>
                 ))}
             </div>
         </div>

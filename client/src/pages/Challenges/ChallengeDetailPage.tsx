@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChallengeSpecificLeaderBoard from "../Leaderboard/ChallengeSpecificLeaderBoard";
 import SimilarChallenges from "./SimilarChallenges";
 import DailyLog from "./DailyLog";
 import { IoStatsChartOutline } from "react-icons/io5";
+import { getChallengeById } from "../../features/challenges/challengesActions";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 
 
 
 const ChallengeDetailPage = () => {
+    const dispatch = useAppDispatch();
+    const {loading, message, error, selectedChallenge} = useAppSelector((state) => state.challenges);
+    const {user} = useAppSelector((state) => state.auth);
+    const {challengeId} = useParams();
+
+    useEffect(() => {
+        dispatch(getChallengeById(challengeId!));
+    }, [dispatch]);
+
+
+    if(loading) {
+        return <div>Loading...</div>
+    }
+
+    console.log("This is the specific challenge detail: ", selectedChallenge);
+
     return (
         <div className="grid grid-cols-[_.25fr_.45fr_.3fr]"> 
             <DailyLog />
-            <ChallengeSpecificLeaderBoard />
+            <ChallengeSpecificLeaderBoard challenge={selectedChallenge.data}/>
             <div className="grid grid-rows-2">
                 <div className="bg-[#eee] p-2 grid gap-3">
                     <div className="countdown flex flex-col items-center justify-center p-3 gap-2">

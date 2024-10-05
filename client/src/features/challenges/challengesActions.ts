@@ -34,3 +34,19 @@ export const getAllChallenges = createAsyncThunk(
         }
     }
 )
+
+
+export const getChallengeById = createAsyncThunk(
+    'challenges/getChallengeById',
+    async (challengeId: string, {rejectWithValue}) => {
+        try {
+            return await challengeService.getChallengeById(challengeId);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+)

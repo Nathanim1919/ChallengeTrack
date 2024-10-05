@@ -4,10 +4,14 @@ import { MdOutlineLeaderboard } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
+import { IChallenge } from "../../interfaces/IChallenge";
 
 
 
-const ChallengeSpecificLeaderBoard = () => {
+
+
+
+const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({challenge}) => {
     const users =  [
         {
             name: 'John Doe',
@@ -66,9 +70,9 @@ const ChallengeSpecificLeaderBoard = () => {
         <div className="leaderboard">
             <div className="leaderboard-header bg-black text-white grid p-5 gap-3">
                 <div>
-                    <h1 className="text-3xl font-bold">30-Day Fitness Challenge</h1>
+                    <h1 className="text-3xl font-bold">{challenge?.title}</h1>
                     <p className="challengeDescription">
-                        This challenge is for all those who want to get fit and healthy in 30 days.
+                       {challenge?.description}
                     </p>
                 </div>
                 <div className="flex items-center gap-2 text-white">

@@ -5,8 +5,9 @@ import { TbProgressBolt } from 'react-icons/tb';
 import AvatorImage from '../../assets/heroImages/avator.jpg';
 import { GiTwoCoins } from 'react-icons/gi';
 import { MdJoinFull } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
-const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
+const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
     return (
         <div key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>
@@ -30,7 +31,6 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
                         <p className='m-0 text-[11px]'>Nathanim</p>
                         <p className='m-0 text-[14px] text-orange-400 flex items-center gap-1'><GiTwoCoins/>3000 XP</p>
                     </div>
-                  
                 </div>
             </div>
         </div>
@@ -48,8 +48,8 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
                 <p className='font-bold relative text-black right-3'>+200</p>
             </div>
             <div className='flex justify-between px-3 py-4'>
-                <button className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Join</button>
-                <button className='text-gray-500 hover:text-gray-800'>See more</button>
+                <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
+                <Link to={`/in/my-challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
             </div>
         </div>
      </div>
@@ -57,4 +57,4 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
 };
 
 
-export default AuthChallengeCard
+export default MyChallengeCard

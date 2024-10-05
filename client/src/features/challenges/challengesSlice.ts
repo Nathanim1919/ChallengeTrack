@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
-import { createChallenge, getAllChallenges } from "./challengesActions";
+import { createChallenge, getAllChallenges, getChallengeById } from "./challengesActions";
 
 interface ChallengesState {
     challenges: IChallenge[];
+    selectedChallenge: IChallenge | null;
     loading: boolean;
     message: string;
     error: string | null;
@@ -18,6 +19,7 @@ interface ChallengesResponse {
 
 const initialState: ChallengesState = {
     challenges: [],
+    selectedChallenge: null,
     loading: false,
     message: "",
     error: null,
@@ -67,6 +69,19 @@ const challengesSlice = createSlice({
             .addCase(getAllChallenges.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch challenges";
+            })
+            .addCase(getChallengeById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getChallengeById.fulfilled, (state, action: PayloadAction<IChallenge>) => {
+                state.selectedChallenge = action.payload;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getChallengeById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to fetch challenge";
             });
     },
 });

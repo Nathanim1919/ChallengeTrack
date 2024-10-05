@@ -13,5 +13,10 @@ const getAllChallenges = async () => {
 };
 
 
+const getChallengeById = async (challengeId: string) => {
+    return await challengesApi.getChallengeById(challengeId);
+};
 
-export default { createChallenge, getAllChallenges };
+
+
+export default { createChallenge, getAllChallenges, getChallengeById };

@@ -13,14 +13,9 @@ class ChallengeController {
             const { body } = req;
             const { userId } = req;
 
-            console.log(body);
-            console.log("User id: ", userId)
-
             const challenge = await this.challengeService.createChallenge(body, userId!);
             return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));
         } catch(error){
-            // Log the actual error for debugging purposes
-            console.error("Error in creating challenge: ", error);
             return res.status(400).json(formatError("Failed to create challenge"));
         }
     }

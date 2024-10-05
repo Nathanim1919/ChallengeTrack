@@ -26,10 +26,6 @@ class ChallengeService {
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + Number(challengeData.duration));
     
-            console.log("end date is: " + endDate);
-            console.log("start date is: " + startDate);
-            console.log("duration is: " + duration);
-    
             // Include createdBy in the initial challenge creation
             const createdChallenge = await this.challengeRepository.createChallenge({
                 ...challengeData,
@@ -55,6 +51,8 @@ class ChallengeService {
     
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
+            // Add creator to the participants list
+            createdChallenge.participants.push(creatorId);
     
             // Update the challenge with the leaderboard reference
             await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);

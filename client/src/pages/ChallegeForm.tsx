@@ -75,10 +75,10 @@ const ChallengeForm = () => {
         console.log(challengeData);
         dispatch(createChallenge(challengeData));
 
-        if (error) {
+        if (!error) {
         setTimeout(() => {
             navigate("/in/my-challenges");
-        }, 1000);
+        }, 300);
     }
     };
 
