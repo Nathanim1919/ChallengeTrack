@@ -49,6 +49,7 @@ dbInstance.createConnection();
 
 
 
+
 // routes
 const baseApiUrl = process.env.BASE_API_URL || '/api/v1'; // Provide a default value or handle undefined case
 Routes.configureRoutes(app, baseApiUrl);

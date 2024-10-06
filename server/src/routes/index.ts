@@ -12,6 +12,8 @@ import LeaderboardRepository from '../repositories/leaderboard.repository';
 import { AuthUtils } from '../utils/auth.utils';
 import { CategoryRepository } from '../repositories/category.repository';
 import { CategoryService } from '../services/category.service';
+import CategoryController from '../controllers/categorie.controller';
+import CategoryRoute from './categorie.route';
 
 export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
@@ -30,5 +32,10 @@ export class Routes {
         const userController = new UserController(userService, new AuthUtils(userService));
         const userRoute = new UserRoute(userController);
         userRoute.configureRoutes(app, baseUrl);
+
+        // Category routes
+        const categoryController = new CategoryController(categoryService);
+        const categoryRoute = new CategoryRoute(categoryController);
+        categoryRoute.configureRoutes(app, baseUrl);
     }
 }
