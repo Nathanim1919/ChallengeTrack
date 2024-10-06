@@ -5,6 +5,9 @@ import { CategoryRepository } from "../repositories/category.repository";
 export class CategoryService {
     constructor(private categoryRepository: CategoryRepository) {
     }
+    async getAllCategories(): Promise<ICategory[]> {
+        return this.categoryRepository.getAllCategories();
+    }
     async createCategory(categoryData: Partial<ICategory>): Promise<ICategory> {
         return this.categoryRepository.createCategory(categoryData);
     }
@@ -14,7 +17,7 @@ export class CategoryService {
     async deleteCategory(id: string): Promise<ICategory | null> {
         return this.categoryRepository.deleteCategory(id);
     }
-    async searchCategories(filter: ICategory): Promise<ICategory[] | []> {
+    async searchCategories(filter: string): Promise<ICategory[] | []> {
         return this.categoryRepository.searchCategories(filter);
     }
     async findCategoryById(categoryId: string): Promise<ICategory | null> {

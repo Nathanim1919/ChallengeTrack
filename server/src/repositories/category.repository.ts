@@ -4,6 +4,9 @@ import { Category } from "../models/category.mode";
 
 
 export class CategoryRepository {
+    async getAllCategories(): Promise<ICategory[]> {
+        return Category.find().exec();
+    }
     async createCategory(categoryData: Partial<ICategory>): Promise<ICategory> {
         const category = new Category(categoryData);
         return category.save();
@@ -17,8 +20,8 @@ export class CategoryRepository {
         return Category.findByIdAndDelete(id).exec();
     }
 
-    async searchCategories(filter: ICategory): Promise<ICategory[] | []> {
-        return await Category.find(filter).exec();
+    async searchCategories(filter: string): Promise<ICategory[] | []> {
+        return await Category.find({ name: { $regex: filter, $options: 'i' } }).exec();
     }
 
     async findCategoryById(categoryId: string): Promise<ICategory | null> {

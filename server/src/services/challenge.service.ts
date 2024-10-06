@@ -22,7 +22,7 @@ class ChallengeService {
         session.startTransaction();
     
         try {
-            let { duration, startDate, categorie } = challengeData;
+            let { duration, startDate } = challengeData;
     
             // Convert startDate to a Date object
             startDate = new Date(challengeData.startDate);

@@ -9,6 +9,7 @@ import ChallengeRoute from "./src/routes/challenge.route";
 import {Routes} from "./src/routes";
 import logger from './src/config/logger';
 import cookieParser from 'cookie-parser';
+import { Category } from './src/models/category.mode';
 
 // Create express app
 const app = express();
@@ -45,6 +46,8 @@ app.use(cors({
 
 // connect to database
 dbInstance.createConnection();
+
+
 
 // routes
 const baseApiUrl = process.env.BASE_API_URL || '/api/v1'; // Provide a default value or handle undefined case
