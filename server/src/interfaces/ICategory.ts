@@ -1,10 +1,10 @@
 import { ObjectId } from "mongoose";
 
 export interface ICategory {
-    _id?: ObjectId;
+    _id?: string;
     name: string;
     description: string;
-    challenges: ObjectId[];
+    challenges: string[];
 }
 
 interface ChallengeCategory {

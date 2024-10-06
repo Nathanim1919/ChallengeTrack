@@ -13,8 +13,8 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 const ChallengeDetailPage = () => {
     const dispatch = useAppDispatch();
-    const {loading, message, error, selectedChallenge} = useAppSelector((state) => state.challenges);
-    const {user} = useAppSelector((state) => state.auth);
+    const {loading,selectedChallenge} = useAppSelector((state) => state.challenges);
+    // const {user} = useAppSelector((state) => state.auth);
     const {challengeId} = useParams();
 
     useEffect(() => {

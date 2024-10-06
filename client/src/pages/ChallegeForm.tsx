@@ -47,7 +47,7 @@ const ChallengeForm = () => {
   });
   const dispatch = useAppDispatch();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setChallengeData({
       ...challengeData,
       [e.target.name]: e.target.value,

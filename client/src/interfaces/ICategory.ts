@@ -1,11 +1,11 @@
-interface ICategory {
-    id: string;
+export interface ICategory {
+    _id?: string;
     name: string;
     description: string;
-    parentCategoryId?: string;
+    challenges: string[];
 }
 
-interface ChallengeCategory {
-    challengeId: string;
-    categoryId: string;
-}
+// interface ChallengeCategory {
+//     challengeId: string;
+//     categoryId: string;
+// }
