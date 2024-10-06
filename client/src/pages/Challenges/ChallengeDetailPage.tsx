@@ -38,27 +38,27 @@ const ChallengeDetailPage = () => {
                         <h1 className="font-bold text-4xl bg-red-400 text-white px-3 flex gap-2 items-center rounded-lg shadow-md"><span className="border-r border-gray-300 pr-3">23</span> <span className="p-1 flex flex-col"><span className="text-2xl">Days</span><span className="text-sm">Left</span></span></h1>
                     </div>
                     <div className="flex flex-wrap justify-center gap-1 items-center">
-                        <p className="py-1 px-3 bg-white border border-gray-300 rounded-full text-[12px]">fitness</p>
-                        <p className="py-1 px-3 bg-white border border-gray-300 rounded-full text-[12px]">30 days</p>
+                        <p className="py-1 px-3 bg-white border border-gray-300 rounded-full text-[12px]">{selectedChallenge?.data?.categorie}</p>
+                        <p className="py-1 px-3 bg-white border border-gray-300 rounded-full text-[12px]">{selectedChallenge?.data?.duration} days</p>
                         <p className="py-1 px-3 bg-white border border-gray-300 rounded-full text-[12px]">Mon Sep 30 2024 - Mon Oct 30 2024</p>
                     </div>
                     <div className="statistics grid gap-2">
                         <h2 className="font-bold flex items-center gap-1 text-2xl"><IoStatsChartOutline/>Statistics</h2>
                         <div className="grid grid-cols-2 gap-2">
                         <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">40</h2>
+                            <h2 className="font-bold text-4xl">{selectedChallenge?.data?.totalParticipants}</h2>
                             <p>Participants</p>
                         </div>
                         <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">30</h2>
+                            <h2 className="font-bold text-4xl">{selectedChallenge?.data?.participantsOnTrack}</h2>
                             <p>On The Right Track</p>
                         </div>
                         <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">10</h2>
+                            <h2 className="font-bold text-4xl">{selectedChallenge?.data?.participantsBehind}</h2>
                             <p>Need To Catch Up</p>
                         </div>
                         <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">2</h2>
+                            <h2 className="font-bold text-4xl">{selectedChallenge?.data?.participantsLeft}</h2>
                             <p>Leave</p>
                         </div>
                         </div>

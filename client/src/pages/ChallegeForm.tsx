@@ -36,7 +36,7 @@ const ChallengeForm = () => {
     startDate: new Date(),
     description: "",
     duration: "",
-    categorie: search,
+    categorie: "",
     level: "",
     rules: {
       minParticipants: 0,
@@ -46,6 +46,7 @@ const ChallengeForm = () => {
     createdBy: user?._id,
   });
   const dispatch = useAppDispatch();
+  console.log(challengeData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setChallengeData({
@@ -71,14 +72,21 @@ const ChallengeForm = () => {
     });
   };
 
+  const handleCategorySelect = (value: string) => {
+    setSearch(value);
+    setChallengeData({
+      ...challengeData,
+      categorie: value,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(challengeData);
     dispatch(createChallenge(challengeData));
 
     if (!error) {
       setTimeout(() => {
-        // navigate("/in/my-challenges");
+        navigate("/in/my-challenges");
       }, 3000);
     }
   };
@@ -114,15 +122,21 @@ const ChallengeForm = () => {
             />
           </div>
           <div className="flex justify-between gap-2">
-            <div className="grid gap-2 flex-1">
-              <label htmlFor="duration">Duration</label>
+          <div className="grid gap-2 flex-1">
+              <ChallengeCategories
+                setFilter={handleCategorySelect}
+                setShowCategories={setShowCategories}
+                showCategories={showCategories}
+              />
+              <label htmlFor="category">Category</label>
               <input
                 type="text"
-                name="duration"
-                id="duration"
-                placeholder="Duration"
+                name="categorie"
+                id="category"
+                placeholder="Category"
                 className="p-2 border border-gray-300 bg-gray-100"
-                onChange={handleChange}
+                value={search}
+                onClick={() => setShowCategories(!showCategories)}
               />
             </div>
             <div className="grid gap-2 flex-1">
@@ -138,21 +152,15 @@ const ChallengeForm = () => {
             </div>
           </div>
           <div className="flex justify-between gap-2">
-            <div className="grid gap-2 flex-1">
-              <ChallengeCategories
-                setFilter={setSearch}
-                setShowCategories={setShowCategories}
-                showCategories={showCategories}
-              />
-              <label htmlFor="category">Category</label>
+          <div className="grid gap-2 flex-1">
+              <label htmlFor="duration">Duration</label>
               <input
                 type="text"
-                name="category"
-                id="category"
-                placeholder="Category"
+                name="duration"
+                id="duration"
+                placeholder="Duration"
                 className="p-2 border border-gray-300 bg-gray-100"
-                value={search}
-                onClick={() => setShowCategories(!showCategories)}
+                onChange={handleChange}
               />
             </div>
             <div className="grid gap-2 flex-1">

@@ -24,7 +24,7 @@ export interface IChallenge {
     participantsOnTrack: number; // Number of participants on track
     participantsBehind: number; // Number of participants behind
     participantsLeft: number; // Number of participants who left
-    categorie: ObjectId; // Challenge categories
+    categorie: string; // Challenge categories
 }
 
 type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';

@@ -24,8 +24,8 @@ export class CategoryService {
         return this.categoryRepository.findCategoryById(categoryId);
     }
 
-    async addChallenge(categoryId: string, challengeId: string, session?: ClientSession) {
-        return this.categoryRepository.addChallenge(categoryId, challengeId, session);
+    async addChallenge(categoryName: string, challengeId: string, session?: ClientSession) {
+        return this.categoryRepository.addChallenge(categoryName, challengeId, session);
     }
 
     async removeChallenge(categoryId: string, challengeId: string) {

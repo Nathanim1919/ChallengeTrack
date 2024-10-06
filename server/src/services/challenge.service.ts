@@ -18,11 +18,12 @@ class ChallengeService {
     }
 
     async createChallenge(challengeData: IChallenge, creatorId: string): Promise<IChallenge> {
-        const session = await startSession();
-        session.startTransaction();
+        // const session = await startSession();
+        // session.startTransaction();
+        console.log("challengeData is: " + challengeData);
     
         try {
-            let { duration, startDate } = challengeData;
+            let { duration, startDate, categorie } = challengeData;
     
             // Convert startDate to a Date object
             startDate = new Date(challengeData.startDate);
@@ -35,8 +36,14 @@ class ChallengeService {
             const createdChallenge = await this.challengeRepository.createChallenge({
                 ...challengeData,
                 endDate,
-                createdBy: new Types.ObjectId(creatorId)
-            }, session);
+                createdBy: new Types.ObjectId(creatorId),
+                categorie: categorie,
+                totalParticipants: 1,
+                participantsOnTrack: 1,
+                participants: [creatorId],
+            });
+
+            
     
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');
@@ -51,29 +58,27 @@ class ChallengeService {
                         point: 0
                     } as RankEntry
                 ]
-            }, session);
+            });
 
     
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
             // Add creator to the participants list
-            createdChallenge.participants.push(creatorId);
-            createdChallenge.totalParticipants = 1;
-            createdChallenge.categorie = challengeData.categorie;
+          
 
             // Add the challenge to the category
-            await this.categoryService.addChallenge((challengeData.categorie).toString(), createdChallenge._id.toString(), session);
+            await this.categoryService.addChallenge(challengeData.categorie, createdChallenge._id.toString());
     
             // Update the challenge with the leaderboard reference
-            await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge, session);
+            await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
 
-            await session.commitTransaction();
-            session.endSession();
+            // await session.commitTransaction();
+            // session.endSession();
 
             return createdChallenge;
         } catch (error) {
-            await session.abortTransaction();
-            session.endSession();
+            // await session.abortTransaction();
+            // session.endSession();
 
             console.log("error is: " + error);
             throw new Error('Failed to create challenge');

@@ -28,15 +28,19 @@ export class CategoryRepository {
         return Category.findById(categoryId).exec();
     }
 
-    async addChallenge(categoryId: string, challengeId: string, session?: ClientSession): Promise<ICategory | null> {
+    async addChallenge(categoryName: string, challengeId: string, session?: ClientSession): Promise<ICategory | null> {
         if (session) {
-            return Category.findByIdAndUpdate(categoryId, {
-                $addToSet: {challenges: challengeId}
-            }, {session}).exec();
+            return Category.findOneAndUpdate(
+                { name: categoryName },
+                { $addToSet: { challenges: challengeId } },
+                { session, new: true }
+            ).exec();
         }
-        return Category.findByIdAndUpdate(categoryId, {
-            $addToSet: {challenges: challengeId}
-        }, {new: true}).exec();
+        return Category.findOneAndUpdate(
+            { name: categoryName },
+            { $addToSet: { challenges: challengeId } },
+            { new: true }
+        ).exec();
     }
 
     async removeChallenge(categoryId: string, challengeId: string): Promise<ICategory | null> {
