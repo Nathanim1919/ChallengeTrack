@@ -1,11 +1,15 @@
 import LeaderboardRepository from "../repositories/leaderboard.repository";
 import {ILeaderboard} from "../interfaces/ILeaderBoard";
+import { ClientSession } from "mongoose";
 
 class LeaderBoardService {
     constructor(private leaderBoardRepository: LeaderboardRepository) {
     }
 
-    async createChallengeSpecificLeaderboard(leaderboardData: ILeaderboard) {
+    async createChallengeSpecificLeaderboard(leaderboardData: ILeaderboard, session?: ClientSession) {
+        if (session) {
+            return await this.leaderBoardRepository.createLeaderboard(leaderboardData, session);
+        }
         return await this.leaderBoardRepository.createLeaderboard(leaderboardData);
     }
 

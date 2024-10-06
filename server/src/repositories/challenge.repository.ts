@@ -2,16 +2,22 @@ import {IChallenge} from "../interfaces/IChallenge";
 import {Challenge} from "../models/challenge.mode";
 import {challengeStatus} from "../utils/enum.utils";
 import {IUser} from "../interfaces/IUser";
-import mongoose from "mongoose";
+import mongoose, { ClientSession } from "mongoose";
 import {User} from "../models/user.model";
 
 export class ChallengeRepository {
-    async createChallenge(challengeData: IChallenge): Promise<IChallenge> {
+    async createChallenge(challengeData: IChallenge, session?: ClientSession): Promise<IChallenge> {
         const challenge = new Challenge(challengeData);
+        if (session) {
+            return challenge.save({session})
+        }
         return challenge.save();
     }
 
-    async updateChallenge(id: string, updateData: Partial<IChallenge>): Promise<IChallenge | null> {
+    async updateChallenge(id: string, updateData: Partial<IChallenge>, session?: ClientSession): Promise<IChallenge | null> {
+        if (session) {
+            return Challenge.findByIdAndUpdate(id, updateData, { new: true, session }).exec();
+        }
         return Challenge.findByIdAndUpdate(id, updateData, {new: true}).exec();
     }
 

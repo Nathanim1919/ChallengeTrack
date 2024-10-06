@@ -1,10 +1,15 @@
 import {IGlobalLeaderboard, ILeaderboard} from "../interfaces/ILeaderBoard";
 import {Leaderboard} from "../models/leaderboard.model";
 import {GlobalLeaderboard} from "../models/globalLeaderBoard.model";
+import { ClientSession } from "mongoose";
 
 class LeaderboardRepository {
-    async createLeaderboard(leaderboardData: ILeaderboard): Promise<ILeaderboard> {
-        return await Leaderboard.create(leaderboardData);
+    async createLeaderboard(leaderboardData: ILeaderboard, session?: ClientSession): Promise<ILeaderboard> {
+        if (session) {
+            return await new Leaderboard(leaderboardData).save({session});
+        }
+        
+        return await new Leaderboard(leaderboardData).save();
     }
 
     async createGlobalLeaderboard(): Promise<IGlobalLeaderboard> {

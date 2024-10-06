@@ -9,6 +9,8 @@ import {UserRepository} from "../repositories/user.repository";
 import LeaderboardRepository from "../repositories/leaderboard.repository";
 import {RankEntry} from "../interfaces/ILeaderBoard";
 import {challengeStatus} from "../utils/enum.utils";
+import { CategoryService } from '../services/category.service';
+import { CategoryRepository } from '../repositories/category.repository';
 
 // Mock the challenge repository
 jest.mock('../repositories/challenge.repository');
@@ -33,6 +35,10 @@ describe('ChallengeService', () => {
     // Mock the leader board service and repository
     let mockLeaderBoardService: jest.Mocked<LeaderBoardService>;
     let mockLeaderBoardRepository: jest.Mocked<LeaderboardRepository>;
+
+    // Mock the category service and repository
+    let mockCategoryService: jest.Mocked<CategoryService>;
+    let mockCategoryRepository: jest.Mocked<CategoryRepository>;
 
     const ERROR_MESSAGES = {
         FAILED_TO_CREATE_CHALLENGE: 'Failed to create challenge',
@@ -78,6 +84,11 @@ describe('ChallengeService', () => {
         logs: [],
         createdAt: new Date(),
         updatedAt: new Date(),
+        categorie: new mongoose.Types.ObjectId(),
+        totalParticipants: 1,
+        participantsOnTrack: 0,
+        participantsBehind: 0,
+        participantsLeft: 0,
         progress: 0,
         rules: {
             minParticipants: 1,
@@ -112,11 +123,13 @@ describe('ChallengeService', () => {
 
         mockLeaderBoardRepository = new LeaderboardRepository() as jest.Mocked<LeaderboardRepository>;
         mockUserRepository = new UserRepository() as jest.Mocked<UserRepository>;
+        mockCategoryRepository = new CategoryRepository() as jest.Mocked<CategoryRepository>;
 
         mockUserService = new UserService(mockUserRepository) as jest.Mocked<UserService>;
         mockLeaderBoardService = new LeaderBoardService(mockLeaderBoardRepository) as jest.Mocked<LeaderBoardService>;
+        mockCategoryService = new CategoryService(mockCategoryRepository) as jest.Mocked<CategoryService>;
 
-        challengeService = new ChallengeService(mockChallengeRepository, mockUserService, mockLeaderBoardService);
+        challengeService = new ChallengeService(mockChallengeRepository, mockUserService, mockLeaderBoardService, mockCategoryService);
     });
 
     afterEach(() => {

@@ -1,14 +1,15 @@
 import { Schema, model} from 'mongoose';
+import { ICategory } from '../interfaces/ICategory';
 
 
-const CategorySchema = new Schema({
+const CategorySchema = new Schema<ICategory>({
     name:{type: String, required: true, unique: true},
     description: {type: String, required: true},
     challenges: [{
         type: Schema.Types.ObjectId,
         ref: 'Challenge'
     }],
-    createdAt: {type: Date, default: Date.now},
+    
 });
 
 export const Category = model('Category', CategorySchema);

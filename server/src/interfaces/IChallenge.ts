@@ -20,6 +20,11 @@ export interface IChallenge {
     rules: ChallengeRules; // Additional rules for the challenge
     rewards: ChallengeReward[]; // Potential rewards for completing the challenge
     leaderboard?: ObjectId; // Leaderboard ID
+    totalParticipants: number; // Total number of participants
+    participantsOnTrack: number; // Number of participants on track
+    participantsBehind: number; // Number of participants behind
+    participantsLeft: number; // Number of participants who left
+    categorie: ObjectId; // Challenge categories
 }
 
 type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';

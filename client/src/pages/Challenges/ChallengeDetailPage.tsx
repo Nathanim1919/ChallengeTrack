@@ -31,7 +31,7 @@ const ChallengeDetailPage = () => {
     return (
         <div className="grid grid-cols-[_.25fr_.45fr_.3fr]"> 
             <DailyLog />
-            <ChallengeSpecificLeaderBoard challenge={selectedChallenge.data}/>
+            <ChallengeSpecificLeaderBoard challenge={selectedChallenge?.data}/>
             <div className="grid grid-rows-2">
                 <div className="bg-[#eee] p-2 grid gap-3">
                     <div className="countdown flex flex-col items-center justify-center p-3 gap-2">

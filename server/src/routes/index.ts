@@ -10,6 +10,8 @@ import { UserController } from "../controllers/user.controller";
 import LeaderBoardService from '../services/leaderBoard.service';
 import LeaderboardRepository from '../repositories/leaderboard.repository';
 import { AuthUtils } from '../utils/auth.utils';
+import { CategoryRepository } from '../repositories/category.repository';
+import { CategoryService } from '../services/category.service';
 
 export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
@@ -17,9 +19,10 @@ export class Routes {
         const userRepository = new UserRepository();
         const userService = new UserService(userRepository);
         const leaderboardService = new LeaderBoardService(new LeaderboardRepository());
+        const categoryService = new CategoryService(new CategoryRepository());
 
         // Challenge routes
-        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService));
+        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService));
         const challengeRoute = new ChallengeRoute(challengeController);
         challengeRoute.configureRoutes(app, baseUrl);
 

@@ -18,6 +18,11 @@ const challengeSchema = new Schema<IChallenge>({
     participants: [{type: Schema.Types.ObjectId, ref: 'User'}],
     rewards: [{type: Schema.Types.ObjectId, ref: 'Reward'}],
     leaderboard: {type: Schema.Types.ObjectId, ref: 'Leaderboard'},
+    categorie: {type: Schema.Types.ObjectId, ref: 'Category'},
+    totalParticipants: {type: Number, default: 0},
+    participantsOnTrack: {type: Number, default: 0},
+    participantsBehind: {type: Number, default: 0},
+    participantsLeft: {type: Number, default: 0},
     status: {
         type: String,
         enum: ['PENDING','READY', 'ONGOING', 'COMPLETED', 'CANCELED'],

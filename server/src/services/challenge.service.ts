@@ -5,33 +5,38 @@ import {UserService} from "./user.service";
 import LeaderBoardService from "./leaderBoard.service";
 import {challengeStatus, RewardType} from "../utils/enum.utils";
 import {RankEntry} from "../interfaces/ILeaderBoard";
-import { Types } from 'mongoose';
+import { startSession, Types } from 'mongoose';
+import { CategoryService } from "./category.service";
 
 class ChallengeService {
     constructor(
         private challengeRepository: ChallengeRepository,
         private userService: UserService,
-        private leaderBoard: LeaderBoardService
+        private leaderBoard: LeaderBoardService,
+        private categoryService: CategoryService
     ) {
     }
 
     async createChallenge(challengeData: IChallenge, creatorId: string): Promise<IChallenge> {
+        const session = await startSession();
+        session.startTransaction();
+    
         try {
-            let { duration, startDate } = challengeData;
+            let { duration, startDate, categorie } = challengeData;
     
             // Convert startDate to a Date object
             startDate = new Date(challengeData.startDate);
     
             // Calculate the end date
             const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() + Number(challengeData.duration));
+            endDate.setDate(startDate.getDate() + Number(duration));
     
             // Include createdBy in the initial challenge creation
             const createdChallenge = await this.challengeRepository.createChallenge({
                 ...challengeData,
                 endDate,
                 createdBy: new Types.ObjectId(creatorId)
-            });
+            }, session);
     
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');
@@ -46,18 +51,30 @@ class ChallengeService {
                         point: 0
                     } as RankEntry
                 ]
-            });
-    
+            }, session);
+
     
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
             // Add creator to the participants list
             createdChallenge.participants.push(creatorId);
+            createdChallenge.totalParticipants = 1;
+            createdChallenge.categorie = challengeData.categorie;
+
+            // Add the challenge to the category
+            await this.categoryService.addChallenge((challengeData.categorie).toString(), createdChallenge._id.toString(), session);
     
             // Update the challenge with the leaderboard reference
-            await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
+            await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge, session);
+
+            await session.commitTransaction();
+            session.endSession();
+
             return createdChallenge;
         } catch (error) {
+            await session.abortTransaction();
+            session.endSession();
+
             console.log("error is: " + error);
             throw new Error('Failed to create challenge');
         }
