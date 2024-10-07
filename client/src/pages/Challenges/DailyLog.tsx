@@ -7,16 +7,16 @@ import { ILogs } from "../../interfaces/ILogs";
 import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { checkIfUserIsParticipant, getChallengeById, joinChallenge } from "../../features/challenges/challengesActions";
 
 
-interface IDailyLog {
-  isParticipant: boolean;
-}
 
-
-const DailyLog: React.FC<IDailyLog> = ({isParticipant}) => {
+const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const {user} = useAppSelector((state) => state.auth);
+    const {selectedChallenge, isParticipant} = useAppSelector((state) => state.challenges);
+    const dispatch = useAppDispatch();
     const [showLogDetail, setShowLogDetail] = React.useState<{
       day: number;
       date: string;
@@ -74,6 +74,9 @@ const DailyLog: React.FC<IDailyLog> = ({isParticipant}) => {
       },
      
     ];
+
+    console.log("is participant: ", isParticipant);8
+
     return (
         <div className="p-3">
           <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3">
@@ -116,7 +119,13 @@ const DailyLog: React.FC<IDailyLog> = ({isParticipant}) => {
             <div className="flex flex-col p-4 items-start gap-2">
               <h1 className="font-bold">You are not a participant</h1>
               <p className="text-gray-400">You need to join the challenge to log your daily progress</p>
-              <button className="bg-gray-900 text-white py-1 px-3 rounded-md flex items-center gap-1"><MdOutlineJoinFull/>Join</button>
+              <button className="bg-gray-900 text-white py-1 px-3 rounded-md flex items-center gap-1" 
+              onClick={() => {
+                dispatch(joinChallenge(selectedChallenge?._id??''));
+                dispatch(getChallengeById(selectedChallenge?._id??''));
+                dispatch(checkIfUserIsParticipant(selectedChallenge?._id??''));
+              }}
+              ><MdOutlineJoinFull/>Join</button>
             </div>
           )}
         </div>

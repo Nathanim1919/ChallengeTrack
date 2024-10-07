@@ -127,6 +127,7 @@ class ChallengeService {
             }
             return challenge?.participants.includes(userId);
         } catch (error) {
+            console.log("error is: " + error);
             throw new Error('Failed to check if user is allowed to join challenge');
         }
     }
@@ -186,11 +187,19 @@ class ChallengeService {
         try {
             const isParticipant = await this.isUserAllowedToJoinChallenge(challengeId, userId);
 
-            if (!isParticipant) {
-                return this.challengeRepository.addParticipant(challengeId, userId);
+            if (isParticipant) {
+                throw new Error('User is already a participant of this challenge');
             }
-            throw new Error('User is already a participant of this challenge');
+            await this.leaderBoard.addParticipantToLeaderboard(challengeId, userId);
+            const updatedChallenge = await this.challengeRepository.addParticipant(challengeId, userId);
+
+            if (!updatedChallenge) {
+                throw new Error('Failed to add participant to challenge');
+            }
+
+            return updatedChallenge;
         } catch (error) {
+            console.log("error is: " + error);
             throw new Error('Failed to add participant to challenge');
         }
     }

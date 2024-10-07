@@ -66,3 +66,19 @@ export const checkIfUserIsParticipant = createAsyncThunk(
         }
     }
 );
+
+
+export const joinChallenge = createAsyncThunk(
+    'challenges/joinChallenge',
+    async (challengeId: string, {rejectWithValue}) => {
+        try {
+            return await challengeService.joinChallenge(challengeId);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);

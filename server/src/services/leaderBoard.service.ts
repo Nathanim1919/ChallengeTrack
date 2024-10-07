@@ -17,6 +17,10 @@ class LeaderBoardService {
         return await this.leaderBoardRepository.createGlobalLeaderboard();
     }
 
+    async addParticipantToLeaderboard(challengeId: string, userId: string) {
+        return await this.leaderBoardRepository.addParticipantToLeaderboard(challengeId, userId);
+    };
+
     async getLeaderboardById(leaderboardId: string) {
         return await this.leaderBoardRepository.getLeaderboardById(leaderboardId);
     }

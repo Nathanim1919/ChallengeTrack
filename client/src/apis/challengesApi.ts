@@ -52,6 +52,36 @@ const checkIfUserIsParticipant = async (challengeId: string): Promise<boolean> =
     return response.data;
 };
 
+
+const joinChallenge = async (challengeId: string): Promise<IChallenge> => {
+    const response = await apiConfig.post(`/challenges/${challengeId}/participants`);
+    return response.data;
+};
+
+const leaveChallenge = async (challengeId: string): Promise<IChallenge> => {
+    const response = await apiConfig.delete(`/challenges/${challengeId}/participants`);
+    return response.data;
+};
+
+const markChallengeAsCompleted = async (challengeId: string): Promise<IChallenge> => {
+    const response = await apiConfig.put(`/challenges/${challengeId}/complete`);
+    return response.data;
+};
+
+const getChallengeParticipants = async (challengeId: string): Promise<IChallenge> => {
+    const response = await apiConfig.get(`/challenges/${challengeId}/participants`);
+    return response.data;
+};
+
+const inviteUserToChallenge = async (challengeId: string, userId: string): Promise<IChallenge> => {
+    const response = await apiConfig.post(`/challenges/${challengeId}/invite`, { userId });
+    return response.data;
+};
+
+const reportAsInappropriate = async (challengeId: string): Promise<void> => {
+    await apiConfig.post(`/challenges/${challengeId}/report`);
+};
+
 export default {
     createChallenge,
     getAllChallenges,
@@ -60,5 +90,11 @@ export default {
     deleteChallenge,
     getChallengeLogs,
     createChallengeLog,
-    checkIfUserIsParticipant
+    checkIfUserIsParticipant,
+    joinChallenge,
+    leaveChallenge,
+    markChallengeAsCompleted,
+    getChallengeParticipants,
+    inviteUserToChallenge,
+    reportAsInappropriate
 }

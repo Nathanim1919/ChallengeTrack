@@ -16,6 +16,16 @@ class LeaderboardRepository {
        return await GlobalLeaderboard.create({});
     }
 
+    async addParticipantToLeaderboard(challengeId: string, userId: string): Promise<ILeaderboard | null> {
+        return await Leaderboard.findByIdAndUpdate(challengeId, {
+            $push: {
+                rankings: {
+                    userId
+                }
+            }
+        }, {new: true}).exec();
+    }
+
     async getLeaderboardById(leaderboardId: string): Promise<ILeaderboard | null> {
         return await Leaderboard.findById(leaderboardId).exec();
     }

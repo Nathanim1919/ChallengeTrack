@@ -28,9 +28,9 @@ class ChallengeRoute {
 
         app.route(`${baseUrl}/challenges/:id/participants`)
             .all(verifyUser)
-            .post(this.challengeController.addParticipant.bind(this.challengeController))
+            .post(this.challengeController.joinChallenge.bind(this.challengeController))
             .get(this.challengeController.getChallengeParticipants.bind(this.challengeController))
-            .delete(this.challengeController.removeParticipant.bind(this.challengeController));
+            .delete(this.challengeController.leaveChallenge.bind(this.challengeController));
 
         app.route(`${baseUrl}/challenges/:id/complete`)
             .all(verifyUser)
