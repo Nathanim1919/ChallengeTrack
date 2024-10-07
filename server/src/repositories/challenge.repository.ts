@@ -39,7 +39,7 @@ export class ChallengeRepository {
     }
 
     async findChallengeById(challengeId: string): Promise<IChallenge | null> {
-        return Challenge.findById(challengeId).populate('participants').populate('createdBy').exec();
+        return Challenge.findById(challengeId).populate('createdBy').exec();
     }
 
     async addParticipant(challengeId: string, userId: string): Promise<IChallenge | null> {

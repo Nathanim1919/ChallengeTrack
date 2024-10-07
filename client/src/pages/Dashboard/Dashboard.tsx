@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-[_.75fr_.25fr] gap-2 m-2 h-[100%] overflow-hidden">
             <div className=" grid grid-rows-[.2fr_.6fr_.1fr_.1fr] gap-2 h-[78%] overflow-y-auto">
-                <div className="grid grid-cols-[_.6fr_.4fr] bg-gradient-to-tr  text-white p-2 rounded-lg bg-[#333] sticky top-0 z-10">
+                <div className="grid grid-cols-[_.6fr_.4fr] bg-gradient-to-tr  text-white p-2 bg-[#333] sticky top-0 z-10">
                     <Overview />
                     <div className="px-3 grid gap-3">
                         <h1>Quote of The day</h1>

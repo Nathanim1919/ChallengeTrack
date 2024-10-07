@@ -5,7 +5,7 @@ import AvattorImage from '../../assets/heroImages/avator.jpg'
 
 const PopularChallengeCard = () => {
     return (
-        <div className="grid items-center bg-gray-100 border border-gray-300 p-5 rounded-lg gap-2 bg-gradient-to-tr from-orange-200 to-orange-600 text-white">
+        <div className="grid items-center bg-gray-100 border border-gray-300 p-5 rounded-lg gap-2 bg-gradient-to-br from-orange-500 to-orange-500 text-white">
         <div className="flex justify-between">
             <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-slate-300 rounded-lg"></div>

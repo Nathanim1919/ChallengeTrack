@@ -8,9 +8,6 @@ import { IChallenge } from "../../interfaces/IChallenge";
 
 
 
-
-
-
 const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({challenge}) => {
     const users =  [
         {
