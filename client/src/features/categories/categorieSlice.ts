@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../interfaces/ICategory";
 import { createCategory, fetchCategories } from "./categorieActions";
+import { ApiResponse } from "../../interfaces/ICommon";
 
 
 type initialStateType = {
@@ -34,8 +35,8 @@ const categorySlice = createSlice({
             state.loading = true;
             state.error = null;
         })
-        .addCase(fetchCategories.fulfilled, (state, action) => {
-            state.categories = action.payload;
+        .addCase(fetchCategories.fulfilled, (state, action: PayloadAction<ApiResponse<ICategory[]>>) => {
+            state.categories = action.payload.data??[]; // nullish coalescing operator, if data is null or undefined, return an empty array
             state.loading = false;
             state.error = null;
         })

@@ -10,11 +10,21 @@ class CategoryController {
   async getAll(req: Request, res: Response): Promise<Response<ApiResponse<ICategory[]>>> {
     try {
       const categories = await this.categoryService.getAllCategories();
-      return res.status(200).json({ data: categories, message: "Categories fetched successfully" });
+      return res.status(200).json({
+        success: true,
+        data: categories,
+        message: "Categories fetched successfully",
+      });
     } catch (error) {
-      return res.status(400).json({ error: "Failed to fetch categories" });
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Failed to fetch categories",
+        errorCode: 'FETCH_CATEGORIES_ERROR',
+      });
     }
   }
+  
 
   async create(req: Request, res: Response): Promise<Response<ApiResponse<ICategory>>> {
     const { name, description } = req.body;

@@ -1,6 +1,7 @@
 import apiConfig from "./apiConfig.ts";
 import { IChallenge } from "../interfaces/IChallenge.ts";
 import { ILogs } from "../interfaces/ILogs.ts";
+import { ApiResponse } from "../interfaces/ICommon.ts";
 
 
 // Define an api for creating a new challenge
@@ -11,13 +12,13 @@ const createChallenge = async (challengeData: Partial<IChallenge>): Promise<ICha
 
 
 // Define an api for getting all challenges
-const getAllChallenges = async (): Promise<IChallenge[]> => {
+const getAllChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
     const response = await apiConfig.get("/challenges");
     return response.data;
 };
 
 
-const getChallengeById = async (challengeId: string): Promise<IChallenge> => {
+const getChallengeById = async (challengeId: string): Promise<ApiResponse<IChallenge>> => {
     const response = await apiConfig.get(`/challenges/${challengeId}`);
     return response.data;
 };

@@ -7,6 +7,7 @@ export interface IChallenge{
     description: string;
     createdBy: IUser; // User ID of the creator
     startDate: Date;
+    duration: number; // Duration in days
     endDate: Date;
     participants: IUser[]; // Array of user IDs
     status: ChallengeStatus;
@@ -23,7 +24,6 @@ export interface IChallenge{
     participantsBehind: number; // Number of participants behind
     participantsLeft: number; // Number of participants who left
     categories: string; // Challenge categories
-
 }
 
 type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';

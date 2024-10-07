@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
 import { createChallenge, getAllChallenges, getChallengeById } from "./challengesActions";
+import { ApiResponse } from "../../interfaces/ICommon";
 
 interface ChallengesState {
     challenges: IChallenge[];
@@ -8,12 +9,6 @@ interface ChallengesState {
     loading: boolean;
     message: string;
     error: string | null;
-}
-
-interface ChallengesResponse {
-    success: boolean;
-    data: IChallenge[];
-    message: string;
 }
 
 
@@ -61,8 +56,8 @@ const challengesSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getAllChallenges.fulfilled, (state, action: PayloadAction<ChallengesResponse>) => {
-                state.challenges = action.payload.data;
+            .addCase(getAllChallenges.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
+                state.challenges = action.payload.data??[];
                 state.loading = false;
                 state.error = null;
             })
@@ -74,8 +69,8 @@ const challengesSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getChallengeById.fulfilled, (state, action: PayloadAction<IChallenge>) => {
-                state.selectedChallenge = action.payload;
+            .addCase(getChallengeById.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge>>) => {
+                state.selectedChallenge = action.payload.data;
                 state.loading = false;
                 state.error = null;
             })

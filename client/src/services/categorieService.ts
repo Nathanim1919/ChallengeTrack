@@ -1,8 +1,9 @@
 import categoriesApi from "../apis/categoriesApi";
 import { ICategory } from "../interfaces/ICategory";
+import { ApiResponse } from "../interfaces/ICommon";
 
 
-const getAllCategories = async () => {
+const getAllCategories = async (): Promise<ApiResponse<ICategory[]>> => {
     return await categoriesApi.getAllCategories();
 };
 

@@ -38,7 +38,7 @@ const ChallengeCategories: React.FC<ChallengeCategoriesProps> = ({
           id="categories-dropdown"
           className="flex flex-col h-[300px] overflow-y-auto absolute z-50 bg-white justify-start items-start text-[14px] border border-gray-200 rounded-md shadow-lg"
         >
-          {categories?.data.map((category: ICategory) => (
+          {categories?.map((category: ICategory) => (
             <button
               key={category._id}
               onClick={() => handleFilterClick(category.name)}
