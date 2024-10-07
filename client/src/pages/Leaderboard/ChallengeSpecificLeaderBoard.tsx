@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GiTwoCoins } from "react-icons/gi";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
 import { IChallenge } from "../../interfaces/IChallenge";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { getLeaderBoardByChallengeId } from "../../features/leaderboard/leaderboardAction";
 
 
 
@@ -63,6 +66,21 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             rank: "13th",
         }
     ]
+    const dispatch = useAppDispatch();
+    const {loading, leaderboard} = useAppSelector((state) => state.leaderboard);
+
+    useEffect(() => {
+        if (challenge?._id) {
+            dispatch(getLeaderBoardByChallengeId(challenge._id));
+        }
+    }, [challenge, dispatch]);
+
+    if(loading) {
+        return <div>Loading...</div>
+    }
+
+    console.log("This is the specific challenge leaderboard: ", leaderboard);
+
     return (
         <div className="leaderboard">
             <div className="leaderboard-header bg-black text-white grid p-5 gap-3">
@@ -85,7 +103,7 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             <div className="leaderboard-list">
                 <div className="leaderboard-list-body h-[75vh] overflow-y-auto">
                     {
-                        users.map((user, index) => (
+                        leaderboard?.rankings?.map((user, index) => (
                             <div key={index} className="leaderboard-list-item p-3 grid grid-cols-4 gap-3 cursor-pointer border-b border-gray-200">
                                 <div className="flex items-center gap-5">
                                     <div className="w-8 h-8 bg-black font-bold rounded-md grid items-center justify-center text-white">
@@ -96,16 +114,16 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                                             <div className="w-6 h-6 rounded-full bg-gray-200">
                                                 <img src={AvatorImage} alt="avator" className="w-full h-full object-cover rounded-full"/>
                                             </div>
-                                            <h2 className="m-0 font-bold">{user.name}</h2>
+                                            <h2 className="m-0 font-bold">{user.userId.username}</h2>
                                         </div>
                                       
-                                        <p className="m-0 flex items-center gap-1">Rank: <MdOutlineLeaderboard/>{user.rank}</p>
+                                        <p className="m-0 flex items-center gap-1">Rank: <MdOutlineLeaderboard/></p>
                                     </div>
                                 </div>
                                
                                 <div className="flex items-center gap-1 text-orange-500 font-bold">
                                     <GiTwoCoins/>
-                                    <p className="m-0">100</p>
+                                    <p className="m-0">{user.score}</p>
                                 </div>
 
                                 <div className="flex items-center gap-1">

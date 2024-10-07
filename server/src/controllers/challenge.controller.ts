@@ -13,9 +13,6 @@ class ChallengeController {
             const { body } = req;
             const { userId } = req;
 
-            console.log('userId', userId);
-            console.log('body', body);
-
             const challenge = await this.challengeService.createChallenge(body, userId!);
             return res.status(201).json(formatResponse(challenge, 'Challenge created successfully'));
         } catch(error){
@@ -128,6 +125,15 @@ class ChallengeController {
             return res.status(200).json(formatResponse(challenge, 'Great! You Got Points for your progress'));
         } catch(error){
             return res.status(400).json(formatError("Failed to save challenge progress"));
+        }
+    }
+
+    async checkIfUserIsParticipant(req: Request, res: Response): Promise<Response<ApiResponse<boolean>>>{
+        try {
+            const isParticipant = await this.challengeService.checkIfUserIsParticipant(req.params.id, req.userId!);
+            return res.status(200).json(formatResponse(isParticipant, 'User is participant'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to check if user is participant"));
         }
     }
 }

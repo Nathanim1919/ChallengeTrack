@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
-import { createChallenge, getAllChallenges, getChallengeById } from "./challengesActions";
+import { checkIfUserIsParticipant, createChallenge, getAllChallenges, getChallengeById } from "./challengesActions";
 import { ApiResponse } from "../../interfaces/ICommon";
 
 interface ChallengesState {
     challenges: IChallenge[];
     selectedChallenge: IChallenge | null;
+    isParticipant: boolean;
     loading: boolean;
     message: string;
     error: string | null;
@@ -15,6 +16,7 @@ interface ChallengesState {
 const initialState: ChallengesState = {
     challenges: [],
     selectedChallenge: null,
+    isParticipant: false,
     loading: false,
     message: "",
     error: null,
@@ -77,6 +79,19 @@ const challengesSlice = createSlice({
             .addCase(getChallengeById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch challenge";
+            })
+            .addCase(checkIfUserIsParticipant.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(checkIfUserIsParticipant.fulfilled, (state, action: PayloadAction<ApiResponse<boolean>>) => {
+                state.isParticipant = action.payload.data??false;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(checkIfUserIsParticipant.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to check if user is participant";
             });
     },
 });

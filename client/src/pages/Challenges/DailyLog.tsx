@@ -5,12 +5,18 @@ import { LuExpand } from "react-icons/lu";
 import DailyLogModal from "../../components/modals/DailyLogModal";
 import { ILogs } from "../../interfaces/ILogs";
 import DailyLogDetail from "../../components/modals/DailyLogDetail";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { MdOutlineJoinFull } from "react-icons/md";
 
 
+interface IDailyLog {
+  isParticipant: boolean;
+}
 
 
-const DailyLog = () => {
+const DailyLog: React.FC<IDailyLog> = ({isParticipant}) => {
     const [openModal, setOpenModal] = React.useState(false);
+    const {user} = useAppSelector((state) => state.auth);
     const [showLogDetail, setShowLogDetail] = React.useState<{
       day: number;
       date: string;
@@ -76,11 +82,11 @@ const DailyLog = () => {
               <img src={AvatorImage} alt="avator" className="w-full h-full object-cover"/>
             </div>
             <div className="creatorInfo__details">
-              <h3 className="font-bold">John Doe</h3>
+              <h3 className="font-bold">{user?.username}</h3>
               <p>+30 challenges</p>
             </div>
           </div>
-          <div>
+         {isParticipant? <div>
             <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
@@ -106,7 +112,13 @@ const DailyLog = () => {
                   </div>))
               }
             </div>
-          </div>
+          </div>:(
+            <div className="flex flex-col p-4 items-start gap-2">
+              <h1 className="font-bold">You are not a participant</h1>
+              <p className="text-gray-400">You need to join the challenge to log your daily progress</p>
+              <button className="bg-gray-900 text-white py-1 px-3 rounded-md flex items-center gap-1"><MdOutlineJoinFull/>Join</button>
+            </div>
+          )}
         </div>
     );
 };

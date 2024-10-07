@@ -1,4 +1,5 @@
 import {ObjectId} from "bson";
+import { IUser } from "./IUser";
 
 export interface ILeaderboard {
     _id?: ObjectId;
@@ -8,8 +9,8 @@ export interface ILeaderboard {
 }
 
 export interface RankEntry {
-    userId: string;
-    point: number;
+    userId: Partial<IUser>;
+    score: number;
 }
 
 

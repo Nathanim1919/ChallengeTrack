@@ -47,6 +47,11 @@ const createChallengeLog = async (challengeId: string, logData: Partial<ILogs>):
 };
 
 
+const checkIfUserIsParticipant = async (challengeId: string): Promise<boolean> => {
+    const response = await apiConfig.get(`/challenges/${challengeId}/is-participant`);
+    return response.data;
+};
+
 export default {
     createChallenge,
     getAllChallenges,
@@ -54,5 +59,6 @@ export default {
     updateChallenge,
     deleteChallenge,
     getChallengeLogs,
-    createChallengeLog
+    createChallengeLog,
+    checkIfUserIsParticipant
 }

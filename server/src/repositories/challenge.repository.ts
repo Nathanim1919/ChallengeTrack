@@ -78,6 +78,15 @@ export class ChallengeRepository {
         }, {new: true}).exec();
     }
 
+    async checkIfUserIsParticipant(challengeId: string, userId: string): Promise<boolean> {
+        const challenge = await Challenge.findById(
+            challengeId,
+            { participants: { $elemMatch: { $eq: userId } } }
+        ).exec();
+        
+        return (challenge?.participants ?? []).length > 0;
+    }
+
     // TODO: Implement the following methods
     // distributeRewards(challengeId: ObjectId): Promise<IRewardDistributionResult>;
     // addChallengeStage(challengeId: ObjectId, stage: IChallengeStage): Promise<IChallenge>;

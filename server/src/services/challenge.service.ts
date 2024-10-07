@@ -236,7 +236,6 @@ class ChallengeService {
         }
     }
 
-
     async getChallengeParticipants(challengeId: string): Promise<IUser[] | []> {
         try {
             return this.challengeRepository.getChallengeParticipants(challengeId);
@@ -261,6 +260,14 @@ class ChallengeService {
             return this.challengeRepository.saveLogChallengeProgress(challengeId, userId, logs, images, day);
         } catch (error) {
             throw new Error('Failed to save daily log challenge progress');
+        }
+    }
+
+    async checkIfUserIsParticipant(challengeId: string, userId: string): Promise<boolean> {
+        try {
+            return this.challengeRepository.checkIfUserIsParticipant(challengeId, userId);
+        } catch (error) {
+            throw new Error('Failed to check if user is participant');
         }
     }
 }

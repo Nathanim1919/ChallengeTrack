@@ -18,5 +18,10 @@ const getChallengeById = async (challengeId: string) => {
 };
 
 
+const checkIfUserIsParticipant = async (challengeId: string) => {
+    return await challengesApi.checkIfUserIsParticipant(challengeId);
+};
 
-export default { createChallenge, getAllChallenges, getChallengeById };
+
+
+export default { createChallenge, getAllChallenges, getChallengeById, checkIfUserIsParticipant };

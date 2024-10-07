@@ -50,3 +50,19 @@ export const getChallengeById = createAsyncThunk(
         }
     }
 )
+
+
+export const checkIfUserIsParticipant = createAsyncThunk(
+    'challenges/checkIfUserIsParticipant',
+    async (challengeId: string, {rejectWithValue}) => {
+        try {
+            return await challengeService.checkIfUserIsParticipant(challengeId);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);

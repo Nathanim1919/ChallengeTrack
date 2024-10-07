@@ -25,7 +25,15 @@ class LeaderboardRepository {
     }
 
     async getLeaderBoardByChallengeId(challengeId: string): Promise<ILeaderboard | null> {
-        return await Leaderboard.findOne({challengeId}).sort({score: -1}).exec();
+        return await Leaderboard.findOne({challengeId})
+            .sort({score: -1})
+            .populate({
+                path:'rankings.userId',
+                model: 'User',
+                select: 'username email'
+            })
+            .exec();
+
     }
 }
 

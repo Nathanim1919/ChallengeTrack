@@ -49,10 +49,6 @@ const Sidebar: React.FC = () => {
                         <IoSettingsOutline />
                         <Link to="/in/settings">Settings</Link>
                     </li>
-                    <li className="flex items-center gap-3 p-2 text-[#333] hover:text-black hover:bg-gray-200 border border-transparent hover:border hover:border-gray-200 cursor-pointer transform transition-all duration-200 text-[15px]">
-                        <IoSettingsOutline />
-                        <Link to="/in/detail">Detail</Link>
-                    </li>
                 
                 </ul>
                 <ul>
