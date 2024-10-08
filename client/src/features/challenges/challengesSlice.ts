@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
-import { checkIfUserIsParticipant, createChallenge, getAllChallenges, getChallengeById } from "./challengesActions";
+import { checkIfUserIsParticipant, createChallenge, getAllChallenges, getChallengeById, joinChallenge } from "./challengesActions";
 import { ApiResponse } from "../../interfaces/ICommon";
 
 interface ChallengesState {
@@ -92,7 +92,20 @@ const challengesSlice = createSlice({
             .addCase(checkIfUserIsParticipant.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to check if user is participant";
-            });
+            })
+            .addCase(joinChallenge.pending, (state) => {
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge>>) => {
+                state.selectedChallenge = action.payload.data;
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(joinChallenge.rejected, (state,action) => {
+                state.loading = false;
+                state.error = action.error.message || "You can't join this challenge right now, try again later."
+            })
     },
 });
 

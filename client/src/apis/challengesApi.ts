@@ -53,7 +53,7 @@ const checkIfUserIsParticipant = async (challengeId: string): Promise<boolean> =
 };
 
 
-const joinChallenge = async (challengeId: string): Promise<IChallenge> => {
+const joinChallenge = async (challengeId: string): Promise<ApiResponse<IChallenge>> => {
     const response = await apiConfig.post(`/challenges/${challengeId}/participants`);
     return response.data;
 };

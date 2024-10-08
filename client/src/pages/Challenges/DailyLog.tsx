@@ -3,19 +3,19 @@ import { IoMdAdd } from "react-icons/io";
 import AvatorImage from '../../assets/heroImages/avator.jpg'
 import { LuExpand } from "react-icons/lu";
 import DailyLogModal from "../../components/modals/DailyLogModal";
-import { ILogs } from "../../interfaces/ILogs";
 import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { checkIfUserIsParticipant, getChallengeById, joinChallenge } from "../../features/challenges/challengesActions";
+import ButtonLoading from "../../components/loading/buttonLoading";
 
 
 
 const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const {user} = useAppSelector((state) => state.auth);
-    const {selectedChallenge, isParticipant} = useAppSelector((state) => state.challenges);
+    const {selectedChallenge, isParticipant, loading} = useAppSelector((state) => state.challenges);
     const dispatch = useAppDispatch();
     const [showLogDetail, setShowLogDetail] = React.useState<{
       day: number;
@@ -75,7 +75,7 @@ const DailyLog = () => {
      
     ];
 
-    console.log("is participant: ", isParticipant);8
+    console.log("is participant: ", isParticipant);
 
     return (
         <div className="p-3">
@@ -119,13 +119,10 @@ const DailyLog = () => {
             <div className="flex flex-col p-4 items-start gap-2">
               <h1 className="font-bold">You are not a participant</h1>
               <p className="text-gray-400">You need to join the challenge to log your daily progress</p>
-              <button className="bg-gray-900 text-white py-1 px-3 rounded-md flex items-center gap-1" 
-              onClick={() => {
-                dispatch(joinChallenge(selectedChallenge?._id??''));
-                dispatch(getChallengeById(selectedChallenge?._id??''));
-                dispatch(checkIfUserIsParticipant(selectedChallenge?._id??''));
-              }}
-              ><MdOutlineJoinFull/>Join</button>
+              <button disabled={loading} className={`hover:bg-gray-600 ${!loading?"bg-gray-900":"bg-gray-600"} text-white py-1 px-3 rounded-sm flex items-center gap-1`}
+              onClick={() =>
+                dispatch(joinChallenge(selectedChallenge?._id??''))}
+              >{loading?<ButtonLoading/>:<MdOutlineJoinFull/>}Join</button>
             </div>
           )}
         </div>

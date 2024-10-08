@@ -32,7 +32,7 @@ const ChallengeDetailPage = () => {
 
     return (
         <div className="grid grid-cols-[_.25fr_.45fr_.3fr]"> 
-            <DailyLog isParticipant={isParticipant}/>
+            <DailyLog/>
             <ChallengeSpecificLeaderBoard challenge={selectedChallenge}/>
             <div className="grid grid-rows-2">
                 <div className="bg-[#eee] p-2 grid gap-3">
@@ -61,7 +61,7 @@ const ChallengeDetailPage = () => {
                         </div>
                         <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
                             <h2 className="font-bold text-4xl">{selectedChallenge?.participantsLeft}</h2>
-                            <p>Leave</p>
+                            <p>Left</p>
                         </div>
                         </div>
                     </div>

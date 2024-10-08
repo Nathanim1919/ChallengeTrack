@@ -73,6 +73,7 @@ export const joinChallenge = createAsyncThunk(
     async (challengeId: string, {rejectWithValue}) => {
         try {
             return await challengeService.joinChallenge(challengeId);
+            
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
