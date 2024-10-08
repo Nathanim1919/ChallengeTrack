@@ -97,8 +97,9 @@ const challengesSlice = createSlice({
                 state.error = null;
                 state.loading = false;
             })
-            .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge>>) => {
-                state.selectedChallenge = action.payload.data;
+            .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: IChallenge; isParticipant: boolean }>) => {
+                state.selectedChallenge = action.payload.updatedChallenge;
+                state.isParticipant = action.payload.isParticipant;
                 state.error = null;
                 state.loading = false;
             })

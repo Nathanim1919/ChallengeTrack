@@ -72,7 +72,20 @@ export const joinChallenge = createAsyncThunk(
     'challenges/joinChallenge',
     async (challengeId: string, {rejectWithValue}) => {
         try {
-            return await challengeService.joinChallenge(challengeId);
+            // return await challengeService.joinChallenge(challengeId);
+             // Join the challenge
+             await challengeService.joinChallenge(challengeId);
+            
+
+            const updatedChallenge = await challengeService.getChallengeById(challengeId);
+            
+            // Check if the user is a participant
+            const isParticipantResponse = await challengeService.checkIfUserIsParticipant(challengeId);
+
+            return {
+                updatedChallenge,
+                isParticipant: isParticipantResponse,
+            };
             
         } catch (error) {
             if (error instanceof Error) {
@@ -82,4 +95,7 @@ export const joinChallenge = createAsyncThunk(
             }
         }
     }
+
+
+    
 );
