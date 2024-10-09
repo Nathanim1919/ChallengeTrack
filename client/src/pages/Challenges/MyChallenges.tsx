@@ -7,7 +7,6 @@ import MyChallengeCard from "../../components/cards/MyChallengeCard";
 const MyChallenges = () => {
     const dispatch = useAppDispatch();
     const {challenges} = useAppSelector((state) => state.challenges);
-    console.log(challenges);
 
     React.useEffect(() => {
         dispatch(getAllChallenges());

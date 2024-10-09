@@ -21,6 +21,10 @@ class LeaderBoardService {
         return await this.leaderBoardRepository.addParticipantToLeaderboard(challengeId, userId);
     };
 
+    async removeParticipantFromLeaderboard(challengeId: string, userId: string) {
+        return await this.leaderBoardRepository.removeParticipantFromLeaderboard(challengeId, userId);
+    }
+
     async getLeaderboardById(leaderboardId: string) {
         return await this.leaderBoardRepository.getLeaderboardById(leaderboardId);
     }

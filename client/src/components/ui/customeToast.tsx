@@ -10,6 +10,8 @@ export const CustomeToast: React.FC<CustomeToastProps> = ({ message, type }) => 
     const [show, setShow] = useState(!!message);
     const [animate, setAnimate] = useState(false);
 
+    console.log(message);
+
     useEffect(() => {
         if (message) {
             setShow(true);

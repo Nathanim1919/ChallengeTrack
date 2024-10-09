@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
-import { checkIfUserIsParticipant, createChallenge, getAllChallenges, getChallengeById, joinChallenge } from "./challengesActions";
+import { checkIfUserIsParticipant, createChallenge, getAllChallenges, getChallengeById, joinChallenge, leaveChallenge } from "./challengesActions";
 import { ApiResponse } from "../../interfaces/ICommon";
 
 interface ChallengesState {
@@ -100,12 +100,28 @@ const challengesSlice = createSlice({
             .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: IChallenge; isParticipant: boolean }>) => {
                 state.selectedChallenge = action.payload.updatedChallenge;
                 state.isParticipant = action.payload.isParticipant;
+                state.message = "You have joined the challenge";
                 state.error = null;
                 state.loading = false;
             })
             .addCase(joinChallenge.rejected, (state,action) => {
                 state.loading = false;
                 state.error = action.error.message || "You can't join this challenge right now, try again later."
+            })
+            .addCase(leaveChallenge.pending, (state) => {
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(leaveChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: IChallenge; isParticipant: boolean }>) => {
+                state.selectedChallenge = action.payload.updatedChallenge;
+                state.isParticipant = action.payload.isParticipant;
+                state.message = "You have Left the challenge";
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(leaveChallenge.rejected, (state,action) => {
+                state.loading = false;
+                state.error = action.error.message || "You can't Left this challenge right now, try again later."
             })
     },
 });

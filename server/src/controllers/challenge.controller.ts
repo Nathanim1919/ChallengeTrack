@@ -84,7 +84,7 @@ class ChallengeController {
 
     async leaveChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
-            const challenge = await this.challengeService.removeParticipant(req.body.challengeId, req.body.userId);
+            const challenge = await this.challengeService.removeParticipant(req.params.id, req.userId!);
             if(!challenge){
                 return res.status(404).json(formatError("Challenge not found"));
             }

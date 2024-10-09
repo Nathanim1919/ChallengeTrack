@@ -95,7 +95,35 @@ export const joinChallenge = createAsyncThunk(
             }
         }
     }
-
-
     
+);
+
+
+export const leaveChallenge = createAsyncThunk(
+    'challenges/leaveChallenge',
+    async (challengeId: string, {rejectWithValue}) => {
+        try {
+            // return await challengeService.joinChallenge(challengeId);
+             // Join the challenge
+             await challengeService.leaveChallenge(challengeId);
+            
+
+            const updatedChallenge = await challengeService.getChallengeById(challengeId);
+            
+            // Check if the user is a participant
+            const isParticipantResponse = await challengeService.checkIfUserIsParticipant(challengeId);
+
+            return {
+                updatedChallenge,
+                isParticipant: isParticipantResponse,
+            };
+            
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
 );

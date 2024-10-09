@@ -7,15 +7,18 @@ import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { checkIfUserIsParticipant, getChallengeById, joinChallenge } from "../../features/challenges/challengesActions";
+import { checkIfUserIsParticipant, getChallengeById, joinChallenge, leaveChallenge } from "../../features/challenges/challengesActions";
 import ButtonLoading from "../../components/loading/buttonLoading";
+import {CustomeToast} from "../../components/ui/customeToast";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+
 
 
 
 const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const {user} = useAppSelector((state) => state.auth);
-    const {selectedChallenge, isParticipant, loading} = useAppSelector((state) => state.challenges);
+    const {selectedChallenge, isParticipant, loading, message, error} = useAppSelector((state) => state.challenges);
     const dispatch = useAppDispatch();
     const [showLogDetail, setShowLogDetail] = React.useState<{
       day: number;
@@ -30,52 +33,8 @@ const DailyLog = () => {
         log: "I did 30 pushups today",
         status: "completed"
       },
-      {
-        day: 2,
-        date: "Tue Sep 31 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 3,
-        date: "Wed Oct 1 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 4,
-        date: "Thu Oct 2 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 1,
-        date: "Mon Sep 30 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 2,
-        date: "Tue Sep 31 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 3,
-        date: "Wed Oct 1 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-      {
-        day: 4,
-        date: "Thu Oct 2 2024",
-        log: "I did 30 pushups today",
-        status: "completed"
-      },
-     
     ];
 
-    console.log("is participant: ", isParticipant);
 
     return (
         <div className="p-3">
@@ -93,7 +52,10 @@ const DailyLog = () => {
             <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
-                <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
+                <div className="flex items-center gap-2">
+                  <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
+                  <IoIosRemoveCircleOutline onClick={() => dispatch(leaveChallenge(selectedChallenge?._id??''))} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
+                </div>
               </div>
             <DailyLogDetail showLogDetail={showLogDetail} setShowLogDetail={setShowLogDetail}/>  
             <div className="h-[75vh] overflow-y-auto">
@@ -117,6 +79,7 @@ const DailyLog = () => {
             </div>
           </div>:(
             <div className="flex flex-col p-4 items-start gap-2">
+              <CustomeToast message={message} type={error ? "error" : "success"} />
               <h1 className="font-bold">You are not a participant</h1>
               <p className="text-gray-400">You need to join the challenge to log your daily progress</p>
               <button disabled={loading} className={`hover:bg-gray-600 ${!loading?"bg-gray-900":"bg-gray-600"} text-white py-1 px-3 rounded-sm flex items-center gap-1`}

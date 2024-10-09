@@ -26,6 +26,16 @@ class LeaderboardRepository {
         }, {new: true}).exec();
     }
 
+    async removeParticipantFromLeaderboard(challengeId: string, userId: string): Promise<ILeaderboard | null> {
+        return await Leaderboard.findByIdAndUpdate(challengeId, {
+            $pull: {
+                rankings: {
+                    userId
+                }
+            }
+        }, {new: true}).exec();
+    }
+
     async getLeaderboardById(leaderboardId: string): Promise<ILeaderboard | null> {
         return await Leaderboard.findById(leaderboardId).exec();
     }

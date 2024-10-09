@@ -7,13 +7,15 @@ import {challengeStatus, RewardType} from "../utils/enum.utils";
 import {RankEntry} from "../interfaces/ILeaderBoard";
 import { startSession, Types } from 'mongoose';
 import { CategoryService } from "./category.service";
+import {Log} from "../models/log.model";
 
 class ChallengeService {
+   
     constructor(
         private challengeRepository: ChallengeRepository,
         private userService: UserService,
         private leaderBoard: LeaderBoardService,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
     ) {
     }
 
@@ -206,7 +208,19 @@ class ChallengeService {
 
     async removeParticipant(challengeId: string, userId: string): Promise<IChallenge | null> {
         try {
-            return this.challengeRepository.removeParticipant(challengeId, userId);
+            const isParticipant = await this.isUserAllowedToJoinChallenge(challengeId, userId);
+
+            if (!isParticipant) {
+                throw new Error('User is not a participant of this challenge');
+            }
+            await this.leaderBoard.removeParticipantFromLeaderboard(challengeId, userId);
+            const removeParticipantFromChallenge = await this.challengeRepository.removeParticipant(challengeId, userId);
+
+            if (!removeParticipantFromChallenge) {
+                throw new Error('Failed to remove participant from challenge');
+            }
+
+            return removeParticipantFromChallenge;
         } catch (error) {
             throw new Error('Failed to remove participant from challenge');
         }
@@ -277,6 +291,39 @@ class ChallengeService {
             return this.challengeRepository.checkIfUserIsParticipant(challengeId, userId);
         } catch (error) {
             throw new Error('Failed to check if user is participant');
+        }
+    }
+
+    async addDailyLog(userId: string, challengeId: string, content: string) {
+        try {
+            const createLog = await Log.create({details:content});
+            await createLog.save();
+    
+            if (!createLog) {
+                throw new Error('Failed to create log');
+            }
+    
+            const challenge = await this.challengeRepository.findChallengeById(challengeId);
+            if (!challenge) {
+                throw new Error('Challenge not found');
+            }
+    
+            challenge.logs.push(new Types.ObjectId(createLog._id));
+
+            await this.challengeRepository.updateChallenge(challengeId, challenge);
+
+    
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+    
+            user.logs.push(new Types.ObjectId(createLog._id));
+            await this.userService.updateUser(userId, user);
+    
+        } catch (error) {
+            console.error('Error adding daily log:', error);
+            throw error;
         }
     }
 }
