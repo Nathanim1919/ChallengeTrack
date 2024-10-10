@@ -97,8 +97,8 @@ const challengesSlice = createSlice({
                 state.error = null;
                 state.loading = false;
             })
-            .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: IChallenge; isParticipant: boolean }>) => {
-                state.selectedChallenge = action.payload.updatedChallenge;
+            .addCase(joinChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean }>) => {
+                state.selectedChallenge = action.payload.updatedChallenge.data;
                 state.isParticipant = action.payload.isParticipant;
                 state.message = "You have joined the challenge";
                 state.error = null;
@@ -112,8 +112,8 @@ const challengesSlice = createSlice({
                 state.error = null;
                 state.loading = false;
             })
-            .addCase(leaveChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: IChallenge; isParticipant: boolean }>) => {
-                state.selectedChallenge = action.payload.updatedChallenge;
+            .addCase(leaveChallenge.fulfilled, (state, action: PayloadAction<{ updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean }>) => {
+                state.selectedChallenge = action.payload.updatedChallenge.data;
                 state.isParticipant = action.payload.isParticipant;
                 state.message = "You have Left the challenge";
                 state.error = null;

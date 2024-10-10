@@ -25,10 +25,10 @@ app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-for
 app.use(express.json()); // parse application/json as json
 // Use cookie-parser middleware
 app.use(cookieParser());
-app.use((req: Request, res: Response, next: NextFunction) => {
-    logger.info({method: req.method, path: req.path}, 'Incoming request');
-    next();
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//     logger.info({method: req.method, path: req.path}, 'Incoming request');
+//     next();
+// });
 
 // Log unhandled errors
 app.use((err:Error, req:Request, res: Response, next:NextFunction) => {
