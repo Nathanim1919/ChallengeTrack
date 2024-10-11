@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import challengeService from "../../services/challengeService";
 import { IChallenge } from "../../interfaces/IChallenge";
+import {ApiResponse} from "../../interfaces/ICommon.ts";
 
 
-export const createChallenge = createAsyncThunk(
+export const createChallenge = createAsyncThunk<IChallenge, Partial<IChallenge>>(
     'challenges/createChallenge',
     async (challengeData: Partial<IChallenge>, {rejectWithValue}) => {
         try {
@@ -20,7 +21,7 @@ export const createChallenge = createAsyncThunk(
 
 
 
-export const getAllChallenges = createAsyncThunk(
+export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
     'challenges/getAllChallenges',
     async (_, {rejectWithValue}) => {
         try {
@@ -36,7 +37,7 @@ export const getAllChallenges = createAsyncThunk(
 )
 
 
-export const getChallengeById = createAsyncThunk(
+export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string>(
     'challenges/getChallengeById',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -52,7 +53,7 @@ export const getChallengeById = createAsyncThunk(
 )
 
 
-export const checkIfUserIsParticipant = createAsyncThunk(
+export const checkIfUserIsParticipant = createAsyncThunk<ApiResponse<boolean>, string>(
     'challenges/checkIfUserIsParticipant',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -68,17 +69,15 @@ export const checkIfUserIsParticipant = createAsyncThunk(
 );
 
 
-export const joinChallenge = createAsyncThunk(
+export const joinChallenge = createAsyncThunk<{updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean}, string>(
     'challenges/joinChallenge',
     async (challengeId: string, {rejectWithValue}) => {
         try {
             // return await challengeService.joinChallenge(challengeId);
              // Join the challenge
              await challengeService.joinChallenge(challengeId);
-            
-
             const updatedChallenge = await challengeService.getChallengeById(challengeId);
-            
+
             // Check if the user is a participant
             const isParticipantResponse = await challengeService.checkIfUserIsParticipant(challengeId);
 
@@ -86,7 +85,7 @@ export const joinChallenge = createAsyncThunk(
                 updatedChallenge,
                 isParticipant: isParticipantResponse,
             };
-            
+
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -95,21 +94,19 @@ export const joinChallenge = createAsyncThunk(
             }
         }
     }
-    
+
 );
 
 
-export const leaveChallenge = createAsyncThunk(
+export const leaveChallenge = createAsyncThunk<{ updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean }, string>(
     'challenges/leaveChallenge',
     async (challengeId: string, {rejectWithValue}) => {
         try {
             // return await challengeService.joinChallenge(challengeId);
              // Join the challenge
              await challengeService.leaveChallenge(challengeId);
-            
-
             const updatedChallenge = await challengeService.getChallengeById(challengeId);
-            
+
             // Check if the user is a participant
             const isParticipantResponse = await challengeService.checkIfUserIsParticipant(challengeId);
 
@@ -117,7 +114,7 @@ export const leaveChallenge = createAsyncThunk(
                 updatedChallenge,
                 isParticipant: isParticipantResponse,
             };
-            
+
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

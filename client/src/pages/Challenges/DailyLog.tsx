@@ -39,9 +39,9 @@ const DailyLog = () => {
     return (
         <div className="p-3">
           <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3">
-            
+
             <div className="creatorInfo__avatarn w-12 h-12 bg-gray-200">
-              <img src={AvatorImage} alt="avator" className="w-full h-full object-cover"/>
+              <img src={AvatorImage as string} alt="avator" className="w-full h-full object-cover"/>
             </div>
             <div className="creatorInfo__details">
               <h3 className="font-bold">{user?.username}</h3>
@@ -57,7 +57,7 @@ const DailyLog = () => {
                   <IoIosRemoveCircleOutline onClick={() => dispatch(leaveChallenge(selectedChallenge?._id??''))} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
                 </div>
               </div>
-            <DailyLogDetail showLogDetail={showLogDetail} setShowLogDetail={setShowLogDetail}/>  
+            <DailyLogDetail showLogDetail={showLogDetail} setShowLogDetail={setShowLogDetail}/>
             <div className="h-[75vh] overflow-y-auto">
               {
                 dailyLogs.map((log, index) => (
