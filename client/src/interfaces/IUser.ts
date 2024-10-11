@@ -1,38 +1,33 @@
-import {ObjectId} from "bson";
-
-interface IUser {
-    _id: ObjectId;
+export interface IUser {
+    _id: string;
     name: string;
     username: string;
     email: string;
     password: string;
     profilePicture?: string;
     role: string;
-    achievements: ObjectId[];
-    createdChallenges: ObjectId[];
-    participatedChallenges: ObjectId[];
-    wonChallenges: ObjectId[];
-    logs: ObjectId[];
+    achievements: string[];
+    createdChallenges: string[];
+    participatedChallenges: string[];
+    wonChallenges: string[];
+    logs: string[];
     points: number;
-    challengePoints: ObjectId[];
+    challengePoints: string[];
     createdAt?: Date;
     updatedAt?: Date;
 }
 
 export interface IChallengePoints {
-    challengeId: ObjectId;
+    challengeId: string;
     points: number;
 }
 
-const UserRole = {
+export const UserRole = {
     ADMIN: 'admin',
     USER: 'user'
 };
 
-interface UserPreferences {
+export interface UserPreferences {
     notificationsEnabled: boolean;
     theme: 'light' | 'dark';
 }
-
-
-export { IUser, UserRole, UserPreferences };
