@@ -1,40 +1,39 @@
-import userApi from "../apis/userApi";
+import { usersApi } from "../apis";
 
 const fetchUsers = async () => {
-  return await fechUsers();
+  return await usersApi.fetchUsers();
 };
-const inviteUser = async (identifier, challengeId) => {
-  return await userApi.inviteUser(identifier, challengeId);
+const inviteUser = async (identifier: string, challengeId: string) => {
+  return await usersApi.inviteUser(identifier, challengeId);
 };
-const getUserById = async (userId) => {
-  return await userApi.getUserById(userId);
+const getUserById = async (userId: string) => {
+  return await usersApi.getUserById(userId);
 };
 
 const getUsersTotalChallengeParticipation = async (identifier?: string) => {
-  return await userApi.getUsersTotalChallengeParticipation(identifier);
+  return await usersApi.getUsersTotalChallengeParticipation(identifier);
 };
 
 const getUsersTotalChallengeWins = async (identifier?: string) => {
-  return await userApi.getUsersTotalChallengeWins(identifier);
+  return await usersApi.getUsersTotalChallengeWins(identifier);
 };
 
 const getUsersTotalPoints = async (identifier?: string) => {
-  return await userApi.getUsersTotalPoints(identifier);
+  return await usersApi.getUsersTotalPoints(identifier);
 };
 
 const getUsersTotalLogs = async (identifier?: string, challengeId?: string) => {
-  return await userApi.getUsersTotalLogs(identifier, challengeId);
+  return await usersApi.getUsersTotalLogs(identifier, challengeId);
 };
 
 const getUsersTotalAchievements = async (identifier?: string) => {
-  return await userApi.getUsersTotalAchievements(identifier);
+  return await usersApi.getUsersTotalAchievements(identifier);
 };
 
 export {
   fetchUsers,
   inviteUser,
   getUserById,
-  getUsers,
   getUsersTotalChallengeParticipation,
   getUsersTotalChallengeWins,
   getUsersTotalPoints,

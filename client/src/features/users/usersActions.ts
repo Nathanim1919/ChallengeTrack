@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import usersService from '../services/usersService';
-import { IUser } from '../interfaces/IUser';
-import { ApiResponse } from '../interfaces/ICommon';
+import {ApiResponse} from "../../interfaces/ICommon.ts";
+import {IUser} from "../../interfaces/IUser.ts";
+import { userServices } from "../../services/index.ts";
 
 
 export const fetchUsers = createAsyncThunk<ApiResponse<IUser[]>>(
     'users/fetchUsers',
     async () => {
         try{
-            return await usersService.fetchUsers();
+            return await userServices.fetchUsers();
         } catch(error){
             if(error instanceof Error){
                 return error.message;
@@ -20,11 +20,11 @@ export const fetchUsers = createAsyncThunk<ApiResponse<IUser[]>>(
 )
 
 
-export const inviteUser = createAsyncThunk<ApiResponse<IUser>, string>(
+export const inviteUser = createAsyncThunk<ApiResponse<IUser>, { identifier?: string; challengeId?: string }>(
     'users/inviteUser',
-    async (identifier: string, challengeId: string,  {rejectWithValue}) => {
+    async ({identifier, challengeId},  {rejectWithValue}) => {
         try {
-            return await usersService.inviteUser(userId, challengeId);
+            return await userServices.inviteUser(identifier, challengeId);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -36,11 +36,11 @@ export const inviteUser = createAsyncThunk<ApiResponse<IUser>, string>(
 )
 
 
-export const getUserById = createAsyncThunk<ApiResponse<IUser>, string>(
+export const getUserById = createAsyncThunk<ApiResponse<IUser>, {identifier?: string}>(
     'users/getUserById',
-    async (userId?: string, {rejectWithValue}) => {
+    async ({identifier}, {rejectWithValue}) => {
         try {
-            return await usersService.getUserById(userId);
+            return await userServices.getUserById(identifier);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -52,11 +52,11 @@ export const getUserById = createAsyncThunk<ApiResponse<IUser>, string>(
 )
 
 
-export const getUsersTotalChallengeParticipation = createAsyncThunk<ApiResponse<number>, string>(
+export const getUsersTotalChallengeParticipation = createAsyncThunk<ApiResponse<number>, {identifier?:string}>(
     'users/getUsersTotalChallengeParticipation',
-    async (identifier?: string, {rejectWithValue}) => {
+    async (identifier, {rejectWithValue}) => {
         try {
-            return await usersService.getUsersTotalChallengeParticipation(identifier);
+            return await userServices.getUsersTotalChallengeParticipation(identifier);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -68,11 +68,11 @@ export const getUsersTotalChallengeParticipation = createAsyncThunk<ApiResponse<
 )
 
 
-export const getUsersTotalChallengeWins = createAsyncThunk<ApiResponse<number>, string>(
+export const getUsersTotalChallengeWins = createAsyncThunk<ApiResponse<number>, {identifier?: string}>(
     'users/getUsersTotalChallengeWins',
-    async (identifier?: string, {rejectWithValue}) => {
+    async (identifier, {rejectWithValue}) => {
         try {
-            return await usersService.getUsersTotalChallengeWins(identifier);
+            return await userServices.getUsersTotalChallengeWins(identifier);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -84,11 +84,11 @@ export const getUsersTotalChallengeWins = createAsyncThunk<ApiResponse<number>, 
 )
 
 
-export const getUsersTotalPoints = createAsyncThunk<ApiResponse<number>, string>(
+export const getUsersTotalPoints = createAsyncThunk<ApiResponse<number>, {identifier?:string}>(
     'users/getUsersTotalPoints',
-    async (identifier?: string, {rejectWithValue}) => {
+    async (identifier, {rejectWithValue}) => {
         try {
-            return await usersService.getUsersTotalPoints(identifier);
+            return await userServices.getUsersTotalPoints(identifier);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -100,11 +100,11 @@ export const getUsersTotalPoints = createAsyncThunk<ApiResponse<number>, string>
 )
 
 
-export const getUsersTotalLogs = createAsyncThunk<ApiResponse<number>, string>(
+export const getUsersTotalLogs = createAsyncThunk<ApiResponse<number>, {identifier?:string, challengeId?: string}>(
     'users/getUsersTotalLogs',
-    async (identifier?: string, challengeId?: string, {rejectWithValue}) => {
+    async ({identifier, challengeId}, {rejectWithValue}) => {
         try {
-            return await usersService.getUsersTotalLogs(identifier, challengeId);
+            return await userServices.getUsersTotalLogs(identifier, challengeId);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -116,11 +116,11 @@ export const getUsersTotalLogs = createAsyncThunk<ApiResponse<number>, string>(
 )
 
 
-export const getUsersTotalAchievements = createAsyncThunk<ApiResponse<number>, string>(
+export const getUsersTotalAchievements = createAsyncThunk<ApiResponse<number>, {identifier?:string}>(
     'users/getUsersTotalAchievements',
-    async (identifier?: string, {rejectWithValue}) => {
+    async (identifier, {rejectWithValue}) => {
         try {
-            return await usersService.getUsersTotalAchievements(identifier);
+            return await userServices.getUsersTotalAchievements(identifier);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
