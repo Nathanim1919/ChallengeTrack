@@ -8,64 +8,11 @@ import { IChallenge } from "../../interfaces/IChallenge";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getLeaderBoardByChallengeId } from "../../features/leaderboard/leaderboardAction";
+import ButtonLoading from "../../components/loading/buttonLoading";
 
 
 
 const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({challenge}) => {
-    const users =  [
-        {
-            name: 'John Doe',
-            rank: "1st",
-        },
-        {
-            name: 'Jane Doe',
-            rank: "2nd",
-        },
-        {
-            name: 'Alice',
-            rank: "3rd",
-        },
-        {
-            name: 'Bob',
-            rank: "4th",
-        },
-        {
-            name: 'Charlie',
-            rank: "5th",
-        },
-        {
-            name: 'David',
-            rank: "6th",
-        },
-        {
-            name: 'Eve',
-            rank: "7th",
-        },
-        {
-            name: 'Frank',
-            rank: "8th",
-        },
-        {
-            name: 'Grace',
-            rank: "9th",
-        },
-        {
-            name: 'Helen',
-            rank: "10th",
-        },
-        {
-            name: 'Ivy',
-            rank: "11th",
-        },
-        {
-            name: 'Jack',
-            rank: "12th",
-        },
-        {
-            name: 'Kevin',
-            rank: "13th",
-        }
-    ]
     const dispatch = useAppDispatch();
     const {loading, leaderboard} = useAppSelector((state) => state.leaderboard);
 
@@ -74,12 +21,6 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             dispatch(getLeaderBoardByChallengeId(challenge._id));
         }
     }, [challenge, dispatch]);
-
-    if(loading) {
-        return <div>Loading...</div>
-    }
-
-    console.log("This is the specific challenge leaderboard: ", leaderboard);
 
     return (
         <div className="leaderboard">
@@ -102,7 +43,7 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             </div>
             <div className="leaderboard-list">
                 <div className="leaderboard-list-body h-[75vh] overflow-y-auto">
-                    {
+                    {loading ? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:
                         leaderboard?.rankings?.map((user, index) => (
                             <div key={index} className="leaderboard-list-item p-3 grid grid-cols-4 gap-3 cursor-pointer border-b border-gray-200">
                                 <div className="flex items-center gap-5">

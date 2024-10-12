@@ -31,3 +31,12 @@ export interface UserPreferences {
     notificationsEnabled: boolean;
     theme: 'light' | 'dark';
 }
+
+
+export interface UserMatrix {
+    totalChallengeParticipation: number;
+    totalChallengeWins: number;
+    totalPoints: number;
+    totalLogs: number;
+    totalAchievements: number;
+}

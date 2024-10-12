@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { calculateDaysLeft, getFormattedDate } from "../../utils/helper";
+import ButtonLoading from "../../components/loading/buttonLoading";
 
 
 
@@ -46,24 +47,25 @@ const ChallengeDetailPage = () => {
                     </div>
                     <div className="statistics grid gap-2">
                         <h2 className="font-bold flex items-center gap-1 text-2xl"><IoStatsChartOutline/>Statistics</h2>
+                        {loading?<div className=' grid place-items-center py-5'><ButtonLoading/></div>:
                         <div className="grid grid-cols-2 gap-2">
-                        <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">{selectedChallenge?.totalParticipants}</h2>
-                            <p>Participants</p>
-                        </div>
-                        <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">{selectedChallenge?.participantsOnTrack}</h2>
-                            <p>On The Right Track</p>
-                        </div>
-                        <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">{selectedChallenge?.participantsBehind}</h2>
-                            <p>Need To Catch Up</p>
-                        </div>
-                        <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
-                            <h2 className="font-bold text-4xl">{selectedChallenge?.participantsLeft}</h2>
-                            <p>Left</p>
-                        </div>
-                        </div>
+                            <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
+                                <h2 className="font-bold text-4xl">{selectedChallenge?.totalParticipants}</h2>
+                                <p>Participants</p>
+                            </div>
+                            <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
+                                <h2 className="font-bold text-4xl">{selectedChallenge?.participantsOnTrack}</h2>
+                                <p>On The Right Track</p>
+                            </div>
+                            <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
+                                <h2 className="font-bold text-4xl">{selectedChallenge?.participantsBehind}</h2>
+                                <p>Need To Catch Up</p>
+                            </div>
+                            <div className="flex flex-col items-center py-4 p-1 bg-white shadow-sm border border-gray-300">
+                                <h2 className="font-bold text-4xl">{selectedChallenge?.participantsLeft}</h2>
+                                <p>Left</p>
+                            </div>
+                        </div>}
                     </div>
                 </div>
                 <SimilarChallenges />

@@ -48,7 +48,7 @@ const DailyLog = () => {
               <p>+30 challenges</p>
             </div>
           </div>
-         {loading? <ButtonLoading/>:isParticipant? <div>
+         {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:isParticipant? <div>
             <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>

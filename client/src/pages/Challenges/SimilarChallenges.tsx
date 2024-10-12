@@ -1,6 +1,9 @@
 import React from "react";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import ButtonLoading from "../../components/loading/buttonLoading";
 
 const SimilarChallenges = () => {
+  const {loading} = useAppSelector((state) => state.challenges);
     const challenges = [
         {
             title: "30 days fitness challenge",
@@ -41,7 +44,7 @@ const SimilarChallenges = () => {
         <div className="p-3 bg-[#eee]">
           <h1 className="font-bold">You may also like</h1>
           <div className="grid gap-1">
-            {
+            {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:
               challenges.map((challenge, index) => (
                 <div key={index} className="flex justify-between items-center p-2  cursor-pointer border border-gray-200 bg-white">
                    <div className="flex items-center gap-2">

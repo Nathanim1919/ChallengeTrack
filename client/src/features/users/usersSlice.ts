@@ -1,11 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IUser} from "../../interfaces/IUser";
-import {fetchUsers, getUserById, inviteUser} from "./usersActions.ts";
+import {IUser, UserMatrix} from "../../interfaces/IUser";
+import {
+    fetchUsers,
+    getUserById,
+    inviteUser,
+    getUserMatrix
+} from "./usersActions.ts";
 import {ApiResponse} from "../../interfaces/ICommon.ts";
 
 interface InitialState {
     users: IUser[],
     user: IUser | null,
+    userMatrix:UserMatrix,
     message: string | null,
     loading: boolean,
     error: string | null
@@ -14,6 +20,13 @@ interface InitialState {
 const initialState: InitialState = {
     users: [],
     user: null,
+    userMatrix: {
+        totalChallengeParticipation: 0,
+        totalChallengeWins: 0,
+        totalPoints: 0,
+        totalLogs: 0,
+        totalAchievements: 0
+    },
     message: null,
     loading: false,
     error: null,
@@ -55,7 +68,7 @@ const usersSlice = createSlice({
                 })
                 .addCase(inviteUser.fulfilled, (state, action: PayloadAction<ApiResponse<IUser>>) => {
                     state.loading = false;
-                    state.message = action.payload.message;
+                    state.message = action.payload.message??'User invited successfully';
                 })
                 .addCase(inviteUser.rejected, (state, action) => {
                     state.loading = false;
@@ -73,9 +86,24 @@ const usersSlice = createSlice({
                     state.loading = false;
                     state.error = action.error.message ?? '';
                 })
-                .addCase(getUsersTotalChallengeParticipation.pending, (state) => {})
-
-
+                .addCase(getUserMatrix.pending, (state) => {
+                    state.loading = true;
+                    state.error = null;
+                })
+                .addCase(getUserMatrix.fulfilled, (state, action: PayloadAction<ApiResponse<UserMatrix>>) => {
+                    state.loading = false;
+                    state.userMatrix = action.payload.data??{
+                        totalChallengeParticipation: 0,
+                        totalChallengeWins: 0,
+                        totalPoints: 0,
+                        totalLogs: 0,
+                        totalAchievements: 0
+                    };
+                })
+                .addCase(getUserMatrix.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = action.error.message ?? '';
+                })
         }
     }
 );
