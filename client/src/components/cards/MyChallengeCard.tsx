@@ -16,7 +16,7 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
             {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full bottom-2 right-5'></div> */}
             <div className='w-96 h-96 bg-gray-800 absolute rounded-full -bottom-10 left-48'></div>
             <div className='flex items-center justify-between relative z-10'>
-                <p className='flex items-center gap-1'><BiCategory/>Fitness</p>
+                <p className='flex items-center gap-1'><BiCategory/>{challenge.categorie}</p>
                 <p className='flex items-center gap-1 text-[13px]'><TbProgressBolt/>{challenge.status}</p>
             </div>
             <div className='flex flex-col gap-2 relative z-10'>

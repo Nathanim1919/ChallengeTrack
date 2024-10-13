@@ -3,7 +3,7 @@ import ChallengeSpecificLeaderBoard from "../Leaderboard/ChallengeSpecificLeader
 import SimilarChallenges from "./SimilarChallenges";
 import DailyLog from "./DailyLog";
 import { IoStatsChartOutline } from "react-icons/io5";
-import { checkIfUserIsParticipant, getChallengeById } from "../../features/challenges/challengesActions";
+import { checkIfUserIsParticipant, checkIfUserIsOwner, getChallengeById } from "../../features/challenges/challengesActions";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -22,6 +22,7 @@ const ChallengeDetailPage = () => {
     useEffect(() => {
         dispatch(getChallengeById(challengeId!));
         dispatch(checkIfUserIsParticipant(challengeId!));
+        dispatch(checkIfUserIsOwner(challengeId!));
     }, [dispatch]);
 
 

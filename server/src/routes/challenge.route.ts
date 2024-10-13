@@ -26,6 +26,10 @@ class ChallengeRoute {
             .all(verifyUser)
             .get(this.challengeController.checkIfUserIsParticipant.bind(this.challengeController));
 
+        app.route(`${baseUrl}/challenges/:id/isOwner`)
+            .all(verifyUser)
+            .get(this.challengeController.checkIfUserIsOwner.bind(this.challengeController));
+
         app.route(`${baseUrl}/challenges/:id/participants`)
             .all(verifyUser)
             .post(this.challengeController.joinChallenge.bind(this.challengeController))

@@ -17,6 +17,11 @@ const getAllChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
     return response.data;
 };
 
+const checkIfUserIsOwner = async (challengeId: string): Promise<boolean> => {
+    const response = await apiConfig.get(`/challenges/${challengeId}/isOwner`);
+    return response.data;
+};
+
 
 const getChallengeById = async (challengeId: string): Promise<ApiResponse<IChallenge>> => {
     const response = await apiConfig.get(`/challenges/${challengeId}`);
@@ -96,5 +101,6 @@ export default {
     markChallengeAsCompleted,
     getChallengeParticipants,
     inviteUserToChallenge,
-    reportAsInappropriate
+    reportAsInappropriate,
+    checkIfUserIsOwner
 }

@@ -53,6 +53,22 @@ export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string
 )
 
 
+export const checkIfUserIsOwner = createAsyncThunk<ApiResponse<boolean>, string>(
+    'challenges/checkIfUserIsOwner',
+    async (challengeId: string, {rejectWithValue}) => {
+        try {
+            return await challengeService.checkIfUserIsOwner(challengeId);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);
+
+
 export const checkIfUserIsParticipant = createAsyncThunk<ApiResponse<boolean>, string>(
     'challenges/checkIfUserIsParticipant',
     async (challengeId: string, {rejectWithValue}) => {

@@ -13,6 +13,10 @@ const getChallengeById = async (challengeId: string) => {
   return await challengesApi.getChallengeById(challengeId);
 };
 
+const checkIfUserIsOwner = async (challengeId: string) => {
+    return await challengesApi.checkIfUserIsOwner(challengeId);
+};
+
 const checkIfUserIsParticipant = async (challengeId: string) => {
   return await challengesApi.checkIfUserIsParticipant(challengeId);
 };
@@ -52,4 +56,5 @@ export default {
   markChallengeAsCompleted,
   inviteUserToChallenge,
   reportAsInappropriate,
+    checkIfUserIsOwner,
 };

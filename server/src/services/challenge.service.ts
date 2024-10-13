@@ -10,7 +10,7 @@ import { CategoryService } from "./category.service";
 import {Log} from "../models/log.model";
 
 class ChallengeService {
-   
+
     constructor(
         private challengeRepository: ChallengeRepository,
         private userService: UserService,
@@ -23,17 +23,17 @@ class ChallengeService {
         // const session = await startSession();
         // session.startTransaction();
         console.log("challengeData is: " + challengeData);
-    
+
         try {
             let { duration, startDate, categorie } = challengeData;
-    
+
             // Convert startDate to a Date object
             startDate = new Date(challengeData.startDate);
-    
+
             // Calculate the end date
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + Number(duration));
-    
+
             // Include createdBy in the initial challenge creation
             const createdChallenge = await this.challengeRepository.createChallenge({
                 ...challengeData,
@@ -45,12 +45,12 @@ class ChallengeService {
                 participants: [creatorId],
             });
 
-            
-    
+
+
             if (!createdChallenge) {
                 throw new Error('Failed to create challenge');
             }
-    
+
             // Initialize the leaderboard with the creator's entry
             const leaderBoard = await this.leaderBoard.createChallengeSpecificLeaderboard({
                 challengeId: createdChallenge._id,
@@ -62,15 +62,15 @@ class ChallengeService {
                 ]
             });
 
-    
+
             // Add leaderboard reference to the challenge
             createdChallenge.leaderboard = leaderBoard._id;
             // Add creator to the participants list
-          
+
 
             // Add the challenge to the category
             await this.categoryService.addChallenge(challengeData.categorie, createdChallenge._id.toString());
-    
+
             // Update the challenge with the leaderboard reference
             await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
 
@@ -182,6 +182,18 @@ class ChallengeService {
 
         } catch (error) {
             throw new Error('Failed to check if user is a participant of the challenge');
+        }
+    }
+
+    async checkIfUserIsOwner(challengeId: string, userId: string): Promise<boolean> {
+        try {
+            const challenge = await this.challengeRepository.findChallengeById(challengeId);
+            if (!challenge) {
+                throw new Error('Challenge not found');
+            }
+            return challenge.createdBy.toString() === userId;
+        } catch (error) {
+            throw new Error('Failed to check if user is owner of the challenge');
         }
     }
 
@@ -298,29 +310,29 @@ class ChallengeService {
         try {
             const createLog = await Log.create({details:content});
             await createLog.save();
-    
+
             if (!createLog) {
                 throw new Error('Failed to create log');
             }
-    
+
             const challenge = await this.challengeRepository.findChallengeById(challengeId);
             if (!challenge) {
                 throw new Error('Challenge not found');
             }
-    
+
             challenge.logs.push(new Types.ObjectId(createLog._id));
 
             await this.challengeRepository.updateChallenge(challengeId, challenge);
 
-    
+
             const user = await this.userService.getUserById(userId);
             if (!user) {
                 throw new Error('User not found');
             }
-    
+
             user.logs.push(new Types.ObjectId(createLog._id));
             await this.userService.updateUser(userId, user);
-    
+
         } catch (error) {
             console.error('Error adding daily log:', error);
             throw error;

@@ -13,12 +13,12 @@ import {CustomeToast} from "../../components/ui/customeToast";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 
-
-
 const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
     const {user} = useAppSelector((state) => state.auth);
-    const {selectedChallenge, isParticipant, loading, message, error} = useAppSelector((state) => state.challenges);
+    const {selectedChallenge, isParticipant, isOwner, loading, message, error} = useAppSelector((state) => state.challenges);
+    console.log("is participant: ", isParticipant);
+    console.log("is owner: ", isOwner);
     const dispatch = useAppDispatch();
     const [showLogDetail, setShowLogDetail] = React.useState<{
       day: number;
@@ -36,6 +36,7 @@ const DailyLog = () => {
     ];
 
 
+
     return (
         <div className="p-3">
           <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3">
@@ -48,12 +49,13 @@ const DailyLog = () => {
               <p>+30 challenges</p>
             </div>
           </div>
-         {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:isParticipant? <div>
+         {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:(isParticipant || isOwner)? <div>
             <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
                 <div className="flex items-center gap-2">
                   <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
+                    {isOwner && <button className="bg-gray-900 text-white py-1 px-3 rounded-sm flex items-center gap-1">Edit</button>}
                   <IoIosRemoveCircleOutline onClick={() => dispatch(leaveChallenge(selectedChallenge?._id??''))} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
                 </div>
               </div>

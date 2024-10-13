@@ -4,6 +4,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
 import {
+  checkIfUserIsOwner,
   checkIfUserIsParticipant,
   createChallenge,
   getAllChallenges,
@@ -19,6 +20,7 @@ interface ChallengesState {
   challenges: IChallenge[];
   selectedChallenge: IChallenge | null;
   isParticipant: boolean;
+  isOwner: boolean;
   loading: boolean;
   message: string;
   error: string | null;
@@ -30,6 +32,7 @@ const initialState: ChallengesState = {
   challenges: [],
   selectedChallenge: null,
   isParticipant: false,
+    isOwner: false,
   loading: false,
   message: "",
   error: null,
@@ -173,7 +176,20 @@ const challengesSlice = createSlice({
         state.error =
           action.error.message ||
           "You can't Left this challenge right now, try again later.";
-      });
+      })
+        .addCase(checkIfUserIsOwner.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(checkIfUserIsOwner.fulfilled, (state, action: PayloadAction<ApiResponse<boolean>>) => {
+            state.isOwner = action.payload.data ?? false;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(checkIfUserIsOwner.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || "Failed to check if user is owner";
+        });
   },
 });
 
