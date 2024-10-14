@@ -9,12 +9,29 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getLeaderBoardByChallengeId } from "../../features/leaderboard/leaderboardAction";
 import ButtonLoading from "../../components/loading/buttonLoading";
+import { SlOptionsVertical } from "react-icons/sl";
+import { MdAdsClick } from "react-icons/md";
+import {ChallengeStatistics} from "../../components/cards/challengeStatistics.tsx";
+
 
 
 
 const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({challenge}) => {
     const dispatch = useAppDispatch();
     const {loading, leaderboard} = useAppSelector((state) => state.leaderboard);
+    const {isOwner, isParticipant} = useAppSelector((state) => state.challenges);
+    const [showOptions, setShowOptions] = React.useState(false);
+
+    // open the options
+    const [showStatistics, setShowStatistics] = React.useState(false);
+    const [showParticipants, setShowParticipants] = React.useState(false);
+    const [showLeaderboard, setShowLeaderboard] = React.useState(false);
+    const [showSimilarChallenges, setShowSimilarChallenges] = React.useState(false);
+    const [showInviteFriends, setShowInviteFriends] = React.useState(false);
+    const [showDeleteChallenge, setShowDeleteChallenge] = React.useState(false);
+    const [showEditChallenge, setShowEditChallenge] = React.useState(false);
+    const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
+
 
     useEffect(() => {
         if (challenge?._id) {
@@ -24,7 +41,8 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
 
     return (
         <div className="leaderboard">
-            <div className="leaderboard-header bg-black text-white grid p-5 gap-3">
+            {showStatistics && <ChallengeStatistics setShowStatistics={setShowStatistics} selectedChallenge={challenge}/>}
+            <div className="leaderboard-header bg-black text-white grid p-5 gap-3 relative">
                 <div>
                     <h1 className="text-3xl font-bold">{challenge?.title}</h1>
                     <p className="challengeDescription">
@@ -33,13 +51,68 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                 </div>
                 <div className="flex items-center gap-2 text-white">
                     <div className="w-10 h-10 rounded-full bg-gray-300">
-                        <img src={AvatorImage} alt="avator" className="w-full h-full object-cover rounded-full"/>
+                        <img src={AvatorImage as string} alt="avator" className="w-full h-full object-cover rounded-full"/>
                     </div>
                     <div className="flex flex-col">
                         <h2 className="font-bold m-0">Nathanim Tadele</h2>
                         <p className="flex items-center gap-1 m-0">Rank: <MdOutlineLeaderboard/>1st</p>
                     </div>
                 </div>
+                {isParticipant&&<div className={"p-2"}>
+                    <div onClick={() => setShowOptions(!showOptions)}
+                        className="flex items-center gap-3 absolute right-2 p-2 bg-gray-800 hover:bg-gray-600  rounded-full top-2">
+                        <SlOptionsVertical className="text-1xl cursor-pointer"/>
+                    </div>
+                    <div
+                        className={`options 
+                        ${showOptions ? 'block' : 'hidden'}
+                        bg-gray-900 w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-white`}>
+                        <div
+                            className="options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2">
+                            <MdAdsClick/>
+                            <p className="m-0">Leave Challenge</p>
+                        </div>
+                        {isOwner && <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">Delete Challenge</p>
+                        </div>}
+                        {isOwner && <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">Edit Challenge</p>
+                        </div>}
+                        <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">Invite Friends</p>
+                        </div>
+                        <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">View Participants</p>
+                        </div>
+                        <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">View Leaderboard</p>
+                        </div>
+                        <div
+                            onClick={() => {
+                                setShowStatistics(!showStatistics);
+                                setShowOptions(false);
+                            }}
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">View Statistics</p>
+                        </div>
+                        <div
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            <MdAdsClick/>
+                            <p className="m-0">View Similar Challenges</p>
+                        </div>
+                    </div>
+                </div>}
             </div>
             <div className="leaderboard-list">
                 <div className="leaderboard-list-body h-[75vh] overflow-y-auto">
@@ -57,11 +130,11 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                                             </div>
                                             <h2 className="m-0 font-bold">{user.userId.username}</h2>
                                         </div>
-                                      
+
                                         <p className="m-0 flex items-center gap-1">Rank: <MdOutlineLeaderboard/></p>
                                     </div>
                                 </div>
-                               
+
                                 <div className="flex items-center gap-1 text-orange-500 font-bold">
                                     <GiTwoCoins/>
                                     <p className="m-0">{user.score}</p>

@@ -11,6 +11,8 @@ import { checkIfUserIsParticipant, getChallengeById, joinChallenge, leaveChallen
 import ButtonLoading from "../../components/loading/buttonLoading";
 import {CustomeToast} from "../../components/ui/customeToast";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { SlOptionsVertical } from "react-icons/sl";
+
 
 
 const DailyLog = () => {
@@ -39,7 +41,7 @@ const DailyLog = () => {
 
     return (
         <div className="p-3">
-          <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3">
+          <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3 relative">
 
             <div className="creatorInfo__avatarn w-12 h-12 bg-gray-200">
               <img src={AvatorImage as string} alt="avator" className="w-full h-full object-cover"/>
@@ -55,12 +57,10 @@ const DailyLog = () => {
                 <h1 className="font-bold">Your Daily Log</h1>
                 <div className="flex items-center gap-2">
                   <IoMdAdd onClick={() => setOpenModal(true)} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
-                    {isOwner && <button className="bg-gray-900 text-white py-1 px-3 rounded-sm flex items-center gap-1">Edit</button>}
-                  <IoIosRemoveCircleOutline onClick={() => dispatch(leaveChallenge(selectedChallenge?._id??''))} className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"/>
                 </div>
               </div>
             <DailyLogDetail showLogDetail={showLogDetail} setShowLogDetail={setShowLogDetail}/>
-            <div className="h-[75vh] overflow-y-auto">
+            <div className="overflow-y-auto">
               {
                 dailyLogs.map((log, index) => (
                   <div key={index} className="dailyLog__item border-b border-gray-300 p-3">

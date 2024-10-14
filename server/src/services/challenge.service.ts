@@ -191,7 +191,7 @@ class ChallengeService {
             if (!challenge) {
                 throw new Error('Challenge not found');
             }
-            return challenge.createdBy.toString() === userId;
+            return challenge.createdBy._id.toString() === userId;
         } catch (error) {
             throw new Error('Failed to check if user is owner of the challenge');
         }

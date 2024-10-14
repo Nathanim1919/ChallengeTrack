@@ -71,7 +71,12 @@ class ChallengeController {
     async checkIfUserIsOwner(req: Request, res: Response): Promise<Response<ApiResponse<boolean>>>{
         try {
             const isOwner = await this.challengeService.checkIfUserIsOwner(req.params.id, req.userId!);
-            return res.status(200).json(formatResponse(isOwner, 'User is owner'));
+
+            if (isOwner){
+                return res.status(200).json(formatResponse(isOwner, 'User is owner'));
+            }else {
+                return res.status(403).json(formatError("User is not owner"));
+            }
         } catch(error){
             return res.status(400).json(formatError("Failed to check if user is owner"));
         }
