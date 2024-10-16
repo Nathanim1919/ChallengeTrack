@@ -12,8 +12,8 @@ const createChallenge = async (challengeData: Partial<IChallenge>): Promise<ICha
 
 
 // Define an api for getting all challenges
-const getAllChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
-    const response = await apiConfig.get("/challenges");
+const getAllChallenges = async (page:number, limit:number): Promise<ApiResponse<IChallenge[]>> => {
+    const response = await apiConfig.get(`/challenges?page=${page}&limit=${limit}`);
     return response.data;
 };
 

@@ -6,52 +6,63 @@ const PopularCategories = () => {
     const categories = [
         {
             name: 'Fitness',
-            icon: 'dumbbell',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Nutrition',
-            icon: 'apple-alt',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
+
         },
         {
             name: 'Mindfulness',
-            icon: 'brain',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Productivity',
-            icon: 'tasks',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Finance',
-            icon: 'wallet',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Hobbies',
-            icon: 'palette',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Relationships',
-            icon: 'heart',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Self-Improvement',
-            icon: 'user-check',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Career',
-            icon: 'briefcase',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
         {
             name: 'Education',
-            icon: 'graduation-cap',
+            total:45,
+            describtion:"Collection of Fitness Challenges"
         },
     ];
 
     return (
         <div className="popular-categories">
-            <h2>Popular Categories</h2>
-            <div className="categories">
+            <h2 className={"font-bold text-3xl"}>Popular Categories</h2>
+            <div className="categories grid grid-cols-3">
                 {categories.map((category, index) => (
-                    <div key={index} className="category">
+                    <div key={index} className="category ">
                         <div className="icon">
                             <i className={`fas fa-${category.icon}`}/>
                         </div>

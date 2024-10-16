@@ -5,8 +5,8 @@ const createChallenge = async (challengeData: Partial<IChallenge>) => {
   return await challengesApi.createChallenge(challengeData);
 };
 
-const getAllChallenges = async () => {
-  return await challengesApi.getAllChallenges();
+const getAllChallenges = async (page:number, limit:number) => {
+  return await challengesApi.getAllChallenges(page, limit);
 };
 
 const getMyChallenges = async () => {

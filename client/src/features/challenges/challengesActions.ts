@@ -21,11 +21,12 @@ export const createChallenge = createAsyncThunk<IChallenge, Partial<IChallenge>>
 
 
 
-export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
+export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>, {page:number, limit:number}>(
     'challenges/getAllChallenges',
-    async (_, {rejectWithValue}) => {
+    async ({ page, limit }, { rejectWithValue }) => {
         try {
-            return await challengeService.getAllChallenges();
+            const res =  await challengeService.getAllChallenges(page, limit);
+            console.log(res)
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

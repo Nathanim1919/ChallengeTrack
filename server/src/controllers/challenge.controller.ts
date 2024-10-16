@@ -41,8 +41,6 @@ class ChallengeController {
                 return res.status(404).json(formatError("Challenge not found"));
             }
 
-
-
             return res.status(200).json(formatResponse(challenge, 'Challenge deleted successfully'));
         }catch (error){
             return res.status(400).json(formatError("Failed to delete challenge"));
@@ -61,6 +59,18 @@ class ChallengeController {
     async getMyChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
         try {
             const challenges = await this.challengeService.getMyChallenges(req.userId!);
+            return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to search challenges"));
+        }
+    }
+
+    async getAllChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
+        try {
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 10;
+            console.log(page, limit);
+            const challenges = await this.challengeService.getAllChallenges(req.userId!, page, limit);
             return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
         }catch (error){
             return res.status(400).json(formatError("Failed to search challenges"));

@@ -38,6 +38,14 @@ export class ChallengeRepository {
         return await Challenge.find(filter).exec();
     }
 
+    async getAllChallenges(userId: string, page: number, limit: number): Promise<IChallenge[] | []> {
+        const skip = (page - 1) * limit;
+        return Challenge.find({ createdBy: { $ne: userId } })
+            .skip(skip)
+            .limit(limit)
+            .exec();
+    }
+
     async findChallengeById(challengeId: string): Promise<IChallenge | null> {
         return Challenge.findById(challengeId).populate('createdBy').exec();
     }
@@ -83,7 +91,7 @@ export class ChallengeRepository {
             challengeId,
             { participants: { $elemMatch: { $eq: userId } } }
         ).exec();
-        
+
         return (challenge?.participants ?? []).length > 0;
     }
 
