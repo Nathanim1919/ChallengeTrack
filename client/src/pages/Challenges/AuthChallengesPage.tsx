@@ -10,8 +10,10 @@ const AuthChallengesPage: React.FC = () => {
   const [search, setSearch] = React.useState<string | "">("Filter by Categories");
   const [showCategories, setShowCategories] = React.useState(false);
 
+
+
   return (
-    <div className="w-[95%] my-3 mx-auto h-[90%] overflow-y-auto px-3">
+    <div className="h-[85vh] px-4 overflow-hidden overflow-y-auto">
       <div className="sticky top-0 z-50 bg-white flex justify-between items-center gap-5">
         <div className="flex justify-between">
           <div className="filterByCategories relative">

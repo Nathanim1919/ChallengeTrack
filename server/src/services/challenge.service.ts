@@ -112,6 +112,16 @@ class ChallengeService {
         }
     }
 
+    async getMyChallenges(userId: string): Promise<IChallenge[] | []> {
+        try {
+            return await this.challengeRepository.searchChallenges({
+                createdBy: userId
+            });
+        } catch (error) {
+            throw new Error('Failed to search challenges');
+        }
+    }
+
     async findChallengeById(challengeId: string): Promise<IChallenge | null> {
         try {
             return this.challengeRepository.findChallengeById(challengeId);

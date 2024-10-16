@@ -11,6 +11,9 @@ class ChallengeRoute {
             .all(verifyUser)
             .post(this.challengeController.createChallenge.bind(this.challengeController))
             .get(this.challengeController.searchChallenges.bind(this.challengeController));
+        app.route(`${baseUrl}/my-challenges`)
+            .all(verifyUser)
+            .get(this.challengeController.getMyChallenges.bind(this.challengeController));
 
         app.route(`${baseUrl}/challenges/:id`)
             .all(verifyUser)

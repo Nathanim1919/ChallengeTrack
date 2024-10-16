@@ -8,7 +8,7 @@ import {
   checkIfUserIsParticipant,
   createChallenge,
   getAllChallenges,
-  getChallengeById,
+  getChallengeById, getMyChallenges,
   joinChallenge,
   leaveChallenge,
 } from "./challengesActions";
@@ -96,6 +96,19 @@ const challengesSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+        .addCase(getMyChallenges.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(getMyChallenges.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
+            state.challenges = action.payload.data ?? [];
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getMyChallenges.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || "Failed to fetch challenges";
+        })
       .addCase(
         getChallengeById.fulfilled,
         (state, action: PayloadAction<ApiResponse<IChallenge>>) => {

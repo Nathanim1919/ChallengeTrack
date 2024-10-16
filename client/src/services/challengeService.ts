@@ -9,6 +9,10 @@ const getAllChallenges = async () => {
   return await challengesApi.getAllChallenges();
 };
 
+const getMyChallenges = async () => {
+    return await challengesApi.getMyChallenges();
+}
+
 const getChallengeById = async (challengeId: string) => {
   return await challengesApi.getChallengeById(challengeId);
 };
@@ -48,6 +52,7 @@ const reportAsInappropriate = async (challengeId: string) => {
 export default {
   createChallenge,
   getAllChallenges,
+  getMyChallenges,
   getChallengeById,
   checkIfUserIsParticipant,
   joinChallenge,

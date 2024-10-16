@@ -40,6 +40,9 @@ class ChallengeController {
             if(!challenge){
                 return res.status(404).json(formatError("Challenge not found"));
             }
+
+
+
             return res.status(200).json(formatResponse(challenge, 'Challenge deleted successfully'));
         }catch (error){
             return res.status(400).json(formatError("Failed to delete challenge"));
@@ -49,6 +52,15 @@ class ChallengeController {
     async searchChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
             const challenges = await this.challengeService.searchChallenges(req.query);
+            return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to search challenges"));
+        }
+    }
+
+    async getMyChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
+        try {
+            const challenges = await this.challengeService.getMyChallenges(req.userId!);
             return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
         }catch (error){
             return res.status(400).json(formatError("Failed to search challenges"));
@@ -68,16 +80,13 @@ class ChallengeController {
         }
     }
 
-    async checkIfUserIsOwner(req: Request, res: Response): Promise<Response<ApiResponse<boolean>>>{
+    async checkIfUserIsOwner(req: Request, res: Response): Promise<Response<ApiResponse<boolean>>> {
         try {
             const isOwner = await this.challengeService.checkIfUserIsOwner(req.params.id, req.userId!);
-
-            if (isOwner){
-                return res.status(200).json(formatResponse(isOwner, 'User is owner'));
-            }else {
-                return res.status(403).json(formatError("User is not owner"));
-            }
-        } catch(error){
+            const status = isOwner ? 200 : 403;
+            const message = isOwner ? 'User is owner' : 'User is not owner';
+            return res.status(status).json(formatResponse(isOwner, message));
+        } catch (error) {
             return res.status(400).json(formatError("Failed to check if user is owner"));
         }
     }

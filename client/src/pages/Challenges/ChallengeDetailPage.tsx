@@ -2,20 +2,17 @@ import React, { useEffect } from "react";
 import ChallengeSpecificLeaderBoard from "../Leaderboard/ChallengeSpecificLeaderBoard";
 import SimilarChallenges from "./SimilarChallenges";
 import DailyLog from "./DailyLog";
-import { IoStatsChartOutline } from "react-icons/io5";
 import { checkIfUserIsParticipant, checkIfUserIsOwner, getChallengeById } from "../../features/challenges/challengesActions";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { calculateDaysLeft, getFormattedDate } from "../../utils/helper";
-import ButtonLoading from "../../components/loading/buttonLoading";
 
 
 
 
 const ChallengeDetailPage = () => {
     const dispatch = useAppDispatch();
-    const {loading,selectedChallenge, isParticipant} = useAppSelector((state) => state.challenges);
+    const {loading,selectedChallenge} = useAppSelector((state) => state.challenges);
     // const {user} = useAppSelector((state) => state.auth);
     const {challengeId} = useParams();
 
@@ -24,7 +21,6 @@ const ChallengeDetailPage = () => {
         dispatch(checkIfUserIsParticipant(challengeId!));
         dispatch(checkIfUserIsOwner(challengeId!));
     }, [dispatch]);
-
 
     if(loading) {
         return <div>Loading...</div>

@@ -36,6 +36,21 @@ export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
     }
 )
 
+export const getMyChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
+    'challenges/getMyChallenges',
+    async (_, {rejectWithValue}) => {
+        try {
+            return await challengeService.getMyChallenges();
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+)
+
 
 export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string>(
     'challenges/getChallengeById',

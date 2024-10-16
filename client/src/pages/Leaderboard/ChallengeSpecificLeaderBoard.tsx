@@ -12,12 +12,16 @@ import ButtonLoading from "../../components/loading/buttonLoading";
 import { SlOptionsVertical } from "react-icons/sl";
 import { MdAdsClick } from "react-icons/md";
 import {ChallengeStatistics} from "../../components/cards/challengeStatistics.tsx";
+import {ConfirmModal} from "../../components/modals/ConfirmModal.tsx"
+import { leaveChallenge } from "../../features/challenges/challengesActions.ts";
+import {useNavigate} from "react-router-dom";
 
 
 
 
 const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({challenge}) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const {loading, leaderboard} = useAppSelector((state) => state.leaderboard);
     const {isOwner, isParticipant} = useAppSelector((state) => state.challenges);
     const [showOptions, setShowOptions] = React.useState(false);
@@ -42,6 +46,9 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
     return (
         <div className="leaderboard">
             {showStatistics && <ChallengeStatistics setShowStatistics={setShowStatistics} selectedChallenge={challenge}/>}
+            {
+                showLeaveChallenge && <ConfirmModal title="Leave Challenge" message="Are you sure you want to leave this challenge?" onClose={() => setShowLeaveChallenge(false)} onConfirm={() => {dispatch(leaveChallenge(challenge?._id));setShowLeaveChallenge(false);navigate("/in")}}/>
+            }
             <div className="leaderboard-header bg-black text-white grid p-5 gap-3 relative">
                 <div>
                     <h1 className="text-3xl font-bold">{challenge?.title}</h1>
@@ -67,11 +74,11 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                         className={`options 
                         ${showOptions ? 'block' : 'hidden'}
                         bg-gray-900 w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-white`}>
-                        <div
+                       {!isOwner && <div onClick={() => setShowLeaveChallenge(true)}
                             className="options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2">
                             <MdAdsClick/>
                             <p className="m-0">Leave Challenge</p>
-                        </div>
+                        </div>}
                         {isOwner && <div
                             className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
                             <MdAdsClick/>

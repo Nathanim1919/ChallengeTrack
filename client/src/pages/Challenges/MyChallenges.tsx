@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getAllChallenges } from "../../features/challenges/challengesActions";
+import {getMyChallenges} from "../../features/challenges/challengesActions";
 import MyChallengeCard from "../../components/cards/MyChallengeCard";
 
 const MyChallenges = () => {
@@ -9,7 +9,7 @@ const MyChallenges = () => {
     const {challenges} = useAppSelector((state) => state.challenges);
 
     React.useEffect(() => {
-        dispatch(getAllChallenges());
+        dispatch(getMyChallenges());
     }, [dispatch]);
 
 

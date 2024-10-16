@@ -1,5 +1,6 @@
 import React from "react"; 
 import { IoMdClose } from "react-icons/io";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 
 
@@ -31,10 +32,12 @@ const DailyLogDetail:React.FC<IProps> = ({
     setShowLogDetail
 }) => {
 
+    const {isParticipant} = useAppSelector(state => state.challenges);
+
     if(!showLogDetail) return null;
     return (
         <div className="fixed  bg-black/50 top-0 left-0 h-screen w-screen grid place-items-center z-10">
-            <div className="bg-white w-[500px] p-4 relative grid">
+            {isParticipant?(<div className="bg-white w-[500px] p-4 relative grid">
                 <div className="absolute top-2 right-2 w-6 font-bold h-6 bg-gray-200 rounded-full grid place-items-center cursor-pointer">
                     <IoMdClose  onClick={() => setShowLogDetail(null)} />
                 </div>
@@ -50,7 +53,11 @@ const DailyLogDetail:React.FC<IProps> = ({
                     </p>
                 </div>
             </div>
-            </div>
+            </div>):
+            (<div>
+                <button>Join Now</button>
+            </div>)
+            }
         </div>
     );
 };
