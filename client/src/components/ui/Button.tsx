@@ -4,17 +4,17 @@ import React from 'react';
 interface ButtonProps {
     text: string;
     loading?: boolean;
-    icon?: React.ReactNode;
+    // icon?: React.ReactNode;
 
 }
 
 // Define the Button component
-const Button: React.FC<ButtonProps> = ({ text, loading, icon }) => {
+const Button: React.FC<ButtonProps> = ({ text, loading, }) => {
     return (
         <button
         
         >
-            {icon && <span>{icon}</span>}
+            {/* {icon && <span>{icon}</span>} */}
             {loading ? <span>Loading...</span> : text}
         </button>
     );

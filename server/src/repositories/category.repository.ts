@@ -5,7 +5,8 @@ import { Category } from "../models/category.mode";
 
 export class CategoryRepository {
     async getAllCategories(): Promise<ICategory[]> {
-        return Category.find().exec();
+        // sort by number of challenges in descending order
+        return Category.find().sort({challenges: -1}).exec();
     }
     async createCategory(categoryData: Partial<ICategory>): Promise<ICategory> {
         const category = new Category(categoryData);

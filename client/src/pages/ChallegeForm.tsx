@@ -20,7 +20,7 @@ interface ChallengeData {
     maxParticipants: number;
   };
   visibility: "public" | "private";
-  createdBy: IUser["_id"];
+  createdBy: IUser["_id"] | undefined;
 }
 
 const ChallengeForm = () => {
@@ -87,17 +87,19 @@ const ChallengeForm = () => {
     if (!error) {
       setTimeout(() => {
         navigate("/in/my-challenges");
-      }, 3000);
+      }, 1000);
     }
   };
+
+  console.log("is Loading", loading);
 
   return (
     <div className="challenge-form">
       <CustomeToast message={message} type={error ? "error" : "success"} />
-      <div className="form-header bg-black text-white p-5 grid items-center justify-center">
+      <div className="form-header text-black px-2 grid items-center justify-center">
         <h1 className="text-3xl font-bold">Create Challenge</h1>
       </div>
-      <div className="form-body w-[60%] m-auto mt-5">
+      <div className="form-body w-[60%] m-auto">
         <form onSubmit={handleSubmit} className="w-[90%] m-auto grid gap-2">
           <div className="grid gap-2">
             <label htmlFor="title">Title</label>
@@ -229,10 +231,6 @@ const ChallengeForm = () => {
             </button>
           </div>
         </form>
-        {/* <div className="relative challengeCoverImage w-full h-[50%] bg-gray-200 rounded-md">
-                    <MdAddToPhotos className="absolute top-2 right-2 "/>
-                    <img src={ChallengeCoverImage} alt="challenge cover" className="w-full h-full object-cover"/>
-                </div> */}
       </div>
     </div>
   );

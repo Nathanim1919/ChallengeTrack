@@ -13,8 +13,8 @@ const AuthChallengesPage: React.FC = () => {
 
 
   return (
-    <div className="h-[85vh] px-4 overflow-hidden overflow-y-auto">
-      <div className="sticky top-0 z-50 bg-white flex justify-between items-center gap-5">
+    <div className="h-[90vh] px-5 overflow-hidden overflow-y-auto grid gap-10">
+      <div className="sticky top-0 z-50 bg-white w-[95%] mx-auto flex justify-between items-center gap-5">
         <div className="flex justify-between">
           <div className="filterByCategories relative">
             <div className="flex justify-center gap-3 items-center">
@@ -54,8 +54,8 @@ const AuthChallengesPage: React.FC = () => {
           Create
         </Link>
       </div>
-      <LatestChalleges />
       <PopularCategories />
+      <LatestChalleges />
     </div>
   );
 };

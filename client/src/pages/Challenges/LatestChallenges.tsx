@@ -29,12 +29,12 @@ const LatestChalleges = () => {
     };
 
     return (
-        <div className="popular-categories grid">
-            <h2 className='font-bold m-4'>Latest Challenges</h2>
+        <div className="popular-categories grid w-[95%] mx-auto">
+            <h2 className='font-bold sticky top-10 bg-white z-20 py-5'>Latest Challenges</h2>
             <div className="categories grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                {
                      challenges.map((challenge, index) => (
-                        <AuthChallengeCard key={challenge} challenge={challenge}/>
+                        <AuthChallengeCard key={index} challenge={challenge}/>
                      ))
                }
             </div>
