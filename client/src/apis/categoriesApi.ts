@@ -13,8 +13,14 @@ const getAllCategories = async ():Promise<ApiResponse<ICategory[]>> => {
     return response.data;
 }
 
+const getCategoryByName = async (name: string): Promise<ApiResponse<ICategory>> => {
+    const response = await apiConfig.get(`/categories/${name}`);
+    return response.data;
+};
+
 
 export default {
     createCategory,
-    getAllCategories
+    getAllCategories,
+    getCategoryByName
 }

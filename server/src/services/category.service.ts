@@ -24,6 +24,10 @@ export class CategoryService {
         return this.categoryRepository.findCategoryById(categoryId);
     }
 
+    async findCategoryByName(name: string): Promise<ICategory | null> {
+        return this.categoryRepository.getCategoryByName(name);
+    }
+
     async addChallenge(categoryName: string, challengeId: string, session?: ClientSession) {
         return this.categoryRepository.addChallenge(categoryName, challengeId, session);
     }

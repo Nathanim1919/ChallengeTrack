@@ -11,8 +11,13 @@ const createCategory = async (categoryData: Partial<ICategory>) => {
     return await categoriesApi.createCategory(categoryData);
 };
 
+const getCategoryByName = async (name: string): Promise<ApiResponse<ICategory>> => {
+    return await categoriesApi.getCategoryByName(name);
+};
+
 
 export {
     getAllCategories,
-    createCategory
+    createCategory,
+    getCategoryByName
 }

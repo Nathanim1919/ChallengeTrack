@@ -18,6 +18,21 @@ export const fetchCategories = createAsyncThunk(
     }
 );
 
+export const getCategorieByName = createAsyncThunk(
+    'categories/getCategorieByName',
+    async (name: string, { rejectWithValue }) => {
+        try {
+            return await categoryServices.getCategoryByName(name);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue('An unknown error occurred');
+            }
+        }
+    }
+);
+
 // Define the thunk for creating a new category
 export const createCategory = createAsyncThunk(
     'categories/createCategory',

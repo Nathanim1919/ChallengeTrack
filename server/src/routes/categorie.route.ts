@@ -8,6 +8,8 @@ class CategoryRoute {
         app.route(`${baseUrl}/categories`)
             .get(this.categoryController.getAll.bind(this.categoryController))
             .post(this.categoryController.create.bind(this.categoryController));
+        app.route(`${baseUrl}/categories/:name`)
+            .get(this.categoryController.findByName.bind(this.categoryController));
 
         app.route(`${baseUrl}/categories/:id`)
             .put(this.categoryController.update.bind(this.categoryController))

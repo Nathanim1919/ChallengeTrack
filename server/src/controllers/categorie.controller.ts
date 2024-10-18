@@ -81,7 +81,20 @@ class CategoryController {
         return res.status(400).json({ error: "Failed to find category" });
         }
     }
+
+    async findByName(req: Request, res: Response): Promise<Response<ApiResponse<ICategory>>>{
+        try {
+        const category = await this.categoryService.findCategoryByName((req.params.name).replace(/-/g, ' '));
+        if (!category) {
+            return res.status(404).json({ error: "Category not found" });
+        }
+        return res.status(200).json({ data: category, message: "Category fetched successfully" });
+        } catch (error) {
+        return res.status(400).json({ error: "Failed to find category" });
+    }
 }
+  
+  }
 
 
 export default CategoryController;

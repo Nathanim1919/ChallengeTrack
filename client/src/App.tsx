@@ -13,6 +13,8 @@ import SettingPage from './pages/SettingPage.tsx';
 import ChallengeForm from './pages/ChallegeForm.tsx';
 import ChallengeDetailPage from './pages/Challenges/ChallengeDetailPage.tsx';
 import MyChallenges from './pages/Challenges/MyChallenges.tsx';
+import CategoriesPage from './pages/Challenges/CategoriePage.tsx';
+import CategoryDetailPage from './pages/Challenges/CategorieDetailPage.tsx';
 
 function App() {
 
@@ -34,6 +36,16 @@ function App() {
               <Route path={'/in/leaderboard'} element={
             <PrivateRoute>
                     <Leaderboard />
+                </PrivateRoute>
+            }/>
+             <Route path={'/in/categories'} element={
+             <PrivateRoute>
+                    <CategoriesPage />
+                </PrivateRoute>
+            }/>
+              <Route path={'/in/categories/:name'} element={
+             <PrivateRoute>
+                    <CategoryDetailPage />
                 </PrivateRoute>
             }/>
 

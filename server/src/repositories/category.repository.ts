@@ -29,6 +29,10 @@ export class CategoryRepository {
         return Category.findById(categoryId).exec();
     }
 
+    async getCategoryByName(name: string): Promise<ICategory | null> {
+        return Category.findOne({ name }).exec();
+    }
+
     async addChallenge(categoryName: string, challengeId: string, session?: ClientSession): Promise<ICategory | null> {
         if (session) {
             return Category.findOneAndUpdate(

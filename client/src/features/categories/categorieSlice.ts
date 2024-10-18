@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../interfaces/ICategory";
-import { createCategory, fetchCategories } from "./categorieActions";
+import { createCategory, fetchCategories, getCategorieByName } from "./categorieActions";
 import { ApiResponse } from "../../interfaces/ICommon";
 
 
 type initialStateType = {
     categories: ICategory[],
+    selectedCategory: ICategory | null,
     loading: boolean,
     error: string | null
 }
@@ -13,6 +14,7 @@ type initialStateType = {
 
 const initialState: initialStateType = {
     categories: [],
+    selectedCategory: null,
     loading: false,
     error: null
 }
@@ -54,6 +56,19 @@ const categorySlice = createSlice({
             state.error = null;
         })
         .addCase(createCategory.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getCategorieByName.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getCategorieByName.fulfilled, (state, action) => {
+            state.selectedCategory = action.payload.data;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getCategorieByName.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })
