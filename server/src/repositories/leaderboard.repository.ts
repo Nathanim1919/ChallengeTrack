@@ -41,7 +41,10 @@ class LeaderboardRepository {
     }
 
     async getGlobalLeaderboard(): Promise<IGlobalLeaderboard | null> {
-        return await GlobalLeaderboard.findOne().exec();
+        return await GlobalLeaderboard.findOne()
+            // .sort({score: -1})
+            // .populate("rankings.userId")
+            .exec();
     }
 
     async getLeaderBoardByChallengeId(challengeId: string): Promise<ILeaderboard | null> {

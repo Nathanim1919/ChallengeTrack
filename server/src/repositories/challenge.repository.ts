@@ -35,7 +35,10 @@ export class ChallengeRepository {
 
 
     async searchChallenges(filter: any): Promise<IChallenge[] | []> {
-        return await Challenge.find(filter).exec();
+        return await Challenge.find(filter)
+        .sort({ createdAt: -1 })
+        .populate('createdBy')
+        .exec();
     }
 
     async getAllChallenges(userId: string, page: number, limit: number): Promise<IChallenge[] | []> {

@@ -14,7 +14,7 @@ class LeaderBoardController {
             const leaderboard = await this.leaderBoardService.getLeaderboardById(req.params.id);
             return res.status(200).json(formatResponse(leaderboard, 'Leaderboard fetched successfully'));
         } catch (error) {
-            return res.status(400).json(formatError("Failed to get leaderboard"));
+            return res.status(400).json(formatError("Failed to get leaderboard by id"));
         }
     }
 
@@ -24,7 +24,7 @@ class LeaderBoardController {
             const leaderboard = await this.leaderBoardService.getGlobalLeaderboard();
             return res.status(200).json(formatResponse(leaderboard, 'Leaderboard fetched successfully'));
         } catch (error) {
-            return res.status(400).json(formatError("Failed to get leaderboard"));
+            return res.status(400).json(formatError("Failed to get Global leaderboard"));
         }
     }
 
@@ -34,7 +34,7 @@ class LeaderBoardController {
             const leaderboard = await this.leaderBoardService.getLeaderBoardByChallengeId(req.params.challengeId);
             return res.status(200).json(formatResponse(leaderboard, 'Leaderboard fetched successfully'));
         } catch (error) {
-            return res.status(400).json(formatError("Failed to get leaderboard"));
+            return res.status(400).json(formatError("Failed to get leaderboard by challenge id"));
         }
     }
 }

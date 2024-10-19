@@ -1,9 +1,8 @@
-import {ObjectId} from "bson";
 import { IUser } from "./IUser";
 
 export interface ILeaderboard {
-    _id?: ObjectId;
-    challengeId: ObjectId;
+    _id?: string;
+    challengeId: string;
     rankings: RankEntry[];
     updatedAt?: Date;
 }
@@ -15,7 +14,7 @@ export interface RankEntry {
 
 
 export interface IGlobalLeaderboard {
-    userId: ObjectId;
+    userId: string;
     totalPoints: number;
     rank: number;
 }

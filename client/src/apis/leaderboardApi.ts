@@ -1,5 +1,5 @@
 import { ApiResponse } from "../interfaces/ICommon";
-import { ILeaderboard } from "../interfaces/ILeaderBoard";
+import { IGlobalLeaderboard, ILeaderboard } from "../interfaces/ILeaderBoard";
 import apiConfig from "./apiConfig.ts";
 
 
@@ -9,8 +9,9 @@ const getLeaderboardById = async (leaderboardId: string): Promise<ApiResponse<IL
 }
 
 
-const getGlobalLeaderboard = async (): Promise<ApiResponse<ILeaderboard>> => {
+const getGlobalLeaderboard = async (): Promise<ApiResponse<IGlobalLeaderboard>> => {
     const response = await apiConfig.get("/leaderboard/global");
+    console.log("The global datat: ",response.data);
     return response.data;
 }
 

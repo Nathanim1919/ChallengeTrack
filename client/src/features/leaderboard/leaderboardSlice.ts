@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ILeaderboard } from "../../interfaces/ILeaderBoard";
+import { IGlobalLeaderboard, ILeaderboard } from "../../interfaces/ILeaderBoard";
 import { getGlobalLeaderboard, getLeaderBoardByChallengeId, getLeaderboardById } from "./leaderboardAction";
 import { ApiResponse } from "../../interfaces/ICommon";
 
 
 interface initialStateProps {
     leaderboard: ILeaderboard;
+    globalLeaderboard: IGlobalLeaderboard;
     loading: boolean;
     error: string | null;
     message: string;
@@ -14,6 +15,7 @@ interface initialStateProps {
 
 const initialState: initialStateProps = {
     leaderboard: {} as ILeaderboard,
+    globalLeaderboard: {} as IGlobalLeaderboard,
     loading: false,
     error: null,
     message: "",
@@ -53,8 +55,8 @@ const leaderboardSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getGlobalLeaderboard.fulfilled, (state, action: PayloadAction<ApiResponse<ILeaderboard>>) => {
-                state.leaderboard = action.payload.data??{} as ILeaderboard;
+            .addCase(getGlobalLeaderboard.fulfilled, (state, action: PayloadAction<ApiResponse<IGlobalLeaderboard>>) => {
+                state.globalLeaderboard = action.payload.data??{} as IGlobalLeaderboard;
                 state.loading = false;
                 state.error = null;
             }

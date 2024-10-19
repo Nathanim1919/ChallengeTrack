@@ -65,6 +65,8 @@ class ChallengeController {
         }
     }
 
+    
+
     async getAllChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
         try {
             const page = parseInt(req.query.page as string) || 1;
