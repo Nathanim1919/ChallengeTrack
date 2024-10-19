@@ -44,7 +44,7 @@ const PopularCategories = () => {
       </div>
       <div className="categories grid grid-cols-4 gap-2">
         {categories.slice(0, 4).map((category, index) => (
-          <div
+          <Link to={`/in/categories/${category.name}`}
             key={index}
             className="category grid cursor-pointer gap-2 bg-gray-100 border group border-gray-300 p-4 place-items-center hover:bg-gray-700 hover:text-white"
           >
@@ -61,7 +61,7 @@ const PopularCategories = () => {
               </h3>
               <p className="text-gray-800 group-hover:text-gray-300 m-0">{category.description}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

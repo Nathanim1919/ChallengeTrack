@@ -48,8 +48,8 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
                 <p className='font-bold relative text-black right-3'>+200</p>
             </div>
             <div className='flex justify-between px-3 py-4'>
-                <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
-                <Link to={`/in/my-challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
+                <Link to={`/in/challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
+                <Link to={`/in/challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
             </div>
         </div>
      </div>

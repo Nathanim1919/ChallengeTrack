@@ -5,10 +5,11 @@ import { TbProgressBolt } from 'react-icons/tb';
 import AvatorImage from '../../assets/heroImages/avator.jpg';
 import { GiTwoCoins } from 'react-icons/gi';
 import { MdJoinFull } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
     return (
-        <div key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
+        <Link to={`/in/challenges/${challenge._id}`} key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>
             <div className='w-24 h-24 bg-gray-800 absolute -top-3 -left-4 rounded-full'></div>
             {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full top-2 right-1'></div> */}
@@ -52,7 +53,7 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
                 <button className='text-gray-500 hover:text-gray-800'>See more</button>
             </div>
         </div>
-     </div>
+     </Link>
     );
 };
 

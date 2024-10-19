@@ -13,7 +13,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     return (
         <section className="grid grid-cols-[_.11fr_1fr] h-screen overflow-hidden">
             <Sidebar />
-            <main className="grid grid-rows-[_1fr]">
+            <main className="grid grid-rows-[_.1fr_1fr]">
                 <AuthHeader />
                 {children}
             </main>

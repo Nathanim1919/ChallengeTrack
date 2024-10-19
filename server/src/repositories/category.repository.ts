@@ -30,7 +30,7 @@ export class CategoryRepository {
     }
 
     async getCategoryByName(name: string): Promise<ICategory | null> {
-        return Category.findOne({ name }).exec();
+        return Category.findOne({ name }).populate('challenges').exec();
     }
 
     async addChallenge(categoryName: string, challengeId: string, session?: ClientSession): Promise<ICategory | null> {
