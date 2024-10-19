@@ -14,7 +14,7 @@ export interface RankEntry {
 
 
 export interface IGlobalLeaderboard {
-    userId: string;
+    userId: IUser;
     totalPoints: number;
     rank: number;
 }

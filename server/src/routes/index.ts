@@ -21,7 +21,9 @@ export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
         // Common service instances
         const userRepository = new UserRepository();
-        const userService = new UserService(userRepository);
+        const leaderBoardService = new LeaderBoardService(new LeaderboardRepository())
+        
+        const userService = new UserService(userRepository,leaderBoardService);
         const leaderboardService = new LeaderBoardService(new LeaderboardRepository());
         const categoryService = new CategoryService(new CategoryRepository());
 

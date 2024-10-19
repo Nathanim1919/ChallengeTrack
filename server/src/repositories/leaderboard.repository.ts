@@ -12,8 +12,8 @@ class LeaderboardRepository {
         return await new Leaderboard(leaderboardData).save();
     }
 
-    async createGlobalLeaderboard(): Promise<IGlobalLeaderboard> {
-       return await GlobalLeaderboard.create({});
+    async createGlobalLeaderboard(globalLeaderBoardDate: IGlobalLeaderboard): Promise<IGlobalLeaderboard> {
+       return await GlobalLeaderboard.create(globalLeaderBoardDate);
     }
 
     async addParticipantToLeaderboard(challengeId: string, userId: string): Promise<ILeaderboard | null> {
@@ -40,11 +40,17 @@ class LeaderboardRepository {
         return await Leaderboard.findById(leaderboardId).exec();
     }
 
-    async getGlobalLeaderboard(): Promise<IGlobalLeaderboard | null> {
-        return await GlobalLeaderboard.findOne()
-            // .sort({score: -1})
-            // .populate("rankings.userId")
-            .exec();
+    async getGlobalLeaderboard(): Promise<IGlobalLeaderboard[] | null> {
+        const leaderboardEntries = await GlobalLeaderboard.find({})
+                                .populate('userId')
+                                .sort({ totalPoints: -1 })
+                                .exec();
+
+        return leaderboardEntries.map((entry, index) => ({
+            userId: entry.userId,
+            totalPoints: entry.totalPoints,
+            rank: index + 1,
+        }))
     }
 
     async getLeaderBoardByChallengeId(challengeId: string): Promise<ILeaderboard | null> {

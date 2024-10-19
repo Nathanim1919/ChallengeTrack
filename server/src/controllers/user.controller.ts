@@ -17,6 +17,7 @@ export class UserController {
         // code here
         try {
             const registeredUser = await this.userService.registerUser(req.body);
+            
             return res.status(201).json(formatResponse(registeredUser, 'Registration successful'));
         } catch (error) {
             return res.status(400).json(formatError("Registration failed, please try again"));

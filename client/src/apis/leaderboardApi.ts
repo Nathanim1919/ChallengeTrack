@@ -9,7 +9,7 @@ const getLeaderboardById = async (leaderboardId: string): Promise<ApiResponse<IL
 }
 
 
-const getGlobalLeaderboard = async (): Promise<ApiResponse<IGlobalLeaderboard>> => {
+const getGlobalLeaderboard = async (): Promise<ApiResponse<IGlobalLeaderboard[]>> => {
     const response = await apiConfig.get("/leaderboard/global");
     console.log("The global datat: ",response.data);
     return response.data;

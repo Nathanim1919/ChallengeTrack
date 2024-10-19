@@ -16,5 +16,5 @@ export interface RankEntry {
 export interface IGlobalLeaderboard {
     userId: ObjectId;
     totalPoints: number;
-    rank: number;
+    rank?: number;
 }

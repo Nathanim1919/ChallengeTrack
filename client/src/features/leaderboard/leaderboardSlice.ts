@@ -6,7 +6,7 @@ import { ApiResponse } from "../../interfaces/ICommon";
 
 interface initialStateProps {
     leaderboard: ILeaderboard;
-    globalLeaderboard: IGlobalLeaderboard;
+    globalLeaderboard: IGlobalLeaderboard[];
     loading: boolean;
     error: string | null;
     message: string;
@@ -15,7 +15,7 @@ interface initialStateProps {
 
 const initialState: initialStateProps = {
     leaderboard: {} as ILeaderboard,
-    globalLeaderboard: {} as IGlobalLeaderboard,
+    globalLeaderboard: [] as IGlobalLeaderboard[],
     loading: false,
     error: null,
     message: "",
@@ -55,8 +55,8 @@ const leaderboardSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getGlobalLeaderboard.fulfilled, (state, action: PayloadAction<ApiResponse<IGlobalLeaderboard>>) => {
-                state.globalLeaderboard = action.payload.data??{} as IGlobalLeaderboard;
+            .addCase(getGlobalLeaderboard.fulfilled, (state, action: PayloadAction<ApiResponse<IGlobalLeaderboard[]>>) => {
+                state.globalLeaderboard = action.payload.data??[] as IGlobalLeaderboard[];
                 state.loading = false;
                 state.error = null;
             }

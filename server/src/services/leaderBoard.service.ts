@@ -1,5 +1,5 @@
 import LeaderboardRepository from "../repositories/leaderboard.repository";
-import {ILeaderboard} from "../interfaces/ILeaderBoard";
+import {IGlobalLeaderboard, ILeaderboard} from "../interfaces/ILeaderBoard";
 import { ClientSession } from "mongoose";
 
 class LeaderBoardService {
@@ -13,8 +13,8 @@ class LeaderBoardService {
         return await this.leaderBoardRepository.createLeaderboard(leaderboardData);
     }
 
-    async createGlobalLeaderboard() {
-        return await this.leaderBoardRepository.createGlobalLeaderboard();
+    async createGlobalLeaderboard(leaderboardData:IGlobalLeaderboard) {
+        return await this.leaderBoardRepository.createGlobalLeaderboard(leaderboardData);
     }
 
     async addParticipantToLeaderboard(challengeId: string, userId: string) {
