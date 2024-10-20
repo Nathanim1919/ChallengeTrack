@@ -23,28 +23,51 @@ export const NotificationMessages = {
 };
 
 export const RewardType = {
+    REGISTRATION_BONUS: 'REGISTRATION_BONUS',
     DAILY_LOGIN: 'DAILY_LOGIN',
     DAILY_CHALLENGE: 'DAILY_CHALLENGE',
+    JOIN_CHALLENGE: 'JOIN_CHALLENGE',
+    CREATE_CHALLENGE: 'CREATE_CHALLENGE',
+    MISS_DAILY_CHALLENGE: 'MISS_DAILY_CHALLENGE',
     HALF_WAY: 'HALF_WAY',
     CHALLENGE_COMPLETION: 'CHALLENGE_COMPLETION',
     ACHIEVEMENT_UNLOCK: 'ACHIEVEMENT_UNLOCK',
     FIRST_PLACE: 'FIRST_PLACE',
     SECOND_PLACE: 'SECOND_PLACE',
-    THIRD_PLACE: 'THIRD_PLACE'
+    THIRD_PLACE: 'THIRD_PLACE',
+    
 };
 
 export const RewardPoints = {
+    [RewardType.REGISTRATION_BONUS]: 100,
     [RewardType.DAILY_LOGIN]: 5,
     [RewardType.DAILY_CHALLENGE]: 10,
     [RewardType.HALF_WAY]: 20,
-    [RewardType.CHALLENGE_COMPLETION]: 50
+    [RewardType.CHALLENGE_COMPLETION]: 50,
+    [RewardType.FIRST_PLACE]: 100,
+    [RewardType.SECOND_PLACE]: 50,
+    [RewardType.THIRD_PLACE]: 25,
+    [RewardType.JOIN_CHALLENGE]: 10,
+    [RewardType.CREATE_CHALLENGE]: -5,
+    [RewardType.MISS_DAILY_CHALLENGE]: -5,
+    [RewardType.ACHIEVEMENT_UNLOCK]: 30,
+
 };
 
 export const RewardMessages = {
+    [RewardType.REGISTRATION_BONUS]: 'Congratulations! You have earned 100 points for registering!',
     [RewardType.DAILY_LOGIN]: 'Congratulations! You have earned 5 points for logging in today!',
     [RewardType.DAILY_CHALLENGE]: 'Congratulations! You have earned 10 points for completing a daily challenge!',
     [RewardType.HALF_WAY]: 'Congratulations! You have earned 20 points for completing half of the challenge!',
-    [RewardType.CHALLENGE_COMPLETION]: 'Congratulations! You have earned 50 points for completing the challenge!'
+    [RewardType.CHALLENGE_COMPLETION]: 'Congratulations! You have earned 50 points for completing the challenge!',
+    [RewardType.FIRST_PLACE]: 'Congratulations! You have earned 100 points for securing the first place!',
+    [RewardType.SECOND_PLACE]: 'Congratulations! You have earned 50 points for securing the second place!',
+    [RewardType.THIRD_PLACE]: 'Congratulations! You have earned 25 points for securing the third place!',
+    [RewardType.JOIN_CHALLENGE]: 'Congratulations! You have earned 10 points for joining a challenge!',
+    [RewardType.CREATE_CHALLENGE]: 'Congratulations! You have earned 20 points for creating a challenge!',
+    [RewardType.MISS_DAILY_CHALLENGE]: 'You have lost 5 points for missing a daily challenge!',
+    [RewardType.ACHIEVEMENT_UNLOCK]: 'Congratulations! You have earned 30 points for unlocking an achievement!',
+
 };
 
 export const AchievementType = {

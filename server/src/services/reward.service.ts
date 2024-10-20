@@ -6,6 +6,15 @@ export class RewardService {
     static reward(rewardType: string, currentPoint: number):number{
         let rewardPoint = 0;
         switch (rewardType){
+            case RewardType.REGISTRATION_BONUS:
+                rewardPoint = RewardPoints.REGISTRATION_BONUS;
+                break;
+            case RewardType.CREATE_CHALLENGE:
+                rewardPoint = RewardPoints.CREATE_CHALLENGE;
+                break;
+            case RewardType.JOIN_CHALLENGE:
+                rewardPoint = RewardPoints.JOIN_CHALLENGE;
+                break;
             case RewardType.DAILY_LOGIN:
                 rewardPoint = RewardPoints.DAILY_LOGIN;
                 break;
@@ -39,7 +48,7 @@ export class RewardService {
 
 
     private static calculateNewPoints(currentPoints: number, rewardPoints: number): number {
-        if (currentPoints < 0 || rewardPoints < 0) {
+        if (currentPoints < 0 || currentPoints + rewardPoints < 0) {
             throw new Error('Points cannot be negative');
         }
         return currentPoints + rewardPoints;

@@ -1,7 +1,9 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaBookJournalWhills } from "react-icons/fa6";
-
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { addDailyLog } from "../../features/challenges/challengesActions";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface DailyLogProps {
     openModal: boolean;
@@ -10,9 +12,13 @@ interface DailyLogProps {
 
 
 const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal}) => {
+    const [details, setDetails] = React.useState<string>("");
+    const {selectedChallenge} = useAppSelector((state) => state.challenges);
+    const dispatch = useAppDispatch();
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Daily Log Submitted");
+        dispatch(addDailyLog({challengeId:selectedChallenge?._id || "", logs:{details}}));
     };
 
     if (!openModal) {
@@ -28,6 +34,8 @@ const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal}) => {
                     <textarea 
                         id="dailyLog"  
                         name="dailyLog" 
+                        value={details}
+                        onChange={(e) => setDetails(e.target.value)}
                         className="border border-gray-200 resize-none p-2 outline-none" 
                         placeholder="Enter your daily log here"
                         rows={6} 

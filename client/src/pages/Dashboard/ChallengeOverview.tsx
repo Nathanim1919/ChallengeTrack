@@ -88,11 +88,14 @@ const ChallengeOverview = () => {
                     <ChallengeOverviewCard key={challenge._id} challenge={challenge} />
                 ))
                 :
-                <div className=" p-5 grid">
-                    <p className="text-gray-500">No challenges available</p>
+                <div className=" p-5 grid gap-5">
+                   <div>
+                        <h1 className="text-center">You have no challenges</h1>
+                        <p className="text-center">Create a challenge or join one to get started</p>
+                    </div>
                     <div className="flex items-center justify-center gap-5">
-                        <Link to={""} className="py-1 px-2 bg-black text-white">Create a challenge</Link>
-                        <Link to={"/in/challenges"} className="text-gray-500 py-1 px-2">Join a challenge</Link>
+                        <Link to={"/in/create-new"} className="py-1 px-2 bg-black text-white">Create a challenge</Link>
+                        <Link to={"/in/challenges"} className="text-gray-500 py-1 px-2 border border-gray-400">Join a challenge</Link>
                     </div>
                 </div>
             }

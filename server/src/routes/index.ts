@@ -16,19 +16,21 @@ import CategoryController from '../controllers/categorie.controller';
 import CategoryRoute from './categorie.route';
 import LeaderBoardController from '../controllers/leaderboard.controller';
 import LeaderBoardRoute from './leaderboard.route';
+import { LogRepository } from '../repositories/log.repository';
 
 export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
         // Common service instances
         const userRepository = new UserRepository();
         const leaderBoardService = new LeaderBoardService(new LeaderboardRepository())
+        const logRepository = new LogRepository();
         
         const userService = new UserService(userRepository,leaderBoardService);
         const leaderboardService = new LeaderBoardService(new LeaderboardRepository());
         const categoryService = new CategoryService(new CategoryRepository());
 
         // Challenge routes
-        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService));
+        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService, logRepository));
         const challengeRoute = new ChallengeRoute(challengeController);
         challengeRoute.configureRoutes(app, baseUrl);
 

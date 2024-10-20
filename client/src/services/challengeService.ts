@@ -1,5 +1,6 @@
 import { IChallenge } from "../interfaces/IChallenge";
 import challengesApi from "../apis/challengesApi";
+import { ILog } from "../interfaces/ILogs";
 
 const createChallenge = async (challengeData: Partial<IChallenge>) => {
   return await challengesApi.createChallenge(challengeData);
@@ -49,6 +50,10 @@ const reportAsInappropriate = async (challengeId: string) => {
   return await challengesApi.reportAsInappropriate(challengeId);
 };
 
+const addDailyLog = async (challengeId: string, logData: Partial<ILog>) => {
+  return await challengesApi.createChallengeLog(challengeId, logData);
+};
+
 export default {
   createChallenge,
   getAllChallenges,
@@ -61,5 +66,6 @@ export default {
   markChallengeAsCompleted,
   inviteUserToChallenge,
   reportAsInappropriate,
-    checkIfUserIsOwner,
+  checkIfUserIsOwner,
+  addDailyLog
 };

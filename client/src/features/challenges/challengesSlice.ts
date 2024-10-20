@@ -4,6 +4,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
 import {
+  addDailyLog,
   checkIfUserIsOwner,
   checkIfUserIsParticipant,
   createChallenge,
@@ -202,6 +203,20 @@ const challengesSlice = createSlice({
         .addCase(checkIfUserIsOwner.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || "Failed to check if user is owner";
+        })
+        .addCase(addDailyLog.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(addDailyLog.fulfilled, (state, action) => {
+          state.loading = false;
+          state.error = null;
+          state.selectedChallenge = action.payload.data?? null;
+          state.message = action.payload.message ?? "Log added successfully";
+        })
+        .addCase(addDailyLog.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.error.message || "Failed to add log";
         });
   },
 });

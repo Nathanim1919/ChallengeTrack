@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import challengeService from "../../services/challengeService";
 import { IChallenge } from "../../interfaces/IChallenge";
 import {ApiResponse} from "../../interfaces/ICommon.ts";
+import { ILog } from "../../interfaces/ILogs.ts";
 
 
 export const createChallenge = createAsyncThunk<IChallenge, Partial<IChallenge>>(
@@ -147,6 +148,22 @@ export const leaveChallenge = createAsyncThunk<{ updatedChallenge: ApiResponse<I
                 isParticipant: isParticipantResponse,
             };
 
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);
+
+
+export const addDailyLog = createAsyncThunk<ApiResponse<IChallenge>, {challengeId: string; logs: Partial<ILog>} >(
+    'challenges/addDailyLog',
+    async ({ challengeId, logs }, {rejectWithValue}) => {
+        try {
+            return await challengeService.addDailyLog(challengeId, logs);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

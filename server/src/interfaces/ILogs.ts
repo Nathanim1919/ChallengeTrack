@@ -1,7 +1,7 @@
 import {ObjectId} from "bson";
 
-export interface ILogs {
-    _id: string;
+export interface ILog {
+    _id?: string;
     user: ObjectId
     challenge: ObjectId;
     // timestamp: Date;

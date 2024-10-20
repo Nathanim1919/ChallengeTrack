@@ -4,6 +4,7 @@ import {challengeStatus} from "../utils/enum.utils";
 import {IUser} from "../interfaces/IUser";
 import mongoose, { ClientSession } from "mongoose";
 import {User} from "../models/user.model";
+import { ILog } from "../interfaces/ILogs";
 
 export class ChallengeRepository {
     async createChallenge(challengeData: IChallenge, session?: ClientSession): Promise<IChallenge> {
@@ -82,12 +83,6 @@ export class ChallengeRepository {
         return challenge?.participants as IUser[] | [];
     }
 
-
-    async saveLogChallengeProgress(challengeId: string, userId: string, logs:string[], images:string[], day:number): Promise<IChallenge | null> {
-        return Challenge.findByIdAndUpdate(challengeId, {
-            $push: {logs: {userId, logs, images, day}},
-        }, {new: true}).exec();
-    }
 
     async checkIfUserIsParticipant(challengeId: string, userId: string): Promise<boolean> {
         const challenge = await Challenge.findById(

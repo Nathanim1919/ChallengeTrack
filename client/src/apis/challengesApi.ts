@@ -51,8 +51,8 @@ const getChallengeLogs = async (challengeId: string): Promise<IChallenge[]> => {
 };
 
 
-const createChallengeLog = async (challengeId: string, logData: Partial<ILogs>): Promise<IChallenge> => {
-    const response = await apiConfig.post(`/challenges/${challengeId}/logs`, logData);
+const createChallengeLog = async (challengeId: string, logs: Partial<ILogs>): Promise<ApiResponse<IChallenge>> => {
+    const response = await apiConfig.post(`/challenges/${challengeId}/logs`, logs);
     return response.data;
 };
 

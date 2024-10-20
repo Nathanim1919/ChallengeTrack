@@ -8,6 +8,9 @@ import {RankEntry} from "../interfaces/ILeaderBoard";
 import { startSession, Types } from 'mongoose';
 import { CategoryService } from "./category.service";
 import {Log} from "../models/log.model";
+import { RewardService } from "./reward.service";
+import { ILog } from "../interfaces/ILogs";
+import { LogRepository } from "../repositories/log.repository";
 
 class ChallengeService {
 
@@ -16,14 +19,12 @@ class ChallengeService {
         private userService: UserService,
         private leaderBoard: LeaderBoardService,
         private categoryService: CategoryService,
+        private logRepository: LogRepository
     ) {
     }
 
     async createChallenge(challengeData: IChallenge, creatorId: string): Promise<IChallenge> {
-        // const session = await startSession();
-        // session.startTransaction();
-        console.log("challengeData is: " + challengeData);
-
+    
         try {
             let { duration, startDate, categorie } = challengeData;
 
@@ -76,6 +77,16 @@ class ChallengeService {
 
             // await session.commitTransaction();
             // session.endSession();
+
+            if (createdChallenge){
+                const user = await this.userService.getUserById(creatorId);
+                if (!user){
+                    throw new Error('User not found');
+                }
+                user.createdChallenges.push(createdChallenge._id);
+                user.points = RewardService.reward(RewardType.CREATE_CHALLENGE, user.points);
+                await this.userService.updateUser(creatorId, user);
+            }
 
             return createdChallenge;
         } catch (error) {
@@ -297,21 +308,78 @@ class ChallengeService {
         }
     }
 
-    async saveDailyLogChallengeProgress(challengeId: string, userId: string, logs: string[], images: string[], day: number): Promise<IChallenge | null> {
+    async saveDailyLogChallengeProgress(challengeId: string, userId: string, logs: string): Promise<IChallenge | null> {
         try {
+           
             const challenge = await this.challengeRepository.findChallengeById(challengeId);
             if (!challenge) {
                 throw new Error('Challenge not found');
             }
 
-            const participant = challenge.participants.find(participant => participant === userId);
-            if (!participant) {
-                throw new Error('User is not a participant of this challenge');
+
+
+            // const participant = challenge.participants.find(participant => participant === userId);
+            // if (!participant) {
+            //     throw new Error('User is not a participant of this challenge');
+            // }
+
+            const today = new Date();
+            const challengeStartDate = new Date(challenge.startDate);
+            const diffTime = Math.abs(today.getTime() - challengeStartDate.getTime());
+
+            // change the difference to days
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+
+            // if (challenge.status !== "ONGOING") {
+            //     throw new Error('Challenge is not ongoing');
+            // }
+
+            // check if challenge is ongoing or not ended
+            // if (challenge.status !== "ONGOING") {
+            //     throw new Error('Challenge is not ongoing');
+            // }
+
+            if (diffDays > challenge.duration) {
+                throw new Error('Challenge has ended');
             }
 
-            await this.userService.rewardUserForDailyChallenge(userId)
-            return this.challengeRepository.saveLogChallengeProgress(challengeId, userId, logs, images, day);
+            const createLog = await this.logRepository.createLog({
+                details: logs,
+                days:diffDays,
+                challenge: new Types.ObjectId(challengeId),
+                user: new Types.ObjectId(userId)
+            });
+
+            if (createLog) {
+
+                challenge.logs.push(new Types.ObjectId(createLog._id));
+
+                // Check if the user has already logged for the day
+                const user = await this.userService.getUserById(userId);
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                const today = new Date();
+                const lastLog = user.logs[user.logs.length - 1];
+                // const lastLogDate = new Date(lastLog.createdAt);
+
+                user.logs.push(new Types.ObjectId(createLog._id));
+
+
+                await this.userService.rewardUserForDailyChallenge(userId);
+                await this.userService.updateUser(userId, user);
+                await this.challengeRepository.updateChallenge(challengeId, challenge);
+
+                return challenge;
+
+
+            } else {
+                throw new Error('Failed to create log');
+            }
         } catch (error) {
+            console.log("error is: " + error);
             throw new Error('Failed to save daily log challenge progress');
         }
     }
