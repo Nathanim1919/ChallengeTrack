@@ -4,6 +4,7 @@ import { FaBookJournalWhills } from "react-icons/fa6";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { addDailyLog } from "../../features/challenges/challengesActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { ProgressBar } from "../ui/progressBar";
 
 interface DailyLogProps {
     openModal: boolean;
@@ -27,6 +28,7 @@ const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal}) => {
     return (
         <div className="fixed top-0 left-0 w-screen h-full bg-gray-700/50 backdrop-blur-0 grid place-items-center z-10">
             <form onSubmit={handleSubmit} className="bg-white p-5 shadow-md grid place-items-center gap-2 relative">
+            <ProgressBar total={selectedChallenge?.duration || 0} current={5}/>
             <IoMdClose onClick={() => setOpenModal(false)} className="w-6 h-6 bg-gray-200 absolute top-2 rounded-full p-1 right-2 cursor-pointer hover:bg-gray-300"/>
                 <h1 className="font-bold p-4">Daily Log For Day 3</h1>
                 <div className="flex flex-col gap-1">

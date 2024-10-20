@@ -10,6 +10,7 @@ const logSchema = new Schema<ILog>({
         type: String,
         required: true
     },
+    completed: {type: Boolean, required: true, default: false},
     // images: [{type: String}],
     days: {type: Number, required: true},
 }, {timestamps: true});

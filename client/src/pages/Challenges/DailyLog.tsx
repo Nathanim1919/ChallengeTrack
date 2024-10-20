@@ -7,11 +7,10 @@ import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { checkIfUserIsParticipant, getChallengeById, joinChallenge, leaveChallenge } from "../../features/challenges/challengesActions";
+import { joinChallenge } from "../../features/challenges/challengesActions";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import {CustomeToast} from "../../components/ui/customeToast";
-import { IoIosRemoveCircleOutline } from "react-icons/io";
-import { SlOptionsVertical } from "react-icons/sl";
+import { ProgressBar } from "../../components/ui/progressBar";
 
 
 
@@ -53,6 +52,7 @@ const DailyLog = () => {
           </div>
          {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:(isParticipant || isOwner)? <div>
             <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
+            <ProgressBar total={selectedChallenge?.duration || 0} current={5}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
                 <div className="flex items-center gap-2">

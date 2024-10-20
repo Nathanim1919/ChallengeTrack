@@ -348,7 +348,8 @@ class ChallengeService {
                 details: logs,
                 days:diffDays,
                 challenge: new Types.ObjectId(challengeId),
-                user: new Types.ObjectId(userId)
+                user: new Types.ObjectId(userId),
+                completed: true
             });
 
             if (createLog) {

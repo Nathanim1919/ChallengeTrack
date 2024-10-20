@@ -32,7 +32,7 @@ const DailyLogDetail:React.FC<IProps> = ({
     setShowLogDetail
 }) => {
 
-    const {isParticipant} = useAppSelector(state => state.challenges);
+    const {isParticipant,selectedChallenge} = useAppSelector(state => state.challenges);
 
     if(!showLogDetail) return null;
     return (
@@ -43,7 +43,7 @@ const DailyLogDetail:React.FC<IProps> = ({
                 </div>
             <div>
                 <div>
-                    <h1 className="font-bold ">Daily Log Detail For Day 7/30</h1>
+                    <h1 className="font-bold ">Daily Log Detail For Day 7/{selectedChallenge?.duration}</h1>
                     <h2 className="text-gray-500 text-[13px]">Nov 23 2023</h2>
                 </div>
                 <div className="text-gray-800 text-[14px] mt-4">
