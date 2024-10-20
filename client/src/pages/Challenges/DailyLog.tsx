@@ -10,12 +10,13 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { joinChallenge } from "../../features/challenges/challengesActions";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import {CustomeToast} from "../../components/ui/customeToast";
-import { ProgressBar } from "../../components/ui/progressBar";
+import { DetailedProgressBar, ProgressBar } from "../../components/ui/progressBar";
 
 
 
 const DailyLog = () => {
     const [openModal, setOpenModal] = React.useState(false);
+    const [showAllLogDays, setShowAllLogDays] = React.useState(false);
     const {user} = useAppSelector((state) => state.auth);
     const {selectedChallenge, isParticipant, isOwner, loading, message, error} = useAppSelector((state) => state.challenges);
     console.log("is participant: ", isParticipant);
@@ -51,8 +52,9 @@ const DailyLog = () => {
             </div>
           </div>
          {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:(isParticipant || isOwner)? <div>
-            <DailyLogModal openModal={openModal} setOpenModal={setOpenModal}/>
-            <ProgressBar total={selectedChallenge?.duration || 0} current={5}/>
+            <DailyLogModal setShowAllLogDays={setShowAllLogDays} openModal={openModal} setOpenModal={setOpenModal}/>
+            <ProgressBar setShowAllLogDays={setShowAllLogDays} total={selectedChallenge?.duration || 0} current={5}/>
+            <DetailedProgressBar setShowAllLogDays={setShowAllLogDays} showAllLogDays={showAllLogDays} total={selectedChallenge?.duration || 0} current={5}/>
               <div className="flex justify-between p-3">
                 <h1 className="font-bold">Your Daily Log</h1>
                 <div className="flex items-center gap-2">
