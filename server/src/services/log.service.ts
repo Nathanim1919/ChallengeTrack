@@ -1,34 +1,114 @@
+import { Types } from "mongoose";
 import { ILog } from "../interfaces/ILogs";
+import { ChallengeRepository } from "../repositories/challenge.repository";
 import { LogRepository } from "../repositories/log.repository";
+import { UserService } from "./user.service";
 
 class LogService {
-    constructor(private logrepository: LogRepository) {
-    }
+  constructor(
+    private logRepository: LogRepository,
+    private challengeRepository: ChallengeRepository,
+    private userService: UserService,
 
+  ) {}
 
-    async createLog(logData: ILog): Promise<ILog> {
-        return this.logrepository.createLog(logData);
-    }
+  async createLog(
+    details: string,
+    challengeId: string,
+    userId: string
+  ): Promise<ILog> {
+    try {
+      const challenge = await this.challengeRepository.findChallengeById(
+        challengeId
+      );
+      if (!challenge) {
+        throw new Error("Challenge not found");
+      }
 
-    async getChallengeLogs(challengeId: string): Promise<ILog[]>{
-        return this.logrepository.getChallengeLogs(challengeId);
-    }
+      // const participant = challenge.participants.find(participant => participant === userId);
+      // if (!participant) {
+      //     throw new Error('User is not a participant of this challenge');
+      // }
 
-    async getUserLogs(userId: string): Promise<ILog[]>{
-        return this.logrepository.getUserLogs(userId);
-    }
+      const today = new Date();
+      const challengeStartDate = new Date(challenge.startDate);
+      const diffTime = Math.abs(today.getTime() - challengeStartDate.getTime());
 
-    async getChallengeUserLogs(challengeId: string, userId: string): Promise<ILog[]>{
-        return this.logrepository.getChallengeUserLogs(challengeId, userId);
-    }
+      // change the difference to days
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    async getLogById(logId: string): Promise<ILog | null>{
-        return this.logrepository.getLogById(logId);
-    }
+      // if (challenge.status !== "ONGOING") {
+      //     throw new Error('Challenge is not ongoing');
+      // }
 
-    async updateLogById(logId: string, updateData: any): Promise<ILog | null>{
-        return this.logrepository.updateLogById(logId, updateData);
+      // check if challenge is ongoing or not ended
+      // if (challenge.status !== "ONGOING") {
+      //     throw new Error('Challenge is not ongoing');
+      // }
+
+      if (diffDays > challenge.duration) {
+        throw new Error("Challenge has ended");
+      }
+
+      const createLog = await this.logRepository.createLog({
+        details: details,
+        days: diffDays,
+        challenge: new Types.ObjectId(challengeId),
+        user: new Types.ObjectId(userId),
+        completed: true,
+      });
+
+      if (createLog) {
+        challenge.logs.push(new Types.ObjectId(createLog._id));
+
+        // Check if the user has already logged for the day
+        const user = await this.userService.getUserById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const today = new Date();
+        const lastLog = user.logs[user.logs.length - 1];
+        // const lastLogDate = new Date(lastLog.createdAt);
+
+        user.logs.push(new Types.ObjectId(createLog._id));
+
+        await this.userService.rewardUserForDailyChallenge(userId);
+        await this.userService.updateUser(userId, user);
+        await this.challengeRepository.updateChallenge(challengeId, challenge);
+
+        return createLog;
+      } else {
+        throw new Error("Failed to create log");
+      }
+    } catch (error) {
+      console.log("error is: " + error);
+      throw new Error("Failed to save daily log challenge progress");
     }
+  }
+
+  async getChallengeLogs(challengeId: string): Promise<ILog[]> {
+    return this.logRepository.getChallengeLogs(challengeId);
+  }
+
+  async getUserLogs(userId: string): Promise<ILog[]> {
+    return this.logRepository.getUserLogs(userId);
+  }
+
+  async getChallengeUserLogs(
+    challengeId: string,
+    userId: string
+  ): Promise<ILog[]> {
+    return this.logRepository.getChallengeUserLogs(challengeId, userId);
+  }
+
+  async getLogById(logId: string): Promise<ILog | null> {
+    return this.logRepository.getLogById(logId);
+  }
+
+  async updateLogById(logId: string, updateData: any): Promise<ILog | null> {
+    return this.logRepository.updateLogById(logId, updateData);
+  }
 }
 
 export default LogService;

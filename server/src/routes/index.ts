@@ -25,13 +25,14 @@ export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
         // Common service instances
         const userRepository = new UserRepository();
+        const challengeRepository = new ChallengeRepository();
         const leaderBoardService = new LeaderBoardService(new LeaderboardRepository())
         const logRepository = new LogRepository();
         
         const userService = new UserService(userRepository,leaderBoardService);
         const leaderboardService = new LeaderBoardService(new LeaderboardRepository());
         const categoryService = new CategoryService(new CategoryRepository());
-        const logService = new LogService(logRepository);
+        const logService = new LogService(logRepository, challengeRepository, userService);
 
         // Challenge routes
         const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService, logRepository));
