@@ -5,7 +5,6 @@ import LogController from "../controllers/log.controller";
 class LogRoute {
     constructor(private logController: LogController) {}
 
-
     public configureRoutes(app: Application, baseUrl: string) {
         app.route(`${baseUrl}/logs`)
             .post(this.logController.createLog.bind(this.logController));

@@ -4,6 +4,7 @@ import authReducer from "../features/auth/authSlice";
 import challengesReducer from "../features/challenges/challengesSlice";
 import categorieReducer from "../features/categories/categorieSlice";
 import leaderbordReducer from "../features/leaderboard/leaderboardSlice";
+import logReducer from "../features/logs/logSlice";
 
 export const store = configureStore({
     reducer:{
@@ -12,6 +13,7 @@ export const store = configureStore({
         challenges: challengesReducer,
         categories: categorieReducer,
         leaderboard: leaderbordReducer,
+        logs: logReducer
     },
 });
 
