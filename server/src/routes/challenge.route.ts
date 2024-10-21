@@ -23,7 +23,8 @@ class ChallengeRoute {
 
         app.route(`${baseUrl}/challenges/:id/logs`)
             .all(verifyUser)
-            .post(this.challengeController.saveDailyLogChallengeProgress.bind(this.challengeController));
+            .post(this.challengeController.saveDailyLogChallengeProgress.bind(this.challengeController))
+            .get(this.challengeController.getChallengeLogsForUser.bind(this.challengeController));
 
         app.route(`${baseUrl}/challenges/:id/is-participant`)
             .all(verifyUser)

@@ -2,7 +2,6 @@ import React from "react";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 
-
 interface ProgressBarProps {
   total: number;
   current: number;
@@ -10,10 +9,14 @@ interface ProgressBarProps {
   setShowAllLogDays?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ total, current,setShowAllLogDays }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({
+  total,
+  current,
+  setShowAllLogDays,
+}) => {
   return (
     <div className="p-4 my-2 relative">
-      <h1 className="font-bold py-2">Your Progress</h1>
+      <h1 className="font-bold py-5">Your Progress</h1>
       <div className="flex items-center gap-2 flex-wrap">
         {Array.from({ length: total })
           .slice(0, 12)
@@ -26,7 +29,10 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ total, current,setShow
               />
             );
           })}
-        <div onClick={()=>setShowAllLogDays&&setShowAllLogDays(true)} className="flex bg-white p-1 rounded-lg hover:bg-gray-200 cursor-pointer justify-end items-end border border-gray-200">
+        <div
+          onClick={() => setShowAllLogDays && setShowAllLogDays(true)}
+          className="flex bg-white p-1 rounded-lg hover:bg-gray-200 cursor-pointer justify-end items-end border border-gray-200"
+        >
           <div className="w-6 h-6 border-2 border-white rounded-full bg-gray-300 relative"></div>
           <div className="w-6 h-6 border-2 border-white rounded-full bg-gray-300 relative -left-4"></div>
           <div className="w-6 h-6 border-2 border-white rounded-full bg-gray-300 relative -left-8"></div>
@@ -43,7 +49,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ total, current,setShow
 interface OneDayProgressStepProps {
   day: number;
   isCompleted: boolean;
-
 }
 
 const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
@@ -52,8 +57,9 @@ const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
 }) => {
   return (
     <div
-      className={`one-day-progress-step w-6 h-6 border border-gray-300 rounded-full grid place-items-center ${isCompleted ? "bg-gray-100 text-orange-400" : "bg-gray-200"}`}
+      className={`relative one-day-progress-step group cursor-pointer w-6 h-6 border border-gray-300 rounded-full grid place-items-center ${isCompleted ? "bg-gray-100 text-orange-400" : "bg-gray-200"}`}
     >
+      <span className="absolute -top-3 opacity-0 rounded-sm bg-white border border-gray-200 transition-all duration-100 text-[12px] font-bold p-[1px] px-[8px] group-hover:-top-6 group-hover:opacity-100">{`day-${day}`}</span>
       <div
         className={`one-day-progress-step__circle ${isCompleted ? "one-day-progress-step__circle--completed" : "font-bold text-[12px]"}`}
       >
@@ -62,7 +68,7 @@ const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
             <FaFireFlameCurved />
           </>
         ) : (
-          day
+          "?"
         )}
       </div>
       <div className="one-day-progress-step__line" />
@@ -77,8 +83,13 @@ export const DetailedProgressBar: React.FC<ProgressBarProps> = ({
   setShowAllLogDays,
 }) => {
   return (
-    <div className={`fixed top-0 bottom-0 w-[20%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays?"right-0":"right-[-100%]"} z-100 bg-white`}>
-      <RiArrowRightDoubleFill onClick={() => setShowAllLogDays&&setShowAllLogDays(false)} className="absolute top-0 left-0 m-2 text-3xl text-gray-900 hover:text-gray-400 cursor-pointer" />
+    <div
+      className={`fixed transition-all duration-200 top-0 bottom-0 w-[20%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays ? "right-0" : "right-[-20%]"} z-1000 bg-white`}
+    >
+      <RiArrowRightDoubleFill
+        onClick={() => setShowAllLogDays && setShowAllLogDays(false)}
+        className="absolute top-0 left-0 m-2 text-3xl text-gray-900 hover:text-gray-400 cursor-pointer"
+      />
       <div className="p-4 my-2 relative">
         <h1 className="font-bold py-5">Your Progress</h1>
         <div className="flex items-center gap-4 flex-wrap">

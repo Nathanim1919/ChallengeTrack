@@ -33,7 +33,7 @@ const initialState: ChallengesState = {
   challenges: [],
   selectedChallenge: null,
   isParticipant: false,
-    isOwner: false,
+  isOwner: false,
   loading: false,
   message: "",
   error: null,

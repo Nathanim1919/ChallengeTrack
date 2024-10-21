@@ -3,6 +3,7 @@ import {Request, Response} from "express";
 import {ApiResponse} from "../interfaces/ICommon";
 import {IChallenge} from "../interfaces/IChallenge";
 import {formatError, formatResponse} from "../utils/responseFormat";
+import { ILog } from "../interfaces/ILogs";
 
 class ChallengeController {
     constructor(private challengeService: ChallengeService) {
@@ -147,6 +148,15 @@ class ChallengeController {
             return res.status(200).json(formatResponse(challenge, 'Challenge marked as completed'));
         } catch(error){
             return res.status(400).json(formatError("Failed to mark challenge as completed"));
+        }
+    }
+
+    async getChallengeLogsForUser(req:Request, res:Response): Promise<Response<ApiResponse<ILog[]>>>{
+        try {
+            const logs = await this.challengeService.getChallengeLogsForUser(req.params.id, req.userId!);
+            return res.status(200).json(formatResponse(logs, 'Logs fetched successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to fetch logs"));
         }
     }
 

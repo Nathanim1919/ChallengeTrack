@@ -17,6 +17,9 @@ import CategoryRoute from './categorie.route';
 import LeaderBoardController from '../controllers/leaderboard.controller';
 import LeaderBoardRoute from './leaderboard.route';
 import { LogRepository } from '../repositories/log.repository';
+import LogService from '../services/log.service';
+import LogController from '../controllers/log.controller';
+import LogRoute from './log.route';
 
 export class Routes {
     public static configureRoutes(app: express.Application, baseUrl: string) {
@@ -28,6 +31,7 @@ export class Routes {
         const userService = new UserService(userRepository,leaderBoardService);
         const leaderboardService = new LeaderBoardService(new LeaderboardRepository());
         const categoryService = new CategoryService(new CategoryRepository());
+        const logService = new LogService(logRepository);
 
         // Challenge routes
         const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService, logRepository));
@@ -49,5 +53,10 @@ export class Routes {
         const leaderboardController = new LeaderBoardController(leaderboardService);
         const leaderboardRoute = new LeaderBoardRoute(leaderboardController);
         leaderboardRoute.configureRoutes(app, baseUrl);
+
+        // Log routes
+        const logController = new LogController(logService);
+        const logRoute = new LogRoute(logController);
+        logRoute.configureRoutes(app, baseUrl);
     }
 }

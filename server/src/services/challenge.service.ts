@@ -308,6 +308,14 @@ class ChallengeService {
         }
     }
 
+    async getChallengeLogsForUser(challengeId: string, userId: string): Promise<ILog[] | []> {
+        try {
+            return this.logRepository.getChallengeUserLogs(challengeId, userId);
+        } catch (error) {
+            throw new Error('Failed to get challenge logs for user');
+        }
+    }
+
     async saveDailyLogChallengeProgress(challengeId: string, userId: string, logs: string): Promise<IChallenge | null> {
         try {
            

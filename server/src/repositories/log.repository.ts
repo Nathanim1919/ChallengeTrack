@@ -18,6 +18,10 @@ export class LogRepository {
         return Log.find({ user: userId }).exec();
     }
 
+    async getChallengeUserLogs(challengeId: string, userId: string): Promise<ILog[]> {
+        return Log.find({ challenge: challengeId, user: userId }).exec();
+    }
+
     async getLogById(logId: string): Promise<ILog | null> {
         return Log.findById(logId).exec();
     }
