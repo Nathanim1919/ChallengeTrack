@@ -10,6 +10,7 @@ import {
   createChallenge,
   getAllChallenges,
   getChallengeById, getMyChallenges,
+  getPopularChallenge,
   joinChallenge,
   leaveChallenge,
 } from "./challengesActions";
@@ -20,6 +21,7 @@ import { ApiResponse } from "../../interfaces/ICommon";
 interface ChallengesState {
   challenges: IChallenge[];
   selectedChallenge: IChallenge | null;
+  popularChallenges: IChallenge[] | [];
   isParticipant: boolean;
   isOwner: boolean;
   loading: boolean;
@@ -32,6 +34,7 @@ interface ChallengesState {
 const initialState: ChallengesState = {
   challenges: [],
   selectedChallenge: null,
+  popularChallenges: [],
   isParticipant: false,
   isOwner: false,
   loading: false,
@@ -217,6 +220,19 @@ const challengesSlice = createSlice({
         .addCase(addDailyLog.rejected, (state, action) => {
           state.loading = false;
           state.error = action.error.message || "Failed to add log";
+        })
+        .addCase(getPopularChallenge.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(getPopularChallenge.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
+          state.popularChallenges = action.payload.data ?? [];
+          state.loading = false;
+          state.error = null;
+        })
+        .addCase(getPopularChallenge.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.error.message || "Failed to fetch popular challenges";
         });
   },
 });

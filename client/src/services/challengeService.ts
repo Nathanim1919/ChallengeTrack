@@ -22,6 +22,10 @@ const checkIfUserIsOwner = async (challengeId: string) => {
     return await challengesApi.checkIfUserIsOwner(challengeId);
 };
 
+const getPopularChallenge = async () => {
+  return await challengesApi.getPopularChallenge();
+};
+
 const checkIfUserIsParticipant = async (challengeId: string) => {
   return await challengesApi.checkIfUserIsParticipant(challengeId);
 };
@@ -67,5 +71,6 @@ export default {
   inviteUserToChallenge,
   reportAsInappropriate,
   checkIfUserIsOwner,
-  addDailyLog
+  addDailyLog,
+  getPopularChallenge
 };

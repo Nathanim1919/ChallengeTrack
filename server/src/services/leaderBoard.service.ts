@@ -18,7 +18,14 @@ class LeaderBoardService {
     }
 
     async addParticipantToLeaderboard(challengeId: string, userId: string) {
+        // const leaderboard = await this.leaderBoardRepository.getLeaderBoardByChallengeId(challengeId);
+        // console.log(leaderboard);
+        // if (!leaderboard) {
+        //     throw new Error('Leaderboard not found');
+        // }
+        
         return await this.leaderBoardRepository.addParticipantToLeaderboard(challengeId, userId);
+                
     };
 
     async removeParticipantFromLeaderboard(challengeId: string, userId: string) {

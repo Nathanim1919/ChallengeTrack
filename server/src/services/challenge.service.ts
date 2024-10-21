@@ -233,7 +233,10 @@ class ChallengeService {
             if (isParticipant) {
                 throw new Error('User is already a participant of this challenge');
             }
-            await this.leaderBoard.addParticipantToLeaderboard(challengeId, userId);
+            const addToLeaderboard = await this.leaderBoard.addParticipantToLeaderboard(challengeId, userId);
+
+
+            console.log("addToLeaderboard: " + addToLeaderboard);
             const updatedChallenge = await this.challengeRepository.addParticipant(challengeId, userId);
 
             if (!updatedChallenge) {
@@ -313,6 +316,14 @@ class ChallengeService {
             return this.logRepository.getChallengeUserLogs(challengeId, userId);
         } catch (error) {
             throw new Error('Failed to get challenge logs for user');
+        }
+    }
+
+    async getPopularChallenge(userId: string): Promise<IChallenge[] | []> {
+        try {
+            return this.challengeRepository.getPopularChallenge(userId);
+        } catch (error) {
+            throw new Error('Failed to get popular challenge');
         }
     }
 

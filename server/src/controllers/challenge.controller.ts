@@ -161,6 +161,16 @@ class ChallengeController {
     }
 
 
+    async getPopularChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
+        try {
+            const challenges = await this.challengeService.getPopularChallenge(req.userId!);
+            return res.status(200).json(formatResponse(challenges, 'Popular challenges fetched successfully'));
+        } catch(error){
+            return res.status(400).json(formatError("Failed to fetch popular challenges"));
+        }
+    }
+
+
     async saveDailyLogChallengeProgress(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
             const challenge = await this.challengeService.saveDailyLogChallengeProgress(req.params.id, req.userId!, req.body.details);

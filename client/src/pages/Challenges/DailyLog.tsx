@@ -37,8 +37,6 @@ const DailyLog = () => {
   }, []);
 
 
-  console.log("logs", logs);
-
   return (
     <div className="p-3 border-l border-gray-200">
       <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3 relative">
@@ -58,7 +56,7 @@ const DailyLog = () => {
         <div className=" grid place-items-center py-5">
           <ButtonLoading />
         </div>
-      ) : isParticipant || isOwner ? (
+      ) : (isParticipant) ? (
         <div>
           <DailyLogModal
             setShowAllLogDays={setShowAllLogDays}
@@ -105,7 +103,7 @@ const DailyLog = () => {
                         </span>
                       </h3>
                       <div>
-                        <p className="m-0">{log.details?.slice(0, 50)}...</p>
+                        <p className="m-0">{log.details?.slice(0, 30)}...</p>
                         <p className="m-0 text-gray-400 text-[13px]">
                           date
                         </p>

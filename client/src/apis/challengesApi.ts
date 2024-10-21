@@ -17,6 +17,11 @@ const getAllChallenges = async (page:number, limit:number): Promise<ApiResponse<
     return response.data;
 };
 
+const getPopularChallenge = async (): Promise<ApiResponse<IChallenge[]>> => {
+    const response = await apiConfig.get("/challenges/popular");
+    return response.data;
+}
+
 const getMyChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
     const response = await apiConfig.get("/my-challenges");
     return response.data;
@@ -108,5 +113,6 @@ export default {
     getChallengeParticipants,
     inviteUserToChallenge,
     reportAsInappropriate,
-    checkIfUserIsOwner
+    checkIfUserIsOwner,
+    getPopularChallenge
 }

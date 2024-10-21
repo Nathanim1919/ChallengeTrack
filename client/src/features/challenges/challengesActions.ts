@@ -70,7 +70,7 @@ export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string
 )
 
 
-export const checkIfUserIsOwner = createAsyncThunk<ApiResponse<boolean>, string>(
+export const checkIfUserIsOwner = createAsyncThunk<boolean, string>(
     'challenges/checkIfUserIsOwner',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -86,7 +86,7 @@ export const checkIfUserIsOwner = createAsyncThunk<ApiResponse<boolean>, string>
 );
 
 
-export const checkIfUserIsParticipant = createAsyncThunk<ApiResponse<boolean>, string>(
+export const checkIfUserIsParticipant = createAsyncThunk<boolean, string>(
     'challenges/checkIfUserIsParticipant',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -164,6 +164,22 @@ export const addDailyLog = createAsyncThunk<ApiResponse<IChallenge>, {challengeI
     async ({ challengeId, logs }, {rejectWithValue}) => {
         try {
             return await challengeService.addDailyLog(challengeId, logs);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);
+
+
+export const getPopularChallenge = createAsyncThunk<ApiResponse<IChallenge[]>>(
+    "challenges/getPopularChallenge",
+    async (_, { rejectWithValue }) => {
+        try {
+            return await challengeService.getPopularChallenge();
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);

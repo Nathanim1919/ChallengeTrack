@@ -23,7 +23,7 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {loading, leaderboard} = useAppSelector((state) => state.leaderboard);
-    const {isOwner, isParticipant} = useAppSelector((state) => state.challenges);
+    const {isOwner, isParticipant, selectedChallenge} = useAppSelector((state) => state.challenges);
     const [showOptions, setShowOptions] = React.useState(false);
 
     // open the options
@@ -42,6 +42,9 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             dispatch(getLeaderBoardByChallengeId(challenge._id));
         }
     }, [challenge, dispatch]);
+
+
+    console.log(selectedChallenge);
 
     return (
         <div className="leaderboard">

@@ -17,14 +17,20 @@ class LeaderboardRepository {
     }
 
     async addParticipantToLeaderboard(challengeId: string, userId: string): Promise<ILeaderboard | null> {
-        return await Leaderboard.findByIdAndUpdate(challengeId, {
-            $push: {
-                rankings: {
-                    userId
+        return await Leaderboard.findByIdAndUpdate(
+            challengeId,
+            {
+                $addToSet: {
+                    rankings: {
+                        userId,
+                        score: 0
+                    }
                 }
-            }
-        }, {new: true}).exec();
+            },
+            { new: true, upsert: true } // Use upsert to create if not exists
+        ).exec();
     }
+    
 
     async removeParticipantFromLeaderboard(challengeId: string, userId: string): Promise<ILeaderboard | null> {
         return await Leaderboard.findByIdAndUpdate(challengeId, {
