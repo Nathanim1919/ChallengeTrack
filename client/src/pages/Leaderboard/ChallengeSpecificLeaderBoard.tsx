@@ -28,12 +28,12 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
 
     // open the options
     const [showStatistics, setShowStatistics] = React.useState(false);
-    const [showParticipants, setShowParticipants] = React.useState(false);
-    const [showLeaderboard, setShowLeaderboard] = React.useState(false);
-    const [showSimilarChallenges, setShowSimilarChallenges] = React.useState(false);
-    const [showInviteFriends, setShowInviteFriends] = React.useState(false);
-    const [showDeleteChallenge, setShowDeleteChallenge] = React.useState(false);
-    const [showEditChallenge, setShowEditChallenge] = React.useState(false);
+    // const [showParticipants, setShowParticipants] = React.useState(false);
+    // const [showLeaderboard, setShowLeaderboard] = React.useState(false);
+    // const [showSimilarChallenges, setShowSimilarChallenges] = React.useState(false);
+    // const [showInviteFriends, setShowInviteFriends] = React.useState(false);
+    // const [showDeleteChallenge, setShowDeleteChallenge] = React.useState(false);
+    // const [showEditChallenge, setShowEditChallenge] = React.useState(false);
     const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
 
 
@@ -49,14 +49,14 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
             {
                 showLeaveChallenge && <ConfirmModal title="Leave Challenge" message="Are you sure you want to leave this challenge?" onClose={() => setShowLeaveChallenge(false)} onConfirm={() => {dispatch(leaveChallenge(challenge?._id));setShowLeaveChallenge(false);navigate("/in")}}/>
             }
-            <div className="leaderboard-header bg-black text-white grid p-5 gap-3 relative">
+            <div className="leaderboard-header bg-[#fff] text-black grid p-5 gap-3 relative">
                 <div>
                     <h1 className="text-3xl font-bold">{challenge?.title}</h1>
                     <p className="challengeDescription">
                        {challenge?.description}
                     </p>
                 </div>
-                <div className="flex items-center gap-2 text-white">
+                <div className="flex items-center gap-2 text-black">
                     <div className="w-10 h-10 rounded-full bg-gray-300">
                         <img src={AvatorImage as string} alt="avator" className="w-full h-full object-cover rounded-full"/>
                     </div>
@@ -67,40 +67,40 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                 </div>
                 {isParticipant&&<div className={"p-2"}>
                     <div onClick={() => setShowOptions(!showOptions)}
-                        className="flex items-center gap-3 absolute right-2 p-2 bg-gray-800 hover:bg-gray-600  rounded-full top-2">
+                        className="flex items-center gap-3 absolute right-2 p-2 bg-gray-200 hover:bg-gray-100  rounded-full top-2">
                         <SlOptionsVertical className="text-1xl cursor-pointer"/>
                     </div>
                     <div
                         className={`options 
                         ${showOptions ? 'block' : 'hidden'}
-                        bg-gray-900 w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-white`}>
+                        bg-white w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-black`}>
                        {!isOwner && <div onClick={() => setShowLeaveChallenge(true)}
-                            className="options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2">
+                            className="options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2">
                             <MdAdsClick/>
                             <p className="m-0">Leave Challenge</p>
                         </div>}
                         {isOwner && <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">Delete Challenge</p>
                         </div>}
                         {isOwner && <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">Edit Challenge</p>
                         </div>}
                         <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">Invite Friends</p>
                         </div>
                         <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">View Participants</p>
                         </div>
                         <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">View Leaderboard</p>
                         </div>
@@ -109,12 +109,12 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                                 setShowStatistics(!showStatistics);
                                 setShowOptions(false);
                             }}
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">View Statistics</p>
                         </div>
                         <div
-                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-700 border-b border-gray-600 p-2"}>
+                            className={"options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"}>
                             <MdAdsClick/>
                             <p className="m-0">View Similar Challenges</p>
                         </div>
@@ -122,10 +122,12 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                 </div>}
             </div>
             <div className="leaderboard-list">
-                <div className="leaderboard-list-body h-[75vh] overflow-y-auto">
+                <div className="leaderboard-list-body bg-[#f4f2f2] h-[75vh] overflow-y-auto">
                     {loading ? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:
+                    <div className="grid p-1">
+                        {
                         leaderboard?.rankings?.map((user, index) => (
-                            <div key={index} className="leaderboard-list-item p-3 grid grid-cols-4 gap-3 cursor-pointer border-b border-gray-200">
+                            <div key={index} className="leaderboard-list-item p-3 grid grid-cols-4 gap-3 cursor-pointer border border-gray-300 bg-white">
                                 <div className="flex items-center gap-5">
                                     <div className="w-8 h-8 bg-black font-bold rounded-md grid items-center justify-center text-white">
                                         <h3 className="m-0">{index + 1}</h3>
@@ -161,6 +163,9 @@ const ChallengeSpecificLeaderBoard:React.FC<{challenge: IChallenge | null}> = ({
                             </div>
                         ))
                     }
+                        </div>
+                    }
+                
                 </div>
             </div>
         </div>

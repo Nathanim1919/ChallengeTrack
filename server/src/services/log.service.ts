@@ -6,7 +6,7 @@ import { UserService } from "./user.service";
 
 class LogService {
   constructor(
-    private logRepository: LogRepository,
+    private  logRepository: LogRepository,
     private challengeRepository: ChallengeRepository,
     private userService: UserService,
 
@@ -36,6 +36,12 @@ class LogService {
 
       // change the difference to days
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      // check if their is a log for the day
+      const log = await this.logRepository.findLogForTheDay(diffDays, userId, challengeId);
+      if (log) {
+        throw new Error("You have already logged for the day");
+      }
 
       // if (challenge.status !== "ONGOING") {
       //     throw new Error('Challenge is not ongoing');

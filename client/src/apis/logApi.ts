@@ -19,7 +19,7 @@ export const getUserLogs = async (): Promise<ApiResponse<ILog[]>> => {
 };
 
 export const getChallengeUserLogs = async (challengeId: string): Promise<ApiResponse<ILog[]>> => {
-    const response = await apiConfig.get(`/logs/userLog/${challengeId}`);
+    const response = await apiConfig.get(`/logs/${challengeId}`);
     return response.data;
 };
 

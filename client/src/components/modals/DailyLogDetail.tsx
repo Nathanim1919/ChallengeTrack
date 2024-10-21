@@ -13,16 +13,14 @@ import { useAppSelector } from "../../hooks/useAppSelector";
  */
 interface IProps {
     showLogDetail: {
-        day: number;
-        date: string;
-        log: string;
-        status: string;
+        days?: number;
+        details?:string;
+        completed?: boolean;
     } | null;
     setShowLogDetail: (logDetail: {
-        day: number;
-        date: string;
-        log: string;
-        status: string;
+        days?: number;
+        details?:string;
+        completed?: boolean;
     } | null) => void;
 }
 
@@ -43,13 +41,12 @@ const DailyLogDetail:React.FC<IProps> = ({
                 </div>
             <div>
                 <div>
-                    <h1 className="font-bold ">Daily Log Detail For Day 7/{selectedChallenge?.duration}</h1>
+                    <h1 className="font-bold ">Daily Log Detail For Day {showLogDetail.days}/{selectedChallenge?.duration}</h1>
                     <h2 className="text-gray-500 text-[13px]">Nov 23 2023</h2>
                 </div>
                 <div className="text-gray-800 text-[14px] mt-4">
                     <p>
-                        I did 2km run today and 30 pushups, 30 situps, 30 squats, so I am feeling good today.
-                        i hope to keep up with this pace and getting better everyday. 
+                       {showLogDetail.details} 
                     </p>
                 </div>
             </div>

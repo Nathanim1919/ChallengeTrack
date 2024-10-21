@@ -1,6 +1,8 @@
 import React from "react";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
+import { BsQuestionLg } from "react-icons/bs";
+
 
 interface ProgressBarProps {
   total: number;
@@ -61,14 +63,14 @@ const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
     >
       <span className="absolute -top-3 opacity-0 rounded-sm bg-white border border-gray-200 transition-all duration-100 text-[12px] font-bold p-[1px] px-[8px] group-hover:-top-6 group-hover:opacity-100">{`day-${day}`}</span>
       <div
-        className={`one-day-progress-step__circle ${isCompleted ? "one-day-progress-step__circle--completed" : "font-bold text-[12px]"}`}
+        className={`one-day-progress-step__circle grid place-items-center ${isCompleted ? "one-day-progress-step__circle--completed" : "font-bold text-[12px]"}`}
       >
         {isCompleted ? (
           <>
             <FaFireFlameCurved />
           </>
         ) : (
-          "?"
+          <BsQuestionLg className="text-[16px]"/>
         )}
       </div>
       <div className="one-day-progress-step__line" />
@@ -84,7 +86,7 @@ export const DetailedProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   return (
     <div
-      className={`fixed transition-all duration-200 top-0 bottom-0 w-[20%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays ? "right-0" : "right-[-20%]"} z-1000 bg-white`}
+      className={`fixed transition-all duration-200 top-0 bottom-0 w-[25%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays ? "right-0" : "right-[-25%]"} z-1000 bg-white`}
     >
       <RiArrowRightDoubleFill
         onClick={() => setShowAllLogDays && setShowAllLogDays(false)}

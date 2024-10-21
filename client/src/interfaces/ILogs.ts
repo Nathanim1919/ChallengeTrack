@@ -6,4 +6,5 @@ export interface ILog {
     challenge?: string;
     details?:string,
     days?: number;
+    completed?: boolean;
 }

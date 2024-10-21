@@ -9,8 +9,8 @@ const getChallengeLogs = async (challengeId: string) => {
     return await logsApi.getChallengeLogs(challengeId);
 };
 
-const getUserLogs = async (userId: string) => {
-    return await logsApi.getUserLogs(userId);
+const getUserLogs = async () => {
+    return await logsApi.getUserLogs();
 };
 
 const getChallengeUserLogs = async (challengeId: string) => {
