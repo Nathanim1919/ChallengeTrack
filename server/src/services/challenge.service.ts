@@ -5,7 +5,7 @@ import {UserService} from "./user.service";
 import LeaderBoardService from "./leaderBoard.service";
 import {challengeStatus, RewardType} from "../utils/enum.utils";
 import {RankEntry} from "../interfaces/ILeaderBoard";
-import { startSession, Types } from 'mongoose';
+import mongoose, { startSession, Types } from 'mongoose';
 import { CategoryService } from "./category.service";
 import {Log} from "../models/log.model";
 import { RewardService } from "./reward.service";
@@ -35,11 +35,17 @@ class ChallengeService {
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + Number(duration));
 
+            const user = await this.userService.getUserById(creatorId);
+
+            if (!user) {
+                throw new Error('User not found');
+            }
+
             // Include createdBy in the initial challenge creation
             const createdChallenge = await this.challengeRepository.createChallenge({
                 ...challengeData,
                 endDate,
-                createdBy: new Types.ObjectId(creatorId),
+                createdBy: user._id,
                 categorie: categorie,
                 totalParticipants: 1,
                 participantsOnTrack: 1,
@@ -79,10 +85,6 @@ class ChallengeService {
             // session.endSession();
 
             if (createdChallenge){
-                const user = await this.userService.getUserById(creatorId);
-                if (!user){
-                    throw new Error('User not found');
-                }
                 user.createdChallenges.push(createdChallenge._id);
                 user.points = RewardService.reward(RewardType.CREATE_CHALLENGE, user.points);
                 await this.userService.updateUser(creatorId, user);
@@ -90,9 +92,6 @@ class ChallengeService {
 
             return createdChallenge;
         } catch (error) {
-            // await session.abortTransaction();
-            // session.endSession();
-
             console.log("error is: " + error);
             throw new Error('Failed to create challenge');
         }
@@ -235,8 +234,21 @@ class ChallengeService {
             }
             const addToLeaderboard = await this.leaderBoard.addParticipantToLeaderboard(challengeId, userId);
 
+            if (!addToLeaderboard) {
+                throw new Error('Failed to add participant to leaderboard');
+            }
 
-            console.log("addToLeaderboard: " + addToLeaderboard);
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+
+            user.participatedChallenges.push(new mongoose.Types.ObjectId(challengeId));
+            user.points = RewardService.reward(RewardType.JOIN_CHALLENGE, user?.points??0);
+
+            await this.userService.updateUser(userId, user);
+
             const updatedChallenge = await this.challengeRepository.addParticipant(challengeId, userId);
 
             if (!updatedChallenge) {
@@ -263,6 +275,16 @@ class ChallengeService {
             if (!removeParticipantFromChallenge) {
                 throw new Error('Failed to remove participant from challenge');
             }
+
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            user.participatedChallenges = user.participatedChallenges.filter(challenge => challenge.toString() !== challengeId);
+            user.points = RewardService.reward(RewardType.LEAVE_CHALLENGE, user?.points??0);
+
+            await this.userService.updateUser(userId, user);
 
             return removeParticipantFromChallenge;
         } catch (error) {

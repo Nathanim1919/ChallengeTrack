@@ -20,7 +20,7 @@ const DailyLog = () => {
   const [openModal, setOpenModal] = React.useState(false);
   const [showAllLogDays, setShowAllLogDays] = React.useState(false);
   const { user } = useAppSelector((state) => state.auth);
-  const { selectedChallenge, isParticipant, isOwner, loading, message, error } =
+  const { selectedChallenge, isParticipant, loading, message, error } =
     useAppSelector((state) => state.challenges);
   const { logs } = useAppSelector((state) => state.logs);
 

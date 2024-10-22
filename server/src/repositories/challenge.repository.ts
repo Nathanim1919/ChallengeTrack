@@ -78,7 +78,7 @@ export class ChallengeRepository {
     return Challenge.aggregate([
       {
         $match: {
-          participants: { $ne: userId, }, // Exclude challenges where the user is already a participant
+          participants: { $nin: userId, }, // Exclude challenges where the user is already a participant
           status: { $ne: "COMPLETED" },                 // Exclude completed challenges
           createdBy: { $ne: userId },                   // Exclude challenges created by the user
         },
@@ -108,19 +108,20 @@ export class ChallengeRepository {
     ]).exec();
 }
 
+async addParticipant(
+  challengeId: string,
+  userId: string
+): Promise<IChallenge | null> {
+  return Challenge.findByIdAndUpdate(
+    challengeId,
+    {
+      $addToSet: { participants: userId },
+      $inc: { totalParticipants: 1 },  // Use $inc to increment totalParticipants
+    },
+    { new: true }
+  ).exec();
+}
 
-  async addParticipant(
-    challengeId: string,
-    userId: string
-  ): Promise<IChallenge | null> {
-    return Challenge.findByIdAndUpdate(
-      challengeId,
-      {
-        $addToSet: { participants: userId },
-      },
-      { new: true }
-    ).exec();
-  }
 
   async removeParticipant(
     challengeId: string,
@@ -130,6 +131,7 @@ export class ChallengeRepository {
       challengeId,
       {
         $pull: { participants: userId },
+        $inc: { totalParticipants: -1 }, // Use $inc to decrement totalParticipants
       },
       { new: true }
     ).exec();

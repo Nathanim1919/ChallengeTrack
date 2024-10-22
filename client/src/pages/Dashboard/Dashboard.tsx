@@ -14,8 +14,6 @@ import AchievementOverview from "./AchievementOverview";
 
 
 const Dashboard: React.FC = () => {
-    const { user } = useSelector((state: RootState) => state.auth);
-    console.log(user);
     return (
         <div className="grid grid-cols-1 md:grid-cols-[_.75fr_.25fr] gap-2 m-2 h-[100%] overflow-hidden">
             <div className=" grid grid-rows-[.2fr_.6fr_.1fr_.1fr] gap-2 h-[78%] overflow-y-auto">
@@ -43,7 +41,6 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div>
                         <div className="grid gap-2">
-                            <h1 className="font-bold">This week Popular Challenge</h1> 
                             <PopularChallengeCard/>
                         </div>
                         <div className="grid gap-2">
@@ -54,9 +51,9 @@ const Dashboard: React.FC = () => {
                 </div>
                
             </div>
-            <div className=" grid grid-rows-[_.5fr_.5fr] h-[80%]">
-                <GlobalLeaderboardOverview/>
+            <div className=" grid grid-rows-[_.2fr_.8fr] h-[80%]">
                 <NotificationOverview/>
+                <GlobalLeaderboardOverview/>
             </div>
           
         </div>

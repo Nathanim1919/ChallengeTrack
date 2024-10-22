@@ -17,7 +17,7 @@ const NotificationOverviewCard:React.FC<NotificationOverviewCardProps> = ({notif
             <div className="flex items-center gap-3">
                 <MdCircleNotifications className="text-3xl"/>
                 <div className="flex flex-col">
-                    <h3 className="m-0">{notification.message}</h3>
+                    <h3 className="m-0 font-bold text-[13px]">{notification.message}</h3>
                     <p className="m-0 text-gray-500 text-[13px]">{notification.sentAt}</p>
                 </div>
             </div>

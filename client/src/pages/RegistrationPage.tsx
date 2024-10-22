@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../features/auth/authActions';
 import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/useAppSelector';
+import ButtonLoading from '../components/loading/buttonLoading';
 // Define the type for form data
 type FormDataType = {
     name: string;
@@ -18,10 +21,14 @@ const RegistrationPage: React.FC = () => {
         password: "",
     });
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const {navigateto, loading} = useAppSelector((state) => state.auth);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(registerUser(formData));
+        navigate(navigateto);
+    
     };
 
     return (
@@ -58,7 +65,7 @@ const RegistrationPage: React.FC = () => {
                         placeholder="Password" 
                         value={formData.password}
                     />
-                    <button className={"mt-3 font-Montserrat p-2 bg-sky-400 text-teal-50"}>Sign up</button>
+                    <button disabled={loading} className={`mt-3 grid place-items-center font-Montserrat p-2 ${loading?"bg-gray-600":"bg-gray-800"} text-teal-50`}>{loading?<ButtonLoading/>:<>Sign Up</>}</button>
                 </form>
         
                 <p>

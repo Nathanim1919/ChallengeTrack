@@ -24,10 +24,15 @@ const PopularChallengeCard = () => {
         navigate(`/in/challenges/${challengeId}`);
     };
 
+
+    if (!popularChallenges.length) {
+        return null;
+    }
     
 
     return (
         <div className="grid items-center bg-gray-100 border border-gray-300 p-5 rounded-lg gap-2 bg-gradient-to-br from-orange-500 to-orange-500 text-white">
+         <h1 className="font-bold">This week Popular Challenge</h1> 
         <div className="flex justify-between">
             <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-slate-300 rounded-lg"></div>

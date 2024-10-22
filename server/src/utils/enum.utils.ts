@@ -24,6 +24,7 @@ export const NotificationMessages = {
 
 export const RewardType = {
     REGISTRATION_BONUS: 'REGISTRATION_BONUS',
+    LEAVE_CHALLENGE: 'LEAVE_CHALLENGE',
     DAILY_LOGIN: 'DAILY_LOGIN',
     DAILY_CHALLENGE: 'DAILY_CHALLENGE',
     JOIN_CHALLENGE: 'JOIN_CHALLENGE',
@@ -48,6 +49,7 @@ export const RewardPoints = {
     [RewardType.SECOND_PLACE]: 50,
     [RewardType.THIRD_PLACE]: 25,
     [RewardType.JOIN_CHALLENGE]: 10,
+    [RewardType.CREATE_CHALLENGE]: -10,
     [RewardType.CREATE_CHALLENGE]: -5,
     [RewardType.MISS_DAILY_CHALLENGE]: -5,
     [RewardType.ACHIEVEMENT_UNLOCK]: 30,

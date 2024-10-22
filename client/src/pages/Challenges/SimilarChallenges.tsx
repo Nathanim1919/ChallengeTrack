@@ -1,6 +1,8 @@
 import React from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import ButtonLoading from "../../components/loading/buttonLoading";
+import { BsCollection } from "react-icons/bs";
+
 
 const SimilarChallenges = () => {
   const {loading} = useAppSelector((state) => state.challenges);
@@ -49,7 +51,7 @@ const SimilarChallenges = () => {
     ];
     return ( 
         <div className="bg-[#eee] border-r border-gray-200">
-          <h1 className="font-bold p-2 py-4 bg-white">You may also like</h1>
+          <h1 className="font-bold p-2 py-4 bg-white flex items-center gap-2"><BsCollection/>You may also like</h1>
           <div className="grid gap-1 p-2">
             {loading? <div className=' grid place-items-center py-5'><ButtonLoading/></div>:
               challenges.map((challenge, index) => (

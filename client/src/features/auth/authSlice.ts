@@ -6,6 +6,7 @@ import { registerUser, loginUser, logoutUser, getCurrentUser } from "./authActio
 // Define the shape of your authentication state
 interface AuthSlice {
     user: IUser | null;
+    navigateto: string;
     accessToken: string | null;
     isAuthenticated: boolean;
     loading: boolean;
@@ -15,6 +16,7 @@ interface AuthSlice {
 // Define the initial state of the authentication slice
 const initialState: AuthSlice = {
     user: null,
+    navigateto: "",
     accessToken: null,
     isAuthenticated: false,
     loading: false,
@@ -45,11 +47,13 @@ const authSlice = createSlice({
                 state.isAuthenticated = true;
                 state.loading = false;
                 state.error = null;
+                state.navigateto = ("/login");
 
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+                state.navigateto = "/register";
             })
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;

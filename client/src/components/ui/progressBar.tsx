@@ -2,6 +2,7 @@ import React from "react";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import { BsQuestionLg } from "react-icons/bs";
+import { GiProgression } from "react-icons/gi";
 
 
 interface ProgressBarProps {
@@ -18,8 +19,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   return (
     <div className="p-4 my-2 relative">
-      <h1 className="font-bold py-5">Your Progress</h1>
-      <div className="flex items-center gap-2 flex-wrap">
+        <h1 className="font-bold py-5 flex items-center gap-2"><GiProgression/>Your Progress</h1>
+        <div className="flex items-center gap-2 flex-wrap">
         {Array.from({ length: total })
           .slice(0, 12)
           .map((_, index) => {
@@ -86,14 +87,14 @@ export const DetailedProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   return (
     <div
-      className={`fixed transition-all duration-200 top-0 bottom-0 w-[25%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays ? "right-0" : "right-[-25%]"} z-1000 bg-white`}
+      className={`fixed transition-all z-100 duration-200 top-0 bottom-0 w-[25%] px-3 py-5 border-l border-gray-100 shadow-md ${showAllLogDays ? "right-0" : "right-[-25%]"} z-100 bg-white`}
     >
       <RiArrowRightDoubleFill
         onClick={() => setShowAllLogDays && setShowAllLogDays(false)}
         className="absolute top-0 left-0 m-2 text-3xl text-gray-900 hover:text-gray-400 cursor-pointer"
       />
       <div className="p-4 my-2 relative">
-        <h1 className="font-bold py-5">Your Progress</h1>
+        <h1 className="font-bold py-5 flex items-center gap-2"><GiProgression/>Your Progress</h1>
         <div className="flex items-center gap-4 flex-wrap">
           {Array.from({ length: total }).map((_, index) => {
             return (
