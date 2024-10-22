@@ -1,6 +1,6 @@
 import apiConfig from "./apiConfig.ts";
 import { IChallenge } from "../interfaces/IChallenge.ts";
-import { ILogs } from "../interfaces/ILogs.ts";
+import { ILog } from "../interfaces/ILogs.ts";
 import { ApiResponse } from "../interfaces/ICommon.ts";
 
 
@@ -12,8 +12,8 @@ const createChallenge = async (challengeData: Partial<IChallenge>): Promise<ICha
 
 
 // Define an api for getting all challenges
-const getAllChallenges = async (page:number, limit:number): Promise<ApiResponse<IChallenge[]>> => {
-    const response = await apiConfig.get(`/challenges?page=${page}&limit=${limit}`);
+const getAllChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
+    const response = await apiConfig.get(`/challenges`);
     return response.data;
 };
 
@@ -27,7 +27,7 @@ const getMyChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
     return response.data;
 };
 
-const checkIfUserIsOwner = async (challengeId: string): Promise<boolean> => {
+const checkIfUserIsOwner = async (challengeId: string): Promise<ApiResponse<boolean>> => {
     const response = await apiConfig.get(`/challenges/${challengeId}/isOwner`);
     return response.data;
 };
@@ -56,13 +56,13 @@ const getChallengeLogs = async (challengeId: string): Promise<IChallenge[]> => {
 };
 
 
-const createChallengeLog = async (challengeId: string, logs: Partial<ILogs>): Promise<ApiResponse<IChallenge>> => {
+const createChallengeLog = async (challengeId: string, logs: Partial<ILog>): Promise<ApiResponse<IChallenge>> => {
     const response = await apiConfig.post(`/challenges/${challengeId}/logs`, logs);
     return response.data;
 };
 
 
-const checkIfUserIsParticipant = async (challengeId: string): Promise<boolean> => {
+const checkIfUserIsParticipant = async (challengeId: string): Promise<ApiResponse<boolean>> => {
     const response = await apiConfig.get(`/challenges/${challengeId}/is-participant`);
     return response.data;
 };

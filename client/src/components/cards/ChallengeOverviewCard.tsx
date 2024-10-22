@@ -39,7 +39,7 @@ const ChallengeOverviewCard: React.FC<ChallengeOverviewCardProps> = ({challenge}
                 <img src={avatorImage as string} alt="running" className="w-full h-full rounded-full border-2 border-white"/>
               </div>
             </div>
-            <p className="font-bold relative right-6">+120</p>
+            <p className="font-bold relative right-6">+{challenge?.participants?.length}</p>
           </div>
           <div>
             <p className="flex items-center gap-1 text-[12px] font-bold"><FaRegDotCircle/>{challenge.status}</p>

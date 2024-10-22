@@ -18,11 +18,11 @@ const LatestChalleges = () => {
     const {challenges, loading} = useAppSelector(state => state.challenges)
     const dispatch = useAppDispatch()
     const [page, setPage] = useState(1);
-    const limit = 3;
+  
 
     useEffect(() => {
-        dispatch(getAllChallenges({page, limit}))
-    },[dispatch, page])
+        dispatch(getAllChallenges())
+    },[])
 
     const handleSeeMore = () => {
         setPage(prevPage => prevPage + 1);

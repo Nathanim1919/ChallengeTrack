@@ -25,7 +25,7 @@ const PopularChallengeCard = () => {
     };
 
 
-    if (!popularChallenges.length) {
+    if (popularChallenges.length < 1) {
         return null;
     }
     

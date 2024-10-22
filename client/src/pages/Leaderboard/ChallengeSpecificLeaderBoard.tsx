@@ -15,6 +15,7 @@ import { ChallengeStatistics } from "../../components/cards/challengeStatistics.
 import { ConfirmModal } from "../../components/modals/ConfirmModal.tsx";
 import { getPopularChallenge, leaveChallenge } from "../../features/challenges/challengesActions.ts";
 import { useNavigate } from "react-router-dom";
+import { getRewardPoints, RewardPoints, RewardType, userActionConfirmationMessages } from "../../utils/constants.ts";
 
 const ChallengeSpecificLeaderBoard: React.FC<{
   challenge: IChallenge | null;
@@ -61,7 +62,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
       {showLeaveChallenge && (
         <ConfirmModal
           title="Leave Challenge"
-          message="Are you sure you want to leave this challenge?"
+          message={userActionConfirmationMessages.LEAVE_CHALLENGE}
           onClose={() => setShowLeaveChallenge(false)}
           onConfirm={handleLeaveChallenge}
         />

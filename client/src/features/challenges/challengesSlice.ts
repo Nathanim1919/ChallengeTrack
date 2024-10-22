@@ -131,8 +131,8 @@ const challengesSlice = createSlice({
       })
       .addCase(
         checkIfUserIsParticipant.fulfilled,
-        (state, action: PayloadAction<boolean>) => {
-          state.isParticipant = action.payload ?? false;
+        (state, action: PayloadAction<ApiResponse<boolean>>) => {
+          state.isParticipant = action.payload.data ?? false;
           state.loading = false;
           state.error = null;
         }

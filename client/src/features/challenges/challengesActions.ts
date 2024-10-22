@@ -22,12 +22,12 @@ export const createChallenge = createAsyncThunk<IChallenge, Partial<IChallenge>>
 
 
 
-export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>, {page:number, limit:number}>(
+export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
     'challenges/getAllChallenges',
-    async ({ page, limit }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const res =  await challengeService.getAllChallenges(page, limit);
-            console.log(res)
+           return  await challengeService.getAllChallenges();
+            // console.log(res)
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -70,7 +70,7 @@ export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string
 )
 
 
-export const checkIfUserIsOwner = createAsyncThunk<boolean, string>(
+export const checkIfUserIsOwner = createAsyncThunk<ApiResponse<boolean>, string>(
     'challenges/checkIfUserIsOwner',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -86,7 +86,7 @@ export const checkIfUserIsOwner = createAsyncThunk<boolean, string>(
 );
 
 
-export const checkIfUserIsParticipant = createAsyncThunk<boolean, string>(
+export const checkIfUserIsParticipant = createAsyncThunk<ApiResponse<boolean>, string>(
     'challenges/checkIfUserIsParticipant',
     async (challengeId: string, {rejectWithValue}) => {
         try {

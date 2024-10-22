@@ -7,7 +7,7 @@ import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { joinChallenge } from "../../features/challenges/challengesActions";
+import { getMyChallenges, joinChallenge } from "../../features/challenges/challengesActions";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import { CustomeToast } from "../../components/ui/customeToast";
 import {
@@ -35,6 +35,13 @@ const DailyLog = () => {
   useEffect(() => {
     dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
   }, []);
+
+
+  const handleJoinChallenge = () => {
+    dispatch(joinChallenge(selectedChallenge?._id ?? ""));
+    // dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
+    dispatch(getMyChallenges());
+  };
 
 
   return (
@@ -129,9 +136,7 @@ const DailyLog = () => {
           <button
             disabled={loading}
             className={`hover:bg-gray-600 ${!loading ? "bg-gray-900" : "bg-gray-600"} text-white py-1 px-3 rounded-sm flex items-center gap-1`}
-            onClick={() =>
-              dispatch(joinChallenge(selectedChallenge?._id ?? ""))
-            }
+            onClick={handleJoinChallenge}
           >
             {loading ? <ButtonLoading /> : <MdOutlineJoinFull />}Join
           </button>

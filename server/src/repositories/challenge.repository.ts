@@ -65,8 +65,8 @@ export class ChallengeRepository {
   ): Promise<IChallenge[] | []> {
     const skip = (page - 1) * limit;
     return Challenge.find({ createdBy: { $ne: userId } })
-      .skip(skip)
-      .limit(limit)
+      // .skip(skip)
+      // .limit(limit)
       .exec();
   }
 
