@@ -175,7 +175,7 @@ export const addDailyLog = createAsyncThunk<ApiResponse<IChallenge>, {challengeI
 );
 
 
-export const getPopularChallenge = createAsyncThunk<ApiResponse<IChallenge[]>>(
+export const    getPopularChallenge = createAsyncThunk<ApiResponse<IChallenge[]>>(
     "challenges/getPopularChallenge",
     async (_, { rejectWithValue }) => {
         try {

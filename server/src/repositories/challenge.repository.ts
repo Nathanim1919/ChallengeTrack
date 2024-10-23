@@ -78,9 +78,9 @@ export class ChallengeRepository {
     return Challenge.aggregate([
       {
         $match: {
-          participants: { $nin: userId, }, // Exclude challenges where the user is already a participant
-          status: { $ne: "COMPLETED" },                 // Exclude completed challenges
-          createdBy: { $ne: userId },                   // Exclude challenges created by the user
+          participants: { $nin: [userId] },  // Exclude challenges where the user is a participant
+          status: { $ne: "COMPLETED" },      // Exclude completed challenges
+          createdBy: { $ne: userId },        // Exclude challenges created by the user (check the ID before lookup)
         },
       },
       {
@@ -89,24 +89,26 @@ export class ChallengeRepository {
         },
       },
       {
-        $sort: { participantCount: -1 }, // Sort by the number of participants in descending order
+        $sort: { participantCount: -1 },  // Sort by the number of participants in descending order
       },
       {
-        $limit: 1, // Return the challenge with the highest participant count
+        $limit: 1,  // Return the challenge with the highest participant count
       },
       {
-        $lookup: { // Populate the 'createdBy' field with data from the User collection
-          from: 'users', // Name of the collection that holds the user data
-          localField: 'createdBy', // Field in the Challenge model that stores the user reference (userId)
-          foreignField: '_id', // Field in the User model that matches the userId (typically _id)
-          as: 'createdBy', // The field where the joined data will be stored (replaces 'createdBy' with the full user data)
+        $lookup: {   // Populate the 'createdBy' field with data from the User collection
+          from: 'users',                 // Collection to join
+          localField: 'createdBy',       // Field in the Challenge model (still holds user ID)
+          foreignField: '_id',           // Matching field in the User collection (user ID)
+          as: 'createdBy',               // Output the joined data in the 'createdBy' field
         },
       },
       {
-        $unwind: '$createdBy', // Unwind the array to get the populated 'createdBy' field as an object instead of an array
+        $unwind: '$createdBy',  // Unwind the array to get 'createdBy' as an object instead of an array
       },
     ]).exec();
-}
+  }
+  
+  
 
 async addParticipant(
   challengeId: string,

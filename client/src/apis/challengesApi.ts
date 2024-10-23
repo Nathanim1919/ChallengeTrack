@@ -19,6 +19,7 @@ const getAllChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
 
 const getPopularChallenge = async (): Promise<ApiResponse<IChallenge[]>> => {
     const response = await apiConfig.get("/challenges/popular");
+    console.log(response.data)
     return response.data;
 }
 

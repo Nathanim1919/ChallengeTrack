@@ -13,9 +13,17 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { MdAdsClick } from "react-icons/md";
 import { ChallengeStatistics } from "../../components/cards/challengeStatistics.tsx";
 import { ConfirmModal } from "../../components/modals/ConfirmModal.tsx";
-import { getPopularChallenge, leaveChallenge } from "../../features/challenges/challengesActions.ts";
+import {
+  getPopularChallenge,
+  leaveChallenge,
+} from "../../features/challenges/challengesActions.ts";
 import { useNavigate } from "react-router-dom";
-import { getRewardPoints, RewardPoints, RewardType, userActionConfirmationMessages } from "../../utils/constants.ts";
+import {
+  getRewardPoints,
+  RewardPoints,
+  RewardType,
+  userActionConfirmationMessages,
+} from "../../utils/constants.ts";
 
 const ChallengeSpecificLeaderBoard: React.FC<{
   challenge: IChallenge | null;
@@ -39,13 +47,11 @@ const ChallengeSpecificLeaderBoard: React.FC<{
   const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
 
   useEffect(() => {
-    if (challenge?._id) {
-      dispatch(getLeaderBoardByChallengeId(challenge._id));
-    }
+      dispatch(getLeaderBoardByChallengeId(challenge?._id||""));
   }, [challenge, dispatch]);
 
   const handleLeaveChallenge = () => {
-    dispatch(leaveChallenge(challenge?._id??''));
+    dispatch(leaveChallenge(challenge?._id ?? ""));
     dispatch(getPopularChallenge());
     setShowLeaveChallenge(false);
     navigate("/in");
@@ -103,7 +109,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                         ${showOptions ? "block" : "hidden"}
                         bg-white w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-black`}
             >
-              {!isOwner && (
+              {!isOwner ? (
                 <div
                   onClick={() => setShowLeaveChallenge(true)}
                   className="options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
@@ -111,27 +117,28 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                   <MdAdsClick />
                   <p className="m-0">Leave Challenge</p>
                 </div>
+              ) : (
+                <>
+                  <div
+                    className={
+                      "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
+                    }
+                  >
+                    <MdAdsClick />
+                    <p className="m-0">Delete Challenge</p>
+                  </div>
+
+                  <div
+                    className={
+                      "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
+                    }
+                  >
+                    <MdAdsClick />
+                    <p className="m-0">Edit Challenge</p>
+                  </div>
+                </>
               )}
-              {isOwner && (
-                <div
-                  className={
-                    "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                  }
-                >
-                  <MdAdsClick />
-                  <p className="m-0">Delete Challenge</p>
-                </div>
-              )}
-              {isOwner && (
-                <div
-                  className={
-                    "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                  }
-                >
-                  <MdAdsClick />
-                  <p className="m-0">Edit Challenge</p>
-                </div>
-              )}
+
               <div
                 className={
                   "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
