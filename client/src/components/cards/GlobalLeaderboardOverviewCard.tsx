@@ -15,12 +15,12 @@ interface GlobalLeaderboardOverviewCardProps {
 const GlobalLeaderboardOverviewCard: React.FC<GlobalLeaderboardOverviewCardProps> = ({leaderBoard}) => {
     const {user}  = useAppSelector(state => state.auth);
     return (
-        <div className={`border border-gray-300 rounded-lg flex items-center gap-5 p-2 ${user?._id === leaderBoard?.userId?._id ? 'bg-orange-100 font-bold' : ''}`}>
-        <div className="w-10 h-10 bg-blue-400 rounded-lg text-white grid text-4xl items-center justify-center">
+        <div className={`border border-gray-300 rounded-lg flex items-center gap-5 p-2 ${user?._id === leaderBoard?.userId?._id ? 'bg-gray-800 text-white transform scale-120 p-1 mx-1 rounded-md border-gray-600 shadow-md' : 'mx-4'}`}>
+        <div className="w-8 h-8 bg-blue-400 rounded-lg text-white grid text-3xl items-center justify-center">
             <p className="font-bold">{leaderBoard.rank}</p>
         </div>
         <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gray-300">
+            <div className="w-6 h-6 rounded-full bg-gray-300">
                 {/* <img src={user.image} alt="avator" className="w-full h-full rounded-lg"/> */}
             </div>
             <div className="flex flex-col">

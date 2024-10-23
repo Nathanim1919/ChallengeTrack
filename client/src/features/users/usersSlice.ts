@@ -107,3 +107,8 @@ const usersSlice = createSlice({
         }
     }
 );
+
+
+
+export const {setLoading, setError, setMessage} = usersSlice.actions;
+export default usersSlice.reducer;

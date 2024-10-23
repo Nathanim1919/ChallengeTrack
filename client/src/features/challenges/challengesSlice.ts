@@ -115,8 +115,15 @@ const challengesSlice = createSlice({
         })
       .addCase(
         getChallengeById.fulfilled,
-        (state, action: PayloadAction<ApiResponse<IChallenge>>) => {
-          state.selectedChallenge = action.payload.data;
+        (state, action: PayloadAction<{
+          challenge: ApiResponse<IChallenge>;
+          isParticipant: ApiResponse<boolean>;
+          isOwner: ApiResponse<boolean>;
+        }>) => {
+          state.selectedChallenge = action.payload.challenge.data;
+          console.log("Selected Challenge: ",state.selectedChallenge);
+          state.isParticipant = action.payload.isParticipant.data?? false;
+          state.isOwner = action.payload.isOwner.data?? false;
           state.loading = false;
           state.error = null;
         }
@@ -133,6 +140,7 @@ const challengesSlice = createSlice({
         checkIfUserIsParticipant.fulfilled,
         (state, action: PayloadAction<ApiResponse<boolean>>) => {
           state.isParticipant = action.payload.data ?? false;
+          console.log("Is Participant: ",state.isParticipant);
           state.loading = false;
           state.error = null;
         }
@@ -152,11 +160,11 @@ const challengesSlice = createSlice({
           state,
           action: PayloadAction<{
             updatedChallenge: ApiResponse<IChallenge>;
-            isParticipant: boolean;
+            isParticipant: ApiResponse<boolean>;
           }>
         ) => {
           state.selectedChallenge = action.payload.updatedChallenge.data;
-          state.isParticipant = action.payload.isParticipant;
+          state.isParticipant = action.payload.isParticipant.data?? false;
           state.message = "You have joined the challenge";
           state.error = null;
           state.loading = false;
@@ -178,11 +186,11 @@ const challengesSlice = createSlice({
           state,
           action: PayloadAction<{
             updatedChallenge: ApiResponse<IChallenge>;
-            isParticipant: boolean;
+            isParticipant: ApiResponse<boolean>;
           }>
         ) => {
           state.selectedChallenge = action.payload.updatedChallenge.data;
-          state.isParticipant = action.payload.isParticipant;
+          state.isParticipant = action.payload.isParticipant.data?? false;
           state.message = "You have Left the challenge";
           state.error = null;
           state.loading = false;
@@ -200,6 +208,7 @@ const challengesSlice = createSlice({
         })
         .addCase(checkIfUserIsOwner.fulfilled, (state, action: PayloadAction<ApiResponse<boolean>>) => {
             state.isOwner = action.payload.data ?? false;
+            console.log("Is Owner: ",state.isOwner);
             state.loading = false;
             state.error = null;
         })

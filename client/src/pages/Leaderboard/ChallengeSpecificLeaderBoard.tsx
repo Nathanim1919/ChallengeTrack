@@ -31,6 +31,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading, leaderboard } = useAppSelector((state) => state.leaderboard);
+  const {user} = useAppSelector((state) => state.auth);
   const { isOwner, isParticipant } = useAppSelector(
     (state) => state.challenges
   );
@@ -199,10 +200,10 @@ const ChallengeSpecificLeaderBoard: React.FC<{
             </div>
           ) : (
             <div className="grid p-1 gap-2">
-              {leaderboard?.rankings?.map((user, index) => (
+              {leaderboard?.rankings?.map((particpant, index) => (
                 <div
                   key={index}
-                  className="leaderboard-list-item p-1 flex justify-between cursor-pointer border border-gray-200 bg-white"
+                  className={`border ${(particpant.userId._id === user?._id)?"bg-orange-200 transform scale-120 p-1 mx-1 rounded-md border-gray-600 shadow-md":"mx-4 p-1 bg-white border-gray-200"} leaderboard-list-item flex justify-between cursor-pointer`}
                 >
                   <div className="flex items-center gap-5">
                     <div className="w-8 h-8 bg-black font-bold rounded-md grid items-center justify-center text-white">
@@ -218,7 +219,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                           />
                         </div>
                         <h2 className="m-0 font-bold">
-                          {user.userId.username}
+                          {particpant.userId.username}
                         </h2>
                       </div>
 
@@ -237,7 +238,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                     </div>
                     <div className="flex items-center gap-1 text-orange-500 font-bold">
                       <GiTwoCoins />
-                      <p className="m-0">{user.score} XP</p>
+                      <p className="m-0">{particpant.score} XP</p>
                     </div>
                   </div>
 

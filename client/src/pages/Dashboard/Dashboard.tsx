@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
 import Overview from "./Overview";
 import ChallengeOverview from "./ChallengeOverview";
 import RecommandedChallenges from "./RecommandedChallenges";

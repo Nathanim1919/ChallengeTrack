@@ -54,11 +54,29 @@ export const getMyChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
 )
 
 
-export const getChallengeById = createAsyncThunk<ApiResponse<IChallenge>, string>(
+export const getChallengeById = createAsyncThunk<{
+    challenge: ApiResponse<IChallenge>;
+    isParticipant: ApiResponse<boolean>;
+    isOwner: ApiResponse<boolean>;
+}, string>(
     'challenges/getChallengeById',
     async (challengeId: string, {rejectWithValue}) => {
         try {
-            return await challengeService.getChallengeById(challengeId);
+            // Fetch the challenge by ID
+            const challenge = await challengeService.getChallengeById(challengeId);
+
+            // Check if the user is a participant
+            const isParticipantResponse = await challengeService.checkIfUserIsParticipant(challengeId);
+
+            // Check if the user is the owner
+            const isOwnerResponse = await challengeService.checkIfUserIsOwner(challengeId);
+
+            return {
+                challenge,
+                isParticipant: isParticipantResponse,
+                isOwner: isOwnerResponse,
+            };
+            // return await challengeService.getChallengeById(challengeId);
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message);
@@ -102,7 +120,7 @@ export const checkIfUserIsParticipant = createAsyncThunk<ApiResponse<boolean>, s
 );
 
 
-export const joinChallenge = createAsyncThunk<{updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean}, string>(
+export const joinChallenge = createAsyncThunk<{updatedChallenge: ApiResponse<IChallenge>; isParticipant: ApiResponse<boolean>}, string>(
     'challenges/joinChallenge',
     async (challengeId: string, {rejectWithValue}) => {
         try {
@@ -131,7 +149,7 @@ export const joinChallenge = createAsyncThunk<{updatedChallenge: ApiResponse<ICh
 );
 
 
-export const leaveChallenge = createAsyncThunk<{ updatedChallenge: ApiResponse<IChallenge>; isParticipant: boolean }, string>(
+export const leaveChallenge = createAsyncThunk<{ updatedChallenge: ApiResponse<IChallenge>; isParticipant: ApiResponse<boolean> }, string>(
     'challenges/leaveChallenge',
     async (challengeId: string, {rejectWithValue}) => {
         try {
