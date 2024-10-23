@@ -51,6 +51,14 @@ export class ChallengeRepository {
     return Challenge.findByIdAndDelete(id).exec();
   }
 
+  async getChallengesUserCreatedOrParticipated(
+    userId: string
+  ): Promise<IChallenge[] | []> {
+    return Challenge.find({
+      $or: [{ createdBy: userId }, { participants: userId }],
+    }).exec();
+  }
+
   async searchChallenges(filter: any): Promise<IChallenge[] | []> {
     return await Challenge.find(filter)
       .sort({ createdAt: -1 })
@@ -64,10 +72,12 @@ export class ChallengeRepository {
     limit: number
   ): Promise<IChallenge[] | []> {
     const skip = (page - 1) * limit;
-    return Challenge.find({ createdBy: { $ne: userId } })
-      // .skip(skip)
-      // .limit(limit)
-      .exec();
+    return (
+      Challenge.find({ createdBy: { $ne: userId } })
+        // .skip(skip)
+        // .limit(limit)
+        .exec()
+    );
   }
 
   async findChallengeById(challengeId: string): Promise<IChallenge | null> {
@@ -78,9 +88,9 @@ export class ChallengeRepository {
     return Challenge.aggregate([
       {
         $match: {
-          participants: { $nin: [userId] },  // Exclude challenges where the user is a participant
-          status: { $ne: "COMPLETED" },      // Exclude completed challenges
-          createdBy: { $ne: userId },        // Exclude challenges created by the user (check the ID before lookup)
+          participants: { $nin: [userId] }, // Exclude challenges where the user is a participant
+          status: { $ne: "COMPLETED" }, // Exclude completed challenges
+          createdBy: { $ne: userId }, // Exclude challenges created by the user (check the ID before lookup)
         },
       },
       {
@@ -89,41 +99,39 @@ export class ChallengeRepository {
         },
       },
       {
-        $sort: { participantCount: -1 },  // Sort by the number of participants in descending order
+        $sort: { participantCount: -1 }, // Sort by the number of participants in descending order
       },
       {
-        $limit: 1,  // Return the challenge with the highest participant count
+        $limit: 1, // Return the challenge with the highest participant count
       },
       {
-        $lookup: {   // Populate the 'createdBy' field with data from the User collection
-          from: 'users',                 // Collection to join
-          localField: 'createdBy',       // Field in the Challenge model (still holds user ID)
-          foreignField: '_id',           // Matching field in the User collection (user ID)
-          as: 'createdBy',               // Output the joined data in the 'createdBy' field
+        $lookup: {
+          // Populate the 'createdBy' field with data from the User collection
+          from: "users", // Collection to join
+          localField: "createdBy", // Field in the Challenge model (still holds user ID)
+          foreignField: "_id", // Matching field in the User collection (user ID)
+          as: "createdBy", // Output the joined data in the 'createdBy' field
         },
       },
       {
-        $unwind: '$createdBy',  // Unwind the array to get 'createdBy' as an object instead of an array
+        $unwind: "$createdBy", // Unwind the array to get 'createdBy' as an object instead of an array
       },
     ]).exec();
   }
-  
-  
 
-async addParticipant(
-  challengeId: string,
-  userId: string
-): Promise<IChallenge | null> {
-  return Challenge.findByIdAndUpdate(
-    challengeId,
-    {
-      $addToSet: { participants: userId },
-      $inc: { totalParticipants: 1 },  // Use $inc to increment totalParticipants
-    },
-    { new: true }
-  ).exec();
-}
-
+  async addParticipant(
+    challengeId: string,
+    userId: string
+  ): Promise<IChallenge | null> {
+    return Challenge.findByIdAndUpdate(
+      challengeId,
+      {
+        $addToSet: { participants: userId },
+        $inc: { totalParticipants: 1 }, // Use $inc to increment totalParticipants
+      },
+      { new: true }
+    ).exec();
+  }
 
   async removeParticipant(
     challengeId: string,

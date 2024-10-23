@@ -122,10 +122,18 @@ class ChallengeService {
         }
     }
 
+    async getChallengesUserCreatedOrParticipated(userId: string): Promise<IChallenge[] | []> {
+        try {
+            return await this.challengeRepository.getChallengesUserCreatedOrParticipated(userId);
+        } catch (error) {
+            throw new Error('Failed to search challenges');
+        }
+    }
+
     async getMyChallenges(userId: string): Promise<IChallenge[] | []> {
         try {
             return await this.challengeRepository.searchChallenges({
-                createdBy: userId
+                createdBy: userId,
             });
         } catch (error) {
             throw new Error('Failed to search challenges');

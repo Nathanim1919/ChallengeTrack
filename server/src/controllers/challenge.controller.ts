@@ -57,6 +57,15 @@ class ChallengeController {
         }
     }
 
+    async getChallengesUserCreatedOrParticipated(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
+        try {
+            const challenges = await this.challengeService.getChallengesUserCreatedOrParticipated(req.userId!);
+            return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
+        }catch (error){
+            return res.status(400).json(formatError("Failed to search challenges"));
+        }
+    }
+
     async getMyChallenges(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
         try {
             const challenges = await this.challengeService.getMyChallenges(req.userId!);

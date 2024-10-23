@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { GiTwoCoins } from "react-icons/gi";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
 import { IChallenge } from "../../interfaces/IChallenge";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLeaderBoardByChallengeId } from "../../features/leaderboard/leaderboardAction";
+import {
+  getLeaderBoardByChallengeId,
+} from "../../features/leaderboard/leaderboardAction";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import { SlOptionsVertical } from "react-icons/sl";
 import { MdAdsClick } from "react-icons/md";
@@ -19,20 +20,16 @@ import {
 } from "../../features/challenges/challengesActions.ts";
 import { useNavigate } from "react-router-dom";
 import {
-  getRewardPoints,
-  RewardPoints,
-  RewardType,
   userActionConfirmationMessages,
 } from "../../utils/constants.ts";
 
 const ChallengeSpecificLeaderBoard: React.FC<{
-  challenge: IChallenge | null;
-  isPage: boolean;
+  challenge?: IChallenge | null;
 }> = ({ challenge }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading, leaderboard } = useAppSelector((state) => state.leaderboard);
-  const {user} = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
   const { isOwner, isParticipant } = useAppSelector(
     (state) => state.challenges
   );
@@ -49,7 +46,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
   const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
 
   useEffect(() => {
-      dispatch(getLeaderBoardByChallengeId(challenge?._id||""));
+    dispatch(getLeaderBoardByChallengeId(challenge?._id || ""));
   }, [challenge, dispatch]);
 
   const handleLeaveChallenge = () => {
@@ -64,7 +61,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
       {showStatistics && (
         <ChallengeStatistics
           setShowStatistics={setShowStatistics}
-          selectedChallenge={challenge}
+          selectedChallenge={challenge || null}
         />
       )}
       {showLeaveChallenge && (
@@ -204,7 +201,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
               {leaderboard?.rankings?.map((particpant, index) => (
                 <div
                   key={index}
-                  className={`border ${(particpant.userId._id === user?._id)?"bg-orange-200 transform scale-120 p-1 mx-1 rounded-md border-gray-600 shadow-md":"mx-4 p-1 bg-white border-gray-200"} leaderboard-list-item flex justify-between cursor-pointer`}
+                  className={`border ${particpant.userId._id === user?._id ? "bg-orange-200 transform scale-120 p-1 mx-1 rounded-md border-gray-600 shadow-md" : "mx-4 p-1 bg-white border-gray-200"} leaderboard-list-item flex justify-between cursor-pointer`}
                 >
                   <div className="flex items-center gap-5">
                     <div className="w-8 h-8 bg-black font-bold rounded-md grid items-center justify-center text-white">

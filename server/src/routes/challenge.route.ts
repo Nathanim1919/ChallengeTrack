@@ -13,7 +13,7 @@ class ChallengeRoute {
             .get(this.challengeController.getAllChallenges.bind(this.challengeController));
         app.route(`${baseUrl}/my-challenges`)
             .all(verifyUser)
-            .get(this.challengeController.getMyChallenges.bind(this.challengeController));
+            .get(this.challengeController.getChallengesUserCreatedOrParticipated.bind(this.challengeController));
         app.route(`${baseUrl}/challenges/popular`)
             .all(verifyUser)
             .get(this.challengeController.getPopularChallenge.bind(this.challengeController));

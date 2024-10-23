@@ -4,12 +4,16 @@ import GlobalLeaderBoard from "./GlobalLeaderBoard";
 import ChallengeSpecificLeaderBoard from "./ChallengeSpecificLeaderBoard";
 
 const Leaderboard = () => {
+    const [showGlobalLeaderBoard, setShowGlobalLeaderBoard] = React.useState(true);
+
     return (
         <div>
             <main className="grid grid-cols-[_.4fr_.6fr]">
-                <ChallengeList />
-                <ChallengeSpecificLeaderBoard />
-                {/* <GlobalLeaderBoard /> */}
+                <ChallengeList setShowGlobalLeaderBoard={setShowGlobalLeaderBoard}/>
+                {showGlobalLeaderBoard?
+                <GlobalLeaderBoard />:
+                <ChallengeSpecificLeaderBoard/>
+                }
             </main>
         </div>
     );

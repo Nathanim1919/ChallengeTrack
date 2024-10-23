@@ -6,6 +6,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { getGlobalLeaderboard } from "../../features/leaderboard/leaderboardAction";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const GlobalLeaderboardOverview = () => {
   const dispatch = useAppDispatch();
@@ -22,10 +23,12 @@ const GlobalLeaderboardOverview = () => {
           <MdOutlineLeaderboard className="text-2xl" />
           Global Leaderboard
         </h1>
-        <IoArrowForwardOutline className="w-6 h-6 p-1 rounded-full bg-gray-300 grid place-items-center cursor-pointer hover:bg-gray-100"/>
+        <Link to={"/in/leaderboard"} className="text-gray-500 text-sm p-2">
+          <IoArrowForwardOutline className="w-6 h-6 p-1 rounded-full bg-gray-300 grid place-items-center cursor-pointer hover:bg-gray-100"/>
+        </Link>
       </div>
       <div className="flex flex-col gap-1 overflow-x-auto h-[300px] px-2">
-        {globalLeaderboard.map((leaderBoard, index) => (
+        {globalLeaderboard.slice(0,4).map((leaderBoard, index) => (
           <GlobalLeaderboardOverviewCard
             key={index}
             leaderBoard={leaderBoard}
