@@ -9,7 +9,7 @@ const Leaderboard = () => {
     return (
         <div>
             <main className="grid grid-cols-[_.4fr_.6fr]">
-                <ChallengeList setShowGlobalLeaderBoard={setShowGlobalLeaderBoard}/>
+                <ChallengeList setShowGlobalLeaderBoard={setShowGlobalLeaderBoard} showGlobalLeaderBoard={showGlobalLeaderBoard}/>
                 {showGlobalLeaderBoard?
                 <GlobalLeaderBoard />:
                 <ChallengeSpecificLeaderBoard/>
