@@ -27,6 +27,7 @@ import {
 
 const ChallengeSpecificLeaderBoard: React.FC<{
   challenge: IChallenge | null;
+  isPage: boolean;
 }> = ({ challenge }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
