@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import { Link } from "react-router-dom";
+import CategorieCard from "../../components/cards/CategorieCard";
 
 
 const CategoriesPage = () => {
@@ -28,8 +29,8 @@ const CategoriesPage = () => {
     return <ButtonLoading />;
   }
   return (
-    <div className="w-[95%] mx-auto gap-3 h-[90vh] overflow-y-auto">
-      <div className="flex items-center justify-between sticky -top-0 bg-white p-3 z-10">
+    <div className="w-[95%] mx-auto gap-5 h-[90vh] overflow-y-auto">
+      <div className="flex items-center justify-between sticky -top-0 bg-white p-3 z-40">
         <div className="flex flex-col items-start justify-center">
           <h1 className="font-bold text-2xl">Categories</h1>
           <p className="text-gray-500">Here you can find all the categories</p>
@@ -41,11 +42,9 @@ const CategoriesPage = () => {
         </div>
       </div>
       {searchedCategories?.length > 0?<div className="grid grid-cols-4 gap-5 p-3">
-        {searchedCategories.map((categorie) => (
-          <Link to={`/in/categories/${categorie.name.replace(/\s+/g, '-')}`} key={categorie._id} className="bg-gray-100 shadow-sm p-5 border border-gray-200 cursor-pointer hover:bg-gray-700 hover:text-white">
-            <h1 className="font-bold text-5xl">{categorie?.challenges?.length}<sup>+</sup></h1>
-            <h2 className="font-bold text-2xl">{categorie.name}</h2>
-            <p className="text-gray-500">{categorie.description}</p>
+        {searchedCategories.map((categorie, index) => (
+          <Link to={`/in/categories/${categorie.name.replace(/\s+/g, '-')}`} key={categorie._id} className="bg-gray-100 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer">
+           <CategorieCard key={index} Categorie={categorie}/>
           </Link>
         ))}
       </div>:<div className="grid place-items-center h-[70vh]">

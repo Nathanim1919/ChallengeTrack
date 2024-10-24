@@ -34,7 +34,9 @@ export class LogRepository {
     challengeId: string,
     userId: string
   ): Promise<ILog[]> {
-    return Log.find({ challenge: challengeId, user: userId }).exec();
+    return Log.find({ challenge: challengeId, user: userId })
+    .sort({ days: 1 })
+    .exec();
   }
 
 

@@ -4,6 +4,8 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { fetchCategories } from "../../features/categories/categorieActions";
 import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
+import ButtonLoading from "../../components/loading/buttonLoading";
+import CategorieCard from "../../components/cards/CategorieCard";
 
 const PopularCategories = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +36,8 @@ const PopularCategories = () => {
     dispatch(fetchCategories());
   }, []);
 
+  
+
   return (
     <div className="popular-categories grid gap-5 w-[95%] mx-auto">
       <div className="flex items-center justify-between">
@@ -42,26 +46,13 @@ const PopularCategories = () => {
           See More
         </Link>
       </div>
-      <div className="categories grid grid-cols-4 gap-2">
-        {categories.slice(0, 4).map((category, index) => (
-          <Link to={`/in/categories/${category.name}`}
-            key={index}
-            className="category grid cursor-pointer gap-2 bg-gray-100 border group border-gray-300 p-4 place-items-center hover:bg-gray-700 hover:text-white"
-          >
-            <div className="">
-              <h1 className="text-6xl font-bold">
-                {category.challenges.length}
-                <sup>+</sup>
-              </h1>
-              {/* <p className="text-gray-500">Challenges</p> */}
-            </div>
-            <div className="flex flex-col justify-center items-center gap-1">
-              <h3 className="font-bold text-xl m-0">
-                {category.name} Challenges
-              </h3>
-              <p className="text-gray-800 group-hover:text-gray-300 m-0">{category.description}</p>
-            </div>
-          </Link>
+      <div className="categories grid grid-cols-4 gap-5 p-4">
+        {loading?
+        <div className="flex items-center justify-end">
+        <ButtonLoading/>
+        </div>
+        :categories.slice(0, 4).map((category, index) => (
+          <CategorieCard key={index} Categorie={category}/>
         ))}
       </div>
     </div>

@@ -34,18 +34,17 @@ const DailyLog = () => {
 
   useEffect(() => {
     dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
-  }, []);
+  }, [dispatch]);
 
 
   const handleJoinChallenge = () => {
     dispatch(joinChallenge(selectedChallenge?._id ?? ""));
-    // dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
     dispatch(getMyChallenges());
   };
 
 
   return (
-    <div className="p-3 border-l border-gray-200">
+    <div className="p-3 border-l border-gray-200 bg-white">
       <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3 relative">
         <div className="creatorInfo__avatarn w-12 h-12 bg-gray-200">
           <img

@@ -56,7 +56,9 @@ export class ChallengeRepository {
   ): Promise<IChallenge[] | []> {
     return Challenge.find({
       $or: [{ createdBy: userId }, { participants: userId }],
-    }).exec();
+    })
+    .populate("createdBy")
+    .exec();
   }
 
   async searchChallenges(filter: any): Promise<IChallenge[] | []> {

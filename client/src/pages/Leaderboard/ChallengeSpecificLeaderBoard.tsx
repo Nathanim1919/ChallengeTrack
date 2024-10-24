@@ -105,8 +105,8 @@ const ChallengeSpecificLeaderBoard: React.FC<{
             </div>
             <div
               className={`options 
-                        ${showOptions ? "block" : "hidden"}
-                        bg-white w-[200px] text-[13px] absolute z-10 shadow-lg  top-10 rounded-sm right-10 text-black`}
+                        ${showOptions ? "transform translate-x-0 z-100 opacity-100" : "transform translate-x-[50%] opacity-0"}
+                        bg-white w-[200px] transition-all duration-500 text-[13px] absolute z-10 shadow-2xl  top-10 rounded-sm right-5 text-black`}
             >
               {!isOwner ? (
                 <div

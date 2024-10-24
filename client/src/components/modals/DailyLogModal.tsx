@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 // import { addDailyLog } from "../../features/challenges/challengesActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { ProgressBar } from "../ui/progressBar";
-import { createLog } from "../../features/logs/logActons";
+import { createLog, getChallengeUserLogs } from "../../features/logs/logActons";
 
 interface DailyLogProps {
     openModal: boolean;
@@ -23,6 +23,8 @@ const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal,setShow
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createLog({details, challenge: selectedChallenge?._id}));
+        setOpenModal(false);
+        dispatch(getChallengeUserLogs(selectedChallenge?._id||""));
     };
 
     if (!openModal) {
