@@ -28,6 +28,8 @@ const LatestChalleges = () => {
         setPage(prevPage => prevPage + 1);
     };
 
+    
+
     return (
         <div className="popular-categories grid w-[95%] mx-auto">
             <h2 className='font-bold sticky top-10 bg-white z-20 py-5'>Latest Challenges</h2>

@@ -172,7 +172,6 @@ class ChallengeController {
     async getPopularChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
         try {
             const challenges = await this.challengeService.getPopularChallenge(req.userId!);
-            console.log("popular challenges: ",challenges);
             return res.status(200).json(formatResponse(challenges, 'Popular challenges fetched successfully'));
         } catch(error){
             console.log(error);
