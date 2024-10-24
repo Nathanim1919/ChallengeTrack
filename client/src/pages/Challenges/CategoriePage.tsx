@@ -5,6 +5,8 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import { Link } from "react-router-dom";
 import CategorieCard from "../../components/cards/CategorieCard";
+import { BiCategory } from "react-icons/bi";
+
 
 
 const CategoriesPage = () => {
@@ -30,10 +32,10 @@ const CategoriesPage = () => {
   }
   return (
     <div className="w-[95%] mx-auto gap-5 h-[90vh] overflow-y-auto">
-      <div className="flex items-center justify-between sticky -top-0 bg-white p-3 z-40">
+      <div className="flex items-center justify-between sticky -top-0 bg- border-b p-3 z-40 bg-white">
         <div className="flex flex-col items-start justify-center">
-          <h1 className="font-bold text-2xl">Categories</h1>
-          <p className="text-gray-500">Here you can find all the categories</p>
+          <h1 className="font-bold flex items-center gap-1 text-2xl"><BiCategory/>Categories</h1>
+          <p className="text-gray-500 ">Here you can find all the categories</p>
         </div>
         <div>
           <form className="bg-gray-100 p-2 flex items-center">

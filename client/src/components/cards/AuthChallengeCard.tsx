@@ -1,6 +1,5 @@
 import React from 'react';
 import { IChallenge } from "../../interfaces/IChallenge";
-import { BiCategory } from 'react-icons/bi';
 import { TbProgressBolt } from 'react-icons/tb';
 import AvatorImage from '../../assets/heroImages/avator.jpg';
 import { GiTwoCoins } from 'react-icons/gi';
