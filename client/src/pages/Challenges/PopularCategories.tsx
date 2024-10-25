@@ -6,6 +6,7 @@ import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import CategorieCard from "../../components/cards/CategorieCard";
+import { categoryConfig } from "../../utils/categorieConfig";
 
 const PopularCategories = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,8 @@ const PopularCategories = () => {
     dispatch(fetchCategories());
   }, []);
 
+
+
   
 
   return (
@@ -46,14 +49,22 @@ const PopularCategories = () => {
           See More
         </Link>
       </div>
-      <div className="categories grid grid-cols-4 gap-5 p-4">
+      <div className="categories grid grid-cols-4 gap-5">
         {loading?
         <div className="flex items-center justify-end">
         <ButtonLoading/>
         </div>
-        :categories.slice(0, 4).map((category, index) => (
-          <CategorieCard key={index} Categorie={category}/>
-        ))}
+        :categories.slice(0, 4).map((category, index) => {
+          const categorie = categoryConfig[category.name] || {
+            bgColor: "bg-gray-300", // Default color
+            icon: () => <span>?</span>, // Default icon
+          };
+          return (
+            
+          <div key={index} className={`p-6 ${categorie.bgColor} bg-opacity-30`}>
+            <CategorieCard key={index} Categorie={category}/>
+          </div>
+        )})}
       </div>
     </div>
   );

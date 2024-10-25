@@ -35,7 +35,7 @@ export const categoryConfig: CategoryConfig = {
     "Community": { bgColor: "bg-yellow-600", icon: () => React.createElement(FaUsers) }, // Warm yellow for community
     "Art": { bgColor: "bg-pink-500", icon: () => React.createElement(FaPalette) }, // Bright pink for creativity in art
     "Music": { bgColor: "bg-red-500", icon: () => React.createElement(FaMusic) }, // Red for energy in music
-    // "Dance": { bgColor: "bg-purple-500", icon: () => React.createElement(FaDance) }, // Purple for expression in dance
+    "Dance": { bgColor: "bg-purple-500", icon: () => React.createElement(FaMusic) }, // Purple for expression in dance
 };
 
 
