@@ -10,72 +10,102 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { GiProgression } from "react-icons/gi";
 import { BiCategory } from "react-icons/bi";
 import { FaRegDotCircle } from "react-icons/fa";
-
+import { IoSearch } from "react-icons/io5";
 
 const CategoryDetailPage: React.FC = () => {
-    const {name} = useParams<{name: string}>();
-    const {selectedCategory, loading} = useAppSelector((state) => state.categories);
-    const dispatch = useAppDispatch();
+  const { name } = useParams<{ name: string }>();
+  const { selectedCategory, loading } = useAppSelector(
+    (state) => state.categories
+  );
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(getCategorieByName(name as string));
+  }, [name]);
 
-    useEffect(() => {
-        dispatch(getCategorieByName(name as string));
-    }, [name]);
+  if (loading) {
+    return <ButtonLoading />;
+  }
 
-    if(loading) {
-        return <ButtonLoading />
-    }
-
-    return (
-        <div className="bg-red-400 grid grid-cols-[_.3fr_.7fr]">
-            <div className="categorieDetail bg-white p-3 border-r border-gray-300">
-                <div>
-                    <h1 className="font-bold text-3xl">{selectedCategory?.name}</h1>
-                    <p className="text-gray-500">{selectedCategory?.description}</p>
-                </div>
-                <div className="mt-5">
-                    <div className="grid grid-cols-2 gap-2">
-                        <div className="bg-gray-100 border border-gray-300 p-4">
-                            <h1 className="text-4xl font-bold">{selectedCategory?.challenges.length}<sup>+</sup></h1>
-                            <p>Total Challenges</p>
-                        </div>
-                        <div className="bg-gray-100 border border-gray-300 p-4">
-                            <h1 className="text-4xl font-bold">{selectedCategory?.challenges.filter(challenge => challenge.status === "PENDING").length}<sup>+</sup></h1>
-                            <p className="flex items-center gap-1"><MdOutlinePending/>Pending</p>
-                        </div>
-                        <div className="bg-gray-100 border border-gray-300 p-4">
-                            <h1 className="text-4xl font-bold">{selectedCategory?.challenges.filter(challenge => challenge.status === "COMPLETED").length}<sup>+</sup></h1>
-                            <p className="flex items-center gap-1"><FaRegCheckCircle/>Completed</p>
-                            </div>
-                        <div className="bg-gray-100 border border-gray-300 p-4">
-                            <h1 className="text-4xl font-bold">{selectedCategory?.challenges.filter(challenge => challenge.status === "ONGOING").length}<sup>+</sup></h1>
-                            <p className="flex items-center gap-1"><GiProgression/>Ongoing</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="challenges bg-gray-100 p-3">
-                <h2 className="font-bold text-2xl mb-5">Challenges</h2>
-                <ul className="grid gap-2 ">
-                    {selectedCategory?.challenges.map((challenge: IChallenge) => (
-                        <Link to={`/in/challenges/${challenge._id}`} key={challenge?._id} className="bg-white w-full p-2 border border-gray-200 flex justify-between ">
-                            <div>
-                                <h3 className="font-bold">{challenge.title}</h3>
-                           <div className="flex items-center gap-1">
-                                <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
-                                <p className="text-gray-500">Nathanim</p>
-                           </div>
-                            </div>
-                            <div>
-                            <p className="text-gray-500 flex items-center gap-1"><BiCategory/>{challenge.categorie}</p>
-                                <p className="text-gray-900 font-bold flex items-center gap-1"><FaRegDotCircle/>{challenge.status}</p>
-                            </div>
-                        </Link>
-                    ))}
-                </ul>
-            </div>
+  return (
+    <div className="bg-red-400 grid grid-cols-[_.3fr_.7fr]">
+      <div className="grid grid-rows-2">
+        <div className="bg-pink-200">
+        <div className="flex flex-col p-3 gap-1">
+          <h1 className="font-bold text-2xl">Personal Development</h1>
+          <p>
+            Personal development is a lifelong process. It is a way for people
+            to assess their skills and qualities, consider their aims in life
+            and set goals in order to realise and maximise their potential.
+          </p>
         </div>
-    );
+        <div className="flex flex-wrap p-3">
+          <div className="flex-1 border border-gray-200 p-3">
+            <h1 className="font-bold text-3xl">
+              140<sup>+</sup>
+            </h1>
+            <h2>Challenges</h2>
+          </div>
+          <div className="flex-1 border border-gray-200 p-3">
+            <h1 className="font-bold text-3xl">
+              20<sup>+</sup>
+            </h1>
+            <h2>Participants</h2>
+          </div>
+          <div className="flex-1 border border-gray-200 p-3">
+            <h1 className="font-bold text-3xl">
+              10<sup>+</sup>
+            </h1>
+            <h2>Completed</h2>
+          </div>
+        </div>
+        </div>
+        <div className="p-3">
+          <div>
+            <h2 className="font-bold">My Progress</h2>
+          </div>
+          <div>
+            <div>
+              <h3>Challenge One Ttitle</h3>
+              <p>Progress</p>
+            </div>
+            <div>
+              <h3>Challenge Two Ttitle</h3>
+              <p>Progress</p>
+            </div>
+
+            <div>
+              <h3>Challenge One Ttitle</h3>
+              <p>Progress</p>
+            </div>
+            <div>
+              <h3>Challenge Two Ttitle</h3>
+              <p>Progress</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-rows-2 h-[100vh] overflow-hidden">
+        <div className="bg-green-300">
+          <div className="flex justify-between items-center p-3">
+            <h1 className="font-bold text-2xl">Trending Challenges</h1>
+            <IoSearch />
+          </div>
+          <div>
+            <h2>Trending challenge lists</h2>
+          </div>
+        </div>
+        <div className="bg-orange-300">
+          <div>
+            <h2 className="font-bold text-2xl">Latest challenges</h2>
+          </div>
+          <div>
+            <h2>Latest challenges</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CategoryDetailPage;
