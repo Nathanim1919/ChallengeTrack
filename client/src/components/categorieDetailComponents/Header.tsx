@@ -1,9 +1,17 @@
 import React from "react"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import ButtonLoading from "../loading/buttonLoading"
+import { ICategory } from "../../interfaces/ICategory"
+import { categoryConfig } from "../../utils/categorieConfig"
 
 
-export const Header:React.FC = () => {
+interface IHeaderProps {
+    categorie: ICategory | undefined
+}
+
+export const Header:React.FC<IHeaderProps> = ({
+    categorie
+}) => {
     const {loading} = useAppSelector((state) => state.categories)
     if (loading) {
         return(
@@ -14,11 +22,12 @@ export const Header:React.FC = () => {
     return (
         <div className="bg-gray-100">
           <div className="flex flex-col p-3 gap-1">
-            <h1 className="font-bold text-2xl">Personal Development</h1>
+            <h1 className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 ${categoryConfig[categorie?.name || ""].bgColor} text-white`}><span>{categoryConfig[categorie?.name || ""].icon()}</span>{categorie?.name}</h1>
             <p className="text-[14px] text-gray-500">
-              Personal development is a lifelong process. It is a way for people
+              {/* Personal development is a lifelong process. It is a way for people
               to assess their skills and qualities, consider their aims in life
-              and set goals in order to realise and maximise their potential.
+              and set goals in order to realise and maximise their potential. */}
+              {categorie?.description}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-1 p-3">

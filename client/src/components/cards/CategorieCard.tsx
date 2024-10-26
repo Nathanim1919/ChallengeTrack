@@ -15,7 +15,7 @@ const CategorieCard: React.FC<CategorieCardProps> = ({ Categorie }) => {
   };
 
   return (
-    <div className="relative inset-0 flex justify-center group">
+    <div className="relative inset-0 flex justify-center group animate-slideFadeIn">
       <div
         className={`absolute transition-all duration-150 delay-150 ${category.bgColor} shadow-lg z-10 h-full w-[90%] self-center justify-self-center flex flex-col justify-center -top-2 group-hover:-top-3 border-2 border-gray-100 group-hover:border-gray-100`}
       ></div>

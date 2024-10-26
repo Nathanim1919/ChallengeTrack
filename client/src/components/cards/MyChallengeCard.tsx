@@ -17,11 +17,9 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
         <div key={challenge._id} className='bg-white border min-w-[240px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>
             <div className='w-24 h-24 bg-gray-800 absolute -top-3 -left-4 rounded-full'></div>
-            {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full top-2 right-1'></div> */}
-            {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full bottom-2 right-5'></div> */}
             <div className='w-96 h-96 bg-gray-800 absolute rounded-full -bottom-10 left-48'></div>
             <div className='flex items-center justify-between relative z-10'>
-                <p className={`flex items-center gap-1 ${category.bgColor} text-black py-1 px-2 text-[13px] rounded-full`}><category.icon/>{challenge.categorie}</p>
+                <p className={`flex items-center gap-1 ${category.bgColor} text-white py-1 px-2 text-[13px] rounded-full`}><category.icon/>{challenge.categorie}</p>
                 <p className='flex items-center gap-1 text-[13px]'><TbProgressBolt/>{challenge.status}</p>
             </div>
             <div className='flex flex-col gap-2 relative z-10'>
@@ -53,8 +51,8 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
                 <p className='font-bold relative text-black right-3'>+200</p>
             </div>
             <div className='flex justify-between px-3 py-4'>
-                <Link to={`/in/challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
-                <Link to={`/in/challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
+                <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
+                <Link to={`/in/my-challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
             </div>
         </div>
      </div>

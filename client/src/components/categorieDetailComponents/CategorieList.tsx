@@ -18,13 +18,14 @@ export const CategoriesList: React.FC = () => {
         </div>
       ) : (
         <div className="flex flex-wrap gap-2 bg-gray-100 p-3">
-          {
+          { 
+        //   to={`/in/categories/${categorie.name.replace(/\s+/g, "-")}`}
             // Other categories
             Object.keys(categoryConfig).map((key) => {
               if (key !== name) {
                 return (
                   <div key={key} className="text-[14px] ">
-                    <Link to={`/categories/${key}`} className="text-white">
+                    <Link to={`/in/categories/${key.replace(/\s+/g, "-")}`} className="text-white">
                       <div
                         className={`flex items-center gap-1 ${categoryConfig[key].bgColor} py-1 px-2 rounded-full border border-transparent hover:border-sky-700 hover:opacity-70`}
                       >

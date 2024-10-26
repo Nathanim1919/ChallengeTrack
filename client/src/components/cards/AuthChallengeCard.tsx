@@ -16,8 +16,6 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
         <Link to={`/in/challenges/${challenge._id}`} key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>
             <div className='w-24 h-24 bg-gray-800 absolute -top-3 -left-4 rounded-full'></div>
-            {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full top-2 right-1'></div> */}
-            {/* <div className='w-10 h-10 bg-gradient-to-tr from-yellow-200 to-yellow-400 absolute rounded-full bottom-2 right-5'></div> */}
             <div className='w-96 h-96 bg-gray-800 absolute rounded-full -bottom-10 left-48'></div>
             <div className='flex items-center justify-between relative z-10'>
                 <p className={`flex items-center gap-1 ${category.bgColor} text-black py-1 px-2 text-[12px] rounded-full`}><category.icon/>{challenge.categorie}</p>

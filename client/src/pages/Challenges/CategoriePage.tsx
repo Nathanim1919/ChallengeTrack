@@ -10,14 +10,19 @@ import { categoryConfig } from "../../utils/categorieConfig";
 
 const CategoriesPage = () => {
   const dispatch = useAppDispatch();
-  const { categories, loading, error, message } = useAppSelector(
+  const { categories, loading} = useAppSelector(
     (state) => state.categories
   );
-  //   const [isSearch, setIsSearch] = React.useState(false);
+    const [isSearch, setIsSearch] = React.useState(false);
   const [searchedCategories, setSearchedCategories] =
     React.useState(categories);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
+      setIsSearch(false);
+      return setSearchedCategories(categories);
+    }
+    setIsSearch(true);
     setSearchedCategories(
       categories.filter((category) =>
         category.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -56,9 +61,9 @@ const CategoriesPage = () => {
           </form>
         </div>
       </div>
-      {searchedCategories?.length > 0 ? (
+      {categories?.length > 0 ? (
         <div className="grid grid-cols-4 gap-5 p-3">
-          {searchedCategories.map((categorie, index) => {
+          {categories.map((categorie, index) => {
             const category = categoryConfig[categorie.name] || {
               bgColor: "bg-gray-300", // Default color
               icon: () => <span>?</span>, // Default icon
@@ -68,7 +73,7 @@ const CategoriesPage = () => {
               <Link
                 to={`/in/categories/${categorie.name.replace(/\s+/g, "-")}`}
                 key={categorie._id}
-                className={`${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer`}
+                className={`${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer animate-slideup`}
               >
                 <CategorieCard key={index} Categorie={categorie} />
               </Link>

@@ -65,6 +65,11 @@ function App() {
                    <ChallengeDetailPage/>
                 </PrivateRoute>
             }/>
+            <Route path={'/in/my-challenges/:challengeId'} element={
+            <PrivateRoute>
+                   <ChallengeDetailPage/>
+                </PrivateRoute>
+            }/>
 
              <Route path={'/in/settings'} element={
              <PrivateRoute>

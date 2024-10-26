@@ -19,7 +19,7 @@ const GlobalLeaderBoard=  () => {
             </div>
             <div className={'grid grid-cols-3 m-auto gap-1 mt-24  md:mt-0'}>
                 <div className={'flex flex-col items-center'}>
-                    {/*<h1 className={'font-bold text-6xl'}>3</h1>*/}
+                   
                     <img src={NumberThree as string} alt={'NumberThree'} className={'w-10 md:w-32'}/>
                     <div className={'image w-[80px] h-[80px] md:w-[150px] md:h-[150px] border-8 border-white bg-sky-400 rounded-full'}>
                         <img src={AvatorImage as string} className={"w-full h-full rounded-full"}/>
@@ -30,7 +30,7 @@ const GlobalLeaderBoard=  () => {
                     </div>
                 </div>
                 <div className={'flex flex-col items-center relative -top-24 md:-top-32'}>
-                    {/*<h1 className={'font-bold text-6xl'}>1</h1>*/}
+                
                     <img src={NumberOne as string} alt={'NumberThree'} className={'w-20 md:w-40'}/>
                     <div
                         className={'image w-[100px] h-[100px] md:w-[230px] md:h-[230px] border-8 border-white bg-sky-400 rounded-full'}>
@@ -43,7 +43,6 @@ const GlobalLeaderBoard=  () => {
                 </div>
 
                 <div className={'flex flex-col items-center'}>
-                    {/*<h1 className={'font-bold text-6xl'}>2</h1>*/}
                     <img src={NumberTwo as string} alt={'NumberThree'} className={'w-10 md:w-32'}/>
                     <div
                         className={'image w-[80px] h-[80px] md:w-[170px] border-8 border-white md:h-[170px] bg-sky-400 rounded-full'}>

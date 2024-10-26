@@ -45,18 +45,18 @@ const GlobalLeaderBoard = () => {
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <h2>{currentUserRank.userId.username}</h2>
+              <h2>{currentUserRank?.userId?.username}</h2>
             </div>
             <div>
               <h3 className="flex items-center gap-2 text-orange-500">
                 <GiTwoCoins />
-                {currentUserRank.totalPoints}
+                {currentUserRank?.totalPoints}
               </h3>
             </div>
             <div>
               <h3 className="flex items-center gap-1">
                 <MdOutlineLeaderboard />
-                {currentUserRank.rank}th
+                {currentUserRank?.rank}th
               </h3>
             </div>
             <div>
@@ -74,7 +74,7 @@ const GlobalLeaderBoard = () => {
           </div>
 
           {globalLeaderboard.map((leaderBoard, index) => {
-            if (currentUserRank.userId._id === leaderBoard.userId._id) {
+            if (currentUserRank?.userId?._id === leaderBoard?.userId?._id) {
               return null;
             }
 
