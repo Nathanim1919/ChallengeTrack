@@ -28,6 +28,7 @@ const CategoriesPage = () => {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+  
   if (loading) {
     return <ButtonLoading />;
   }

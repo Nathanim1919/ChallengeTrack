@@ -14,7 +14,7 @@ import ButtonLoading from "../../components/loading/buttonLoading";
 
 const ChallengeDetailPage = () => {
   const dispatch = useAppDispatch();
-  const { loading, selectedChallenge } = useAppSelector(
+  const {selectedChallenge } = useAppSelector(
     (state) => state.challenges
   );
   // const {user} = useAppSelector((state) => state.auth);
@@ -26,9 +26,6 @@ const ChallengeDetailPage = () => {
     dispatch(checkIfUserIsOwner(challengeId!));
   }, [dispatch]);
 
-  if (loading) {
-    return <ButtonLoading />;
-  }
 
   return (
     <div className="grid grid-cols-[_.3fr_.4fr_.3fr] m-auto">
