@@ -4,10 +4,25 @@ import { Log } from "../models/log.model";
 export class LogRepository {
   constructor() {}
 
-  async createLog(logData: ILog): Promise<ILog> {
-    const log = new Log(logData);
-    return log.save();
-  }
+  async createLog(logData: ILog): Promise<ILog | null> {
+    console.log("Log Data:", logData);
+
+    const log = await Log.findOneAndUpdate(
+        {
+            user: logData.user.toString(),
+            challenge: logData.challenge.toString(),
+            days: logData.days
+        },
+        {
+            completed: logData.completed,
+            details: logData.details
+        },
+        { new: true, upsert: true }
+    );
+
+    return log;
+}
+
 
   async findLogForTheDay(
     day: number,
@@ -16,9 +31,9 @@ export class LogRepository {
   ): Promise<ILog | null> {
     return Log.findOne({
       days: day,
-      completed: true,
       user: userId,
       challenge: challengeId,
+      completed: true,
     }).exec();
   }
 

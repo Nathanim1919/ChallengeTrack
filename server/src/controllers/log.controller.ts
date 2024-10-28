@@ -45,6 +45,18 @@ class LogController {
     }
   }
 
+  async findLogForTheDay(req: Request, res: Response) {
+    try {
+      const log = await this.logService.getTodayExepctedLog(
+        req.userId!,
+        req.body.challenge
+      );
+      return res.status(200).json(formatResponse(log, "Log fetched successfully"));
+    } catch (error) {
+      return res.status(400).json(formatError("Failed to get log"));
+    }
+  }
+
   async getUserLogs(req: Request, res: Response) {
     try {
       const logs = await this.logService.getUserLogs(req.userId!);

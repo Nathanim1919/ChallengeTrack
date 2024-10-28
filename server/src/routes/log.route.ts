@@ -9,7 +9,12 @@ class LogRoute {
     app
       .route(`${baseUrl}/logs`)
       .all(verifyUser)
-      .post(this.logController.createLog.bind(this.logController));
+      .post(this.logController.createLog.bind(this.logController))
+      .get(this.logController.findLogForTheDay.bind(this.logController));
+    app
+      .route(`${baseUrl}/logs/getActiveLog/:id`)
+      .all(verifyUser)
+      .get(this.logController.findLogForTheDay.bind(this.logController));
     app
       .route(`${baseUrl}/logs/challenges/:id`)
       .all(verifyUser)

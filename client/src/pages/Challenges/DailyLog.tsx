@@ -23,6 +23,7 @@ const DailyLog = () => {
   const { selectedChallenge, isParticipant, loading, message, error } =
     useAppSelector((state) => state.challenges);
   const { logs } = useAppSelector((state) => state.logs);
+  console.log("logs", logs);
 
   const dispatch = useAppDispatch();
   const [showLogDetail, setShowLogDetail] = React.useState<{
@@ -41,6 +42,30 @@ const DailyLog = () => {
     dispatch(joinChallenge(selectedChallenge?._id ?? ""));
     dispatch(getMyChallenges());
   };
+
+  function getCurrentDayNumber(startDate: Date, duration: number): number {
+    const currentDate: Date = new Date();
+
+    // Ensure the start date is a Date object
+    startDate = new Date(startDate);
+
+    // Check if the challenge has started
+    if (currentDate < startDate) {
+        // Challenge has not started yet
+        return 0; // or any indicator that the challenge hasn't started
+    }
+
+    // Calculate the difference in time (in milliseconds)
+    const diffTime: number = currentDate.getTime() - startDate.getTime();
+
+    // Calculate the difference in days
+    const diffDays: number = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include the start day
+
+    // Ensure the current day does not exceed the challenge duration
+    return Math.min(diffDays, duration);
+}
+
+
 
 
   return (
@@ -72,13 +97,17 @@ const DailyLog = () => {
           <ProgressBar
             setShowAllLogDays={setShowAllLogDays}
             total={selectedChallenge?.duration || 0}
-            current={5}
+            logs={logs}
           />
           <DetailedProgressBar
             setShowAllLogDays={setShowAllLogDays}
             showAllLogDays={showAllLogDays}
             total={selectedChallenge?.duration || 0}
-            current={5}
+            logs={logs}
+            current={getCurrentDayNumber(
+              selectedChallenge?.startDate ?? new Date(),
+              selectedChallenge?.duration ?? 0
+            )}
           />
           <div className="flex justify-between p-3">
             <h1 className="font-bold">Your Daily Log</h1>
@@ -93,7 +122,7 @@ const DailyLog = () => {
             showLogDetail={showLogDetail}
             setShowLogDetail={setShowLogDetail}
           />
-          <div className="overflow-y-auto">
+          <div className="h-[350px] overflow-y-auto">
             {logs?.slice(0,10)?.reverse()?.map((log, index) => (
               <div
                 key={index}

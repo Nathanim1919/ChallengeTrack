@@ -6,7 +6,7 @@ import { categoryConfig } from "../../utils/categorieConfig"
 
 
 interface IHeaderProps {
-    categorie: ICategory | undefined
+    categorie: ICategory | null
 }
 
 export const Header:React.FC<IHeaderProps> = ({
@@ -24,9 +24,6 @@ export const Header:React.FC<IHeaderProps> = ({
           <div className="flex flex-col p-3 gap-1">
             <h1 className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 ${categoryConfig[categorie?.name || ""].bgColor} text-white`}><span>{categoryConfig[categorie?.name || ""].icon()}</span>{categorie?.name}</h1>
             <p className="text-[14px] text-gray-500">
-              {/* Personal development is a lifelong process. It is a way for people
-              to assess their skills and qualities, consider their aims in life
-              and set goals in order to realise and maximise their potential. */}
               {categorie?.description}
             </p>
           </div>

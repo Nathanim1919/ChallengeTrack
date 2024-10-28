@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
         fontFamily: {
-            Montserrat: ['Montserrat', 'sans-serif'],
+            Montserrat: ['Sora', 'sans-serif'],
         },
         keyframes: {
             fadeIn: {

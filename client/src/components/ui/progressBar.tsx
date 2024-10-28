@@ -3,35 +3,37 @@ import { FaFireFlameCurved } from "react-icons/fa6";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import { BsQuestionLg } from "react-icons/bs";
 import { GiProgression } from "react-icons/gi";
+import { ILog } from "../../interfaces/ILogs";
 
 
 interface ProgressBarProps {
   total: number;
-  current: number;
+  logs: ILog[];
+  current?: number;
   showAllLogDays?: boolean;
   setShowAllLogDays?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   total,
-  current,
+  // logs,
   setShowAllLogDays,
 }) => {
   return (
     <div className="p-4 my-2 relative">
         <h1 className="font-bold py-5 flex items-center gap-2"><GiProgression/>Your Progress</h1>
         <div className="flex items-center gap-2 flex-wrap">
-        {Array.from({ length: total })
-          .slice(0, 12)
-          .map((_, index) => {
-            return (
-              <OneDayProgressStep
-                key={index}
-                day={index + 1}
-                isCompleted={index < current}
-              />
-            );
-          })}
+        {Array.from({ length: total }).slice(0,7).map((_, index) => {
+          return (
+            <OneDayProgressStep
+              key={index}
+              day={index + 1}
+              // isNotCompleted={}
+              isCompleted={true}
+            />
+          );
+        }
+        )}
         <div
           onClick={() => setShowAllLogDays && setShowAllLogDays(true)}
           className="flex bg-white p-1 rounded-lg hover:bg-gray-200 cursor-pointer justify-end items-end border border-gray-200"
@@ -50,13 +52,15 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 };
 
 interface OneDayProgressStepProps {
-  day: number;
-  isCompleted: boolean;
+  day?: number;
+  isCompleted?: boolean;
+  noLogForThisDay?: boolean;
 }
 
 const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
   day,
   isCompleted,
+  noLogForThisDay,
 }) => {
   return (
     <div
@@ -79,8 +83,12 @@ const OneDayProgressStep: React.FC<OneDayProgressStepProps> = ({
   );
 };
 
+
+
+
 export const DetailedProgressBar: React.FC<ProgressBarProps> = ({
   total,
+  logs,
   current,
   showAllLogDays,
   setShowAllLogDays,
@@ -96,12 +104,12 @@ export const DetailedProgressBar: React.FC<ProgressBarProps> = ({
       <div className="p-4 my-2 relative">
         <h1 className="font-bold py-5 flex items-center gap-2"><GiProgression/>Your Progress</h1>
         <div className="flex items-center gap-4 flex-wrap">
-          {Array.from({ length: total }).map((_, index) => {
+          {logs.map((log, index) => {
             return (
               <OneDayProgressStep
                 key={index}
                 day={index + 1}
-                isCompleted={index < current}
+                isCompleted={log.completed}
               />
             );
           })}

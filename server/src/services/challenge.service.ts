@@ -11,6 +11,7 @@ import {Log} from "../models/log.model";
 import { RewardService } from "./reward.service";
 import { ILog } from "../interfaces/ILogs";
 import { LogRepository } from "../repositories/log.repository";
+import { initializeChallengeLogs } from "../utils/helperFunctions.utils";
 
 class ChallengeService {
 
@@ -80,6 +81,9 @@ class ChallengeService {
 
             // Update the challenge with the leaderboard reference
             await this.challengeRepository.updateChallenge(createdChallenge._id.toString(), createdChallenge);
+
+            await initializeChallengeLogs(creatorId, createdChallenge._id.toString(), createdChallenge.duration);
+           
 
             // await session.commitTransaction();
             // session.endSession();
@@ -263,6 +267,8 @@ class ChallengeService {
                 throw new Error('Failed to add participant to challenge');
             }
 
+            await initializeChallengeLogs(userId, challengeId, updatedChallenge.duration);
+
             return updatedChallenge;
         } catch (error) {
             console.log("error is: " + error);
@@ -293,6 +299,7 @@ class ChallengeService {
             user.points = RewardService.reward(RewardType.LEAVE_CHALLENGE, user?.points??0);
 
             await this.userService.updateUser(userId, user);
+            await Log.deleteMany({ user: userId, challenge: challengeId });
 
             return removeParticipantFromChallenge;
         } catch (error) {
