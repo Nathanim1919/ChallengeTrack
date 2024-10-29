@@ -32,3 +32,7 @@ export const initializeChallengeLogs = async (userId: string, challengeId:string
     const insertedLogs = await Log.insertMany(logs);
     return insertedLogs;
 }
+
+
+
+

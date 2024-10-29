@@ -7,14 +7,18 @@ import DailyLogDetail from "../../components/modals/DailyLogDetail";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { MdOutlineJoinFull } from "react-icons/md";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { getMyChallenges, joinChallenge } from "../../features/challenges/challengesActions";
+import {
+  getMyChallenges,
+  joinChallenge,
+} from "../../features/challenges/challengesActions";
 import ButtonLoading from "../../components/loading/buttonLoading";
 import { CustomeToast } from "../../components/ui/customeToast";
 import {
   DetailedProgressBar,
   ProgressBar,
 } from "../../components/ui/progressBar";
-import {getChallengeUserLogs } from "../../features/logs/logActons";
+import { getChallengeUserLogs } from "../../features/logs/logActons";
+import { getCurrentDayNumber } from "../../utils/helper";
 
 const DailyLog = () => {
   const [openModal, setOpenModal] = React.useState(false);
@@ -31,41 +35,15 @@ const DailyLog = () => {
     details?: string;
     completed?: boolean;
   } | null>(null);
- 
 
   useEffect(() => {
     dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
-  }, [dispatch]);
-
+  }, [dispatch, selectedChallenge]);
 
   const handleJoinChallenge = () => {
     dispatch(joinChallenge(selectedChallenge?._id ?? ""));
     dispatch(getMyChallenges());
   };
-
-  function getCurrentDayNumber(startDate: Date, duration: number): number {
-    const currentDate: Date = new Date();
-
-    // Ensure the start date is a Date object
-    startDate = new Date(startDate);
-
-    // Check if the challenge has started
-    if (currentDate < startDate) {
-        // Challenge has not started yet
-        return 0; // or any indicator that the challenge hasn't started
-    }
-
-    // Calculate the difference in time (in milliseconds)
-    const diffTime: number = currentDate.getTime() - startDate.getTime();
-
-    // Calculate the difference in days
-    const diffDays: number = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include the start day
-
-    // Ensure the current day does not exceed the challenge duration
-    return Math.min(diffDays, duration);
-}
-
-
 
 
   return (
@@ -87,7 +65,7 @@ const DailyLog = () => {
         <div className=" grid place-items-center py-5">
           <ButtonLoading />
         </div>
-      ) : (isParticipant) ? (
+      ) : isParticipant ? (
         <div>
           <DailyLogModal
             setShowAllLogDays={setShowAllLogDays}
@@ -98,6 +76,10 @@ const DailyLog = () => {
             setShowAllLogDays={setShowAllLogDays}
             total={selectedChallenge?.duration || 0}
             logs={logs}
+            current={getCurrentDayNumber(
+              selectedChallenge?.startDate ?? new Date(),
+              selectedChallenge?.duration ?? 0
+            )}
           />
           <DetailedProgressBar
             setShowAllLogDays={setShowAllLogDays}
@@ -123,35 +105,44 @@ const DailyLog = () => {
             setShowLogDetail={setShowLogDetail}
           />
           <div className="h-[350px] overflow-y-auto">
-            {logs?.slice(0,10)?.reverse()?.map((log, index) => (
-              <div
-                key={index}
-                className="dailyLog__item border-b border-gray-300"
-              >
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-1">
-                    <div className="flex gap-2 justify-center items-center">
-                      <h3 className="m-0 gap-2 bg-white relative flex items-center border font-bold border-gray-300">
-                        <span className="font-bold">Day</span>{" "}
-                        <span className="bg-gray-300 relative w-6 grid items-center justify-center p-1  text-black h-full ">
-                          {log.days}
-                        </span>
-                      </h3>
-                      <div>
-                        <p className="m-0">{log.details?.slice(0, 30)}...</p>
-                        <p className="m-0 text-gray-400 text-[13px]">
-                          date
-                        </p>
+            {logs
+              ?.slice(0, 10)
+              ?.reverse()
+              ?.map((log, index) => {
+                if (log.completed) {
+                  return (
+                    <div
+                      key={index}
+                      className="dailyLog__item border-b border-gray-300"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-1">
+                          <div className="flex gap-2 justify-center items-center">
+                            <h3 className="m-0 gap-2 bg-white relative flex items-center border font-bold border-gray-300">
+                              <span className="font-bold">Day</span>{" "}
+                              <span className="bg-gray-300 relative w-6 grid items-center justify-center p-1  text-black h-full ">
+                                {log.days}
+                              </span>
+                            </h3>
+                            <div>
+                              <p className="m-0">
+                                {log.details?.slice(0, 30)}...
+                              </p>
+                              <p className="m-0 text-gray-400 text-[13px]">
+                                date
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <LuExpand
+                          className="cursor-pointer w-6 hover:bg-gray-100 h-6 rounded-full bg-gray-200 grid place-items-center p-1"
+                          onClick={() => setShowLogDetail(log)}
+                        />
                       </div>
                     </div>
-                  </div>
-                  <LuExpand
-                    className="cursor-pointer w-6 hover:bg-gray-100 h-6 rounded-full bg-gray-200 grid place-items-center p-1"
-                    onClick={() => setShowLogDetail(log)}
-                  />
-                </div>
-              </div>
-            ))}
+                  );
+                }
+              })}
           </div>
         </div>
       ) : (

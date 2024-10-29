@@ -44,6 +44,7 @@ export const getCurrentUser = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const {data} = await authServices.getCurrentUser();
+            console.log(data);
             return data;
         } catch (error) {
             if (error instanceof Error) {

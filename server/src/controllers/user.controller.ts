@@ -5,6 +5,7 @@ import {ApiResponse} from "../interfaces/ICommon";
 import {formatError, formatResponse} from "../utils/responseFormat";
 import {AuthUtils} from "../utils/auth.utils";
 import redisInstance from '../config/redis.config';
+import { RewardService } from "../services/reward.service";
 
 
 
@@ -39,6 +40,13 @@ export class UserController {
             }
             // save refresh token in redis
             await redisInstance.saveStringDataWithExpiration(`refresh_token:${user._id}`, tokens.refreshToken, 7 * 24 * 60 * 60); // 7 days
+
+            // let check is user new or not, then reward registration bonus
+            if(user.isNewUser){
+                user.points = RewardService.reward('REGISTRATION_BONUS', user.points);
+                user.isNewUser = false;
+                await this.userService.updateUser(user._id.toString(), user);
+            }
             return res
                 .status(200)
                 .cookie('accessToken', tokens.accessToken, {

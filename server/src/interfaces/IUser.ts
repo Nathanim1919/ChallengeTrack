@@ -14,6 +14,7 @@ interface IUser {
     wonChallenges: ObjectId[];
     logs: ObjectId[];
     points: number;
+    isNewUser: boolean;
     challengePoints: ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;

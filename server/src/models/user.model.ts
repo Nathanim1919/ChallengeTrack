@@ -1,7 +1,7 @@
 import {Schema, model} from 'mongoose';
-import {UserRole} from '../interfaces/IUser';
+import {IUser, UserRole} from '../interfaces/IUser';
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
     name: {
         type: String,
         required: true
@@ -49,6 +49,10 @@ const userSchema = new Schema({
     points: {
         type: Number,
         default: 0
+    },
+    isNewUser: {
+        type: Boolean,
+        default: true
     },
     challengePoints: [{
        type: Schema.Types.ObjectId,

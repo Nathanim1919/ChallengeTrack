@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { ProgressBar } from "../ui/progressBar";
 import { createLog, getChallengeUserLogs } from "../../features/logs/logActons";
+import { getCurrentDayNumber } from "../../utils/helper";
 
 interface DailyLogProps {
     openModal: boolean;
@@ -16,15 +17,15 @@ interface DailyLogProps {
 
 const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal,setShowAllLogDays}) => {
     const [details, setDetails] = React.useState<string>("");
-    const {loading, error}  = useAppSelector(state => state.logs);
+    const {logs, loading, error}  = useAppSelector(state => state.logs);
     const {selectedChallenge} = useAppSelector(state => state.challenges);
     const dispatch = useAppDispatch();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createLog({details, challenge: selectedChallenge?._id}));
-        setOpenModal(false);
         dispatch(getChallengeUserLogs(selectedChallenge?._id||""));
+        setOpenModal(false);
     };
 
     if (!openModal) {
@@ -34,7 +35,12 @@ const DailyLogModal: React.FC<DailyLogProps> = ({openModal, setOpenModal,setShow
         <div className="fixed top-0 left-0 w-screen h-full bg-gray-700/50 backdrop-blur-0 grid place-items-center z-10">
             <form onSubmit={handleSubmit} className="bg-white p-5 shadow-md grid place-items-center gap-2 relative">
              {error && <p className="bg-red-100 text-red-500 p-2 rounded-md">{error}</p>}   
-            <ProgressBar setShowAllLogDays={setShowAllLogDays} total={selectedChallenge?.duration || 0} current={5}/>
+            <ProgressBar setShowAllLogDays={setShowAllLogDays} total={selectedChallenge?.duration || 0} current={
+                getCurrentDayNumber(
+                    selectedChallenge?.startDate ?? new Date(),
+                    selectedChallenge?.duration ?? 0
+                  )
+            } logs={logs}/>
             <IoMdClose onClick={() => setOpenModal(false)} className="w-6 h-6 bg-gray-200 absolute top-2 rounded-full p-1 right-2 cursor-pointer hover:bg-gray-300"/>
                 <h1 className="font-bold p-4">Daily Log For Day 3</h1>
                 <div className="flex flex-col gap-1">

@@ -4,6 +4,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { getCurrentUser } from "../features/auth/authActions";
+import ButtonLoading from "../components/loading/buttonLoading";
 
 // define the props type
 interface PrivateRouteProps {
@@ -15,8 +16,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
 
     const dispatch = useAppDispatch();
     const {loading, isAuthenticated} = useAppSelector((state) => state.auth);
-    const location = useLocation();
-    console.log(location)
+    
+    
     useEffect(() => {
         if(!isAuthenticated) {
             dispatch(getCurrentUser());
@@ -24,7 +25,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
     },[dispatch, isAuthenticated])
 
     if (loading) {
-        return <div>Loading...</div>
+        return <ButtonLoading/>
     }
     
     // If user is authenticated, render the dashboard layout with the children

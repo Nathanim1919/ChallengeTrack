@@ -12,9 +12,26 @@ export const getFormattedDate = (date: Date) => {
 };
 
 
-// const formattedDate = date.toLocaleDateString('en-US', {
-//     weekday: 'short',  // Mon
-//     year: 'numeric',   // 2024
-//     month: 'short',    // Sep
-//     day: 'numeric'     // 30
-//   });
+export function getCurrentDayNumber(startDate: Date, duration: number): number {
+    const currentDate: Date = new Date();
+
+    // Ensure the start date is a Date object
+    startDate = new Date(startDate);
+
+    // Check if the challenge has started
+    if (currentDate < startDate) {
+      // Challenge has not started yet
+      return 0; // or any indicator that the challenge hasn't started
+    }
+
+    // Calculate the difference in time (in milliseconds)
+    const diffTime: number = currentDate.getTime() - startDate.getTime();
+
+    // Calculate the difference in days
+    const diffDays: number = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include the start day
+
+    // alert(diffDays);
+
+    // Ensure the current day does not exceed the challenge duration
+    return Math.min(diffDays, duration);
+  }
