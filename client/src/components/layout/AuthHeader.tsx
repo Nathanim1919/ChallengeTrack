@@ -1,11 +1,16 @@
 import React from "react";
 import AvatarImage from "../../assets/heroImages/avator.jpg";
 import { GiTwoCoins } from "react-icons/gi";
-import { useAppSelector } from "../../hooks/useAppSelector";
 
-const AuthHeader: React.FC = () => {
-    const points = useAppSelector((state) => state.auth.user?.points);
-    const username = useAppSelector((state) => state.auth.user?.username);
+interface AuthHeaderProps {
+    username: string;
+    points: number;
+}
+
+const AuthHeader: React.FC<AuthHeaderProps> = ({
+    username,
+    points
+}) => {
 
     return (
         <header className="bg-gray-100 h-[60px] border-b border-gray-300 px-4 flex justify-end items-center">

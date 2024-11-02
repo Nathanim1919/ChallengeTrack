@@ -13,6 +13,10 @@ class LeaderBoardService {
         return await this.leaderBoardRepository.createLeaderboard(leaderboardData);
     }
 
+    async deleteLeaderBoardByChallengeId(challengeId: string) {
+        return await this.leaderBoardRepository.deleteLeaderBoardByChallengeId(challengeId);
+    }
+
     async createGlobalLeaderboard(leaderboardData:IGlobalLeaderboard) {
         return await this.leaderBoardRepository.createGlobalLeaderboard(leaderboardData);
     }

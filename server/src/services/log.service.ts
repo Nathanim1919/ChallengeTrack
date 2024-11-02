@@ -145,6 +145,11 @@ class LogService {
   async updateLogById(logId: string, updateData: any): Promise<ILog | null> {
     return this.logRepository.updateLogById(logId, updateData);
   }
+
+
+  async deleteAllChallengeLogs(challengeId: string): Promise<void> {
+    return this.logRepository.deleteAllChallengeLogs(challengeId);
+  }
 }
 
 export default LogService;

@@ -62,4 +62,12 @@ export class LogRepository {
   async updateLogById(logId: string, updateData: any): Promise<ILog | null> {
     return Log.findByIdAndUpdate(logId, updateData, { new: true }).exec();
   }
+
+  async deleteAllUserLogsWhenChallengeIsDeletedOrLeft(challengeId: string, userId: string): Promise<void> {
+    await Log.deleteMany({ challenge: challengeId, user: userId }).exec();
+  }
+
+  async deleteAllChallengeLogs(challengeId: string): Promise<void> {
+   await Log.deleteMany({ challenge: challengeId }).exec();
+  }
 }

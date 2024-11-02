@@ -35,7 +35,7 @@ export class Routes {
         const logService = new LogService(logRepository, challengeRepository, userService);
 
         // Challenge routes
-        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService, logRepository));
+        const challengeController = new ChallengeController(new ChallengeService(new ChallengeRepository(), userService, leaderboardService, categoryService, logRepository, logService));
         const challengeRoute = new ChallengeRoute(challengeController);
         challengeRoute.configureRoutes(app, baseUrl);
 

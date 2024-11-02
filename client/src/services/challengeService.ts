@@ -58,6 +58,10 @@ const addDailyLog = async (challengeId: string, logData: Partial<ILog>) => {
   return await challengesApi.createChallengeLog(challengeId, logData);
 };
 
+const deleteChallenge = async (challengeId: string) => {
+  return await challengesApi.deleteChallenge(challengeId);
+};
+
 export default {
   createChallenge,
   getAllChallenges,
@@ -72,5 +76,6 @@ export default {
   reportAsInappropriate,
   checkIfUserIsOwner,
   addDailyLog,
-  getPopularChallenge
+  getPopularChallenge,
+  deleteChallenge
 };

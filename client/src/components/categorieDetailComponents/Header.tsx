@@ -22,7 +22,7 @@ export const Header:React.FC<IHeaderProps> = ({
     return (
         <div className="bg-gray-100">
           <div className="flex flex-col p-3 gap-1">
-            <h1 className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 ${categoryConfig[categorie?.name || ""].bgColor} text-white`}><span>{categoryConfig[categorie?.name || ""].icon()}</span>{categorie?.name}</h1>
+            <h1 className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 ${categoryConfig[categorie?.name || ""]?.bgColor} text-white`}><span>{categoryConfig[categorie?.name || ""]?.icon()}</span>{categorie?.name}</h1>
             <p className="text-[14px] text-gray-500">
               {categorie?.description}
             </p>

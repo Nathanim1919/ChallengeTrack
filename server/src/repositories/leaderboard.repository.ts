@@ -48,6 +48,27 @@ class LeaderboardRepository {
 
     return updatedLeaderboard;
   }
+  async deleteLeaderBoardByChallengeId(challengeId: string): Promise<boolean> {
+    try {
+      const leaderboard = await Leaderboard.findOneAndDelete({
+        challengeId,
+      }).exec();
+
+      if (!leaderboard) {
+        throw new Error("Leaderboard not found");
+      }
+
+      console.log("Leaderboard deleted successfully");
+      return true;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error deleting leaderboard:", error.message);
+      } else {
+        console.error("Error deleting leaderboard: Unknown error");
+      }
+      return false;
+    }
+  }
 
   async removeParticipantFromLeaderboard(
     challengeId: string,

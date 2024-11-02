@@ -49,7 +49,7 @@ export class CategoryRepository {
     }
 
     async removeChallenge(categoryId: string, challengeId: string): Promise<ICategory | null> {
-        return Category.findByIdAndUpdate(categoryId, {
+        return Category.findOneAndUpdate({name: categoryId}, {
             $pull: {challenges: challengeId}
         }, {new: true}).exec();
     }

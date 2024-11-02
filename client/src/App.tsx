@@ -23,10 +23,11 @@ function App() {
             <Route path={'/'} element={<HomePage/>}/>
             <Route path={'/login'} element={<LoginPage/>}/>
             <Route path={'/register'} element={<RegistrationPage/>}/>
+
             <Route path={'/in'} element={
             <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
+                <Dashboard />
+            </PrivateRoute>
             }/>
              <Route path={'/in/challenges'} element={
             <PrivateRoute>

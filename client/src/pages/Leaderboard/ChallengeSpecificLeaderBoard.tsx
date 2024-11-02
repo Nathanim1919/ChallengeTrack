@@ -15,6 +15,8 @@ import { MdAdsClick } from "react-icons/md";
 import { ChallengeStatistics } from "../../components/cards/challengeStatistics.tsx";
 import { ConfirmModal } from "../../components/modals/ConfirmModal.tsx";
 import {
+  deleteChallenge,
+  getMyChallenges,
   getPopularChallenge,
   leaveChallenge,
 } from "../../features/challenges/challengesActions.ts";
@@ -37,11 +39,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
 
   // open the options
   const [showStatistics, setShowStatistics] = React.useState(false);
-  // const [showParticipants, setShowParticipants] = React.useState(false);
-  // const [showLeaderboard, setShowLeaderboard] = React.useState(false);
-  // const [showSimilarChallenges, setShowSimilarChallenges] = React.useState(false);
-  // const [showInviteFriends, setShowInviteFriends] = React.useState(false);
-  // const [showDeleteChallenge, setShowDeleteChallenge] = React.useState(false);
+  const [showDeleteChallenge, setShowDeleteChallenge] = React.useState(false);
   // const [showEditChallenge, setShowEditChallenge] = React.useState(false);
   const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
 
@@ -56,8 +54,27 @@ const ChallengeSpecificLeaderBoard: React.FC<{
     navigate("/in");
   };
 
+
+  const handleChallengeDelete = () => {
+    dispatch(deleteChallenge(challenge?._id || ""));
+    dispatch(getMyChallenges());
+    // dispatch(getPopularChallenge());
+    setShowDeleteChallenge(false);
+    navigate("/in");
+  };
+
   return (
     <div className="leaderboard">
+      {
+        showDeleteChallenge && (
+          <ConfirmModal
+            title="Delete Challenge"
+            message={userActionConfirmationMessages.DELETE_CHALLENGE}
+            onClose={() => setShowDeleteChallenge(false)}
+            onConfirm={handleChallengeDelete}
+          />
+        )
+      }
       {showStatistics && (
         <ChallengeStatistics
           setShowStatistics={setShowStatistics}
@@ -119,6 +136,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
               ) : (
                 <>
                   <div
+                    onClick={() => {setShowDeleteChallenge(true)}}
                     className={
                       "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
                     }
@@ -137,31 +155,8 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                   </div>
                 </>
               )}
-
-              <div
-                className={
-                  "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                }
-              >
-                <MdAdsClick />
-                <p className="m-0">Invite Friends</p>
-              </div>
-              <div
-                className={
-                  "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                }
-              >
-                <MdAdsClick />
-                <p className="m-0">View Participants</p>
-              </div>
-              <div
-                className={
-                  "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                }
-              >
-                <MdAdsClick />
-                <p className="m-0">View Leaderboard</p>
-              </div>
+            
+             
               <div
                 onClick={() => {
                   setShowStatistics(!showStatistics);
@@ -174,14 +169,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
                 <MdAdsClick />
                 <p className="m-0">View Statistics</p>
               </div>
-              <div
-                className={
-                  "options-item flex items-center gap-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200 p-2"
-                }
-              >
-                <MdAdsClick />
-                <p className="m-0">View Similar Challenges</p>
-              </div>
+             
             </div>
           </div>
         )}

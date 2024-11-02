@@ -8,6 +8,7 @@ import {
   checkIfUserIsOwner,
   checkIfUserIsParticipant,
   createChallenge,
+  deleteChallenge,
   getAllChallenges,
   getChallengeById, getMyChallenges,
   getPopularChallenge,
@@ -242,6 +243,19 @@ const challengesSlice = createSlice({
         .addCase(getPopularChallenge.rejected, (state, action) => {
           state.loading = false;
           state.error = action.error.message || "Failed to fetch popular challenges";
+        })
+        .addCase(deleteChallenge.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(deleteChallenge.fulfilled, (state, action) => {
+            state.challenges = state.challenges.filter(challenge => challenge._id !== action.payload.data?._id);
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(deleteChallenge.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || "Failed to delete challenge";
         });
   },
 });

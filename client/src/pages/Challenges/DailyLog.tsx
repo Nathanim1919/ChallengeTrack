@@ -26,7 +26,7 @@ const DailyLog = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { selectedChallenge, isParticipant, loading, message, error } =
     useAppSelector((state) => state.challenges);
-  const { logs } = useAppSelector((state) => state.logs);
+    const {logs, statuses}  = useAppSelector(state => state.logs);
   console.log("logs", logs);
 
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ const DailyLog = () => {
 
   useEffect(() => {
     dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
-  }, [dispatch, selectedChallenge]);
+  }, [dispatch, selectedChallenge, statuses.createLog.success]);
 
   const handleJoinChallenge = () => {
     dispatch(joinChallenge(selectedChallenge?._id ?? ""));
@@ -105,6 +105,12 @@ const DailyLog = () => {
             setShowLogDetail={setShowLogDetail}
           />
           <div className="h-[350px] overflow-y-auto">
+            {
+              statuses.getChallengeLogs.error && <CustomeToast message={statuses.getChallengeLogs.error} type="error" />
+            }
+            {
+              statuses.getChallengeLogs.loading && <div className="flex justify-center items-center h-full"><ButtonLoading /></div>
+            }
             {logs
               ?.slice(0, 10)
               ?.reverse()

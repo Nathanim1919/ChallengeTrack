@@ -31,8 +31,8 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
                         <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                     </div>
                     <div className='flex flex-col'>
-                        <p className='m-0 text-[11px]'>Nathanim</p>
-                        <p className='m-0 text-[14px] text-orange-400 flex items-center gap-1'><GiTwoCoins/>3000 XP</p>
+                        <p className='m-0 text-[11px]'>{challenge.createdBy?.username}</p>
+                        <p className='m-0 text-[14px] text-orange-400 flex items-center gap-1'><GiTwoCoins/>{challenge.createdBy?.points} XP</p>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
                 <div className='w-10 border-2 relative right-6 border-white h-10 rounded-full bg-gray-300'>
                 <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                 </div>
-                <p className='font-bold relative text-black right-3'>+200</p>
+                <p className='font-bold relative text-black right-3'>{challenge.participants?.length}<sup>+</sup></p>
             </div>
             <div className='flex justify-between px-3 py-4'>
                 <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>

@@ -12,6 +12,7 @@ import { RewardService } from "./reward.service";
 import { ILog } from "../interfaces/ILogs";
 import { LogRepository } from "../repositories/log.repository";
 import { initializeChallengeLogs } from "../utils/helperFunctions.utils";
+import LogService from "./log.service";
 
 class ChallengeService {
 
@@ -20,7 +21,8 @@ class ChallengeService {
         private userService: UserService,
         private leaderBoard: LeaderBoardService,
         private categoryService: CategoryService,
-        private logRepository: LogRepository
+        private logRepository: LogRepository,
+        private logService: LogService
     ) {
     }
 
@@ -110,10 +112,46 @@ class ChallengeService {
         }
     }
 
-    async deleteChallenge(id: string): Promise<IChallenge | null> {
+    async deleteChallenge(id: string, userId: string): Promise<IChallenge | null> {
         try {
+            // Check if the user is the owner of the challenge
+            const isOwner = await this.checkIfUserIsOwner(id, userId);
+            if (!isOwner) {
+                throw new Error('User is not the owner of the challenge');
+            }
+
+            // remove challenge from category
+            const challenge = await this.findChallengeById(id);
+            if (!challenge) {
+                throw new Error('Challenge not found');
+            }
+
+            await this.categoryService.removeChallenge(challenge.categorie, id);
+
+            // delete challenge logs
+            await this.logService.deleteAllChallengeLogs(id);
+
+            // remove challenge id from user created challenges
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            user.createdChallenges = user.createdChallenges.filter(challenge => challenge.toString() !== id);
+            await this.userService.updateUser(userId, user);
+
+            // remove from all participants
+            const participants = await this.getChallengeParticipants(id);
+            for (const participant of participants) {
+                await this.removeParticipant(id, participant._id.toString());
+            }
+
+            // delete leaderboard
+            await this.leaderBoard.deleteLeaderBoardByChallengeId(id);
+
             return await this.challengeRepository.deleteChallenge(id);
         } catch (error) {
+            console.log("error is: " + error);
             throw new Error('Failed to delete challenge');
         }
     }
@@ -299,10 +337,13 @@ class ChallengeService {
             user.points = RewardService.reward(RewardType.LEAVE_CHALLENGE, user?.points??0);
 
             await this.userService.updateUser(userId, user);
-            await Log.deleteMany({ user: userId, challenge: challengeId });
+          
+
+            await this.logRepository.deleteAllUserLogsWhenChallengeIsDeletedOrLeft(challengeId, userId);
 
             return removeParticipantFromChallenge;
         } catch (error) {
+            console.log("error is: " + error);
             throw new Error('Failed to remove participant from challenge');
         }
     }

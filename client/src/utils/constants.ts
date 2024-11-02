@@ -46,6 +46,7 @@ export const userActionConfirmationMessages = {
     THIRD_PLACE: 'Are you sure you want to secure third place in this challenge?',
     MISS_DAILY_CHALLENGE: 'Are you sure you want to miss a daily challenge?',
     HALF_WAY: 'Are you sure you want to complete half way in this challenge?',
+    DELETE_CHALLENGE: 'Are you sure you want to delete this challenge?',
 };
     
     export const userActionMessages = {

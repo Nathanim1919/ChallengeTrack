@@ -37,7 +37,7 @@ class ChallengeController {
 
     async deleteChallenge(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
-            const challenge = await this.challengeService.deleteChallenge(req.params.id);
+            const challenge = await this.challengeService.deleteChallenge(req.params.id, req.userId!);
             if(!challenge){
                 return res.status(404).json(formatError("Challenge not found"));
             }
