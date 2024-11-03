@@ -9,6 +9,7 @@ import { CustomeToast } from "../components/ui/customeToast";
 import ChallengeCategories from "../components/modals/ChallengeCategories";
 import { ChallengeLevel } from "../utils/constants";
 import { IChallengeLevel } from "../interfaces/IChallenge";
+import { GrRadialSelected } from "react-icons/gr";
 
 interface ChallengeData {
   title: string;
@@ -21,7 +22,7 @@ interface ChallengeData {
     minParticipants: number;
     maxParticipants: number;
   };
-  visibility: "public" | "private";
+  visibility: "Public" | "Private";
   createdBy: IUser | null;
 }
 
@@ -44,7 +45,7 @@ const ChallengeForm = () => {
       minParticipants: 0,
       maxParticipants: 0,
     },
-    visibility: "public",
+    visibility: "Public",
     createdBy: user,
   });
   const dispatch = useAppDispatch();
@@ -59,9 +60,10 @@ const ChallengeForm = () => {
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
     setChallengeData({
       ...challengeData,
-      visibility: e.target.checked ? "public" : "private",
+      visibility: e.target.checked ? "Public" : "Private",
     });
   };
 
@@ -87,7 +89,7 @@ const ChallengeForm = () => {
     e.preventDefault();
     dispatch(createChallenge(challengeData));
     if (!error) {
-      navigate(`/in/my-challenges`);
+      navigate(`/in`);
     }
   };
 
@@ -171,7 +173,10 @@ const ChallengeForm = () => {
                   <button
                     type="button"
                     key={level}
-                    className="p-2 bg-gray-100 border border-gray-300"
+                    className={`p-2 bg-gray-100 border-2 rounded-lg border-gray-300 flex items-center transform transition-all duration-300 hover:bg-orange-200 gap-1
+                    ${challengeData.level === level ? "bg-orange-200 border-orange-400" : ""}
+                      
+                      `}
                     onClick={() =>
                       setChallengeData({
                         ...challengeData,
@@ -179,6 +184,9 @@ const ChallengeForm = () => {
                       })
                     }
                   >
+                    {challengeData.level === level ? (
+                      <GrRadialSelected />
+                    ) : null}
                     {level}
                   </button>
                 ))}

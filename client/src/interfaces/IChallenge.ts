@@ -11,7 +11,7 @@ export interface IChallenge{
     endDate: Date;
     participants: IUser[]; // Array of user IDs
     status: ChallengeStatus;
-    visibility: 'public' | 'private';
+    visibility: 'Public' | 'Private';
     level: IChallengeLevel;
     logs: string[]; // Log IDs
     createdAt?: Date;

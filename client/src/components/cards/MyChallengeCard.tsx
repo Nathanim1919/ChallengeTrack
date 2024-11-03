@@ -1,6 +1,5 @@
 import React from 'react';
 import { IChallenge } from "../../interfaces/IChallenge";
-import { BiCategory } from 'react-icons/bi';
 import { TbProgressBolt } from 'react-icons/tb';
 import AvatorImage from '../../assets/heroImages/avator.jpg';
 import { GiTwoCoins } from 'react-icons/gi';
@@ -10,6 +9,8 @@ import { categoryConfig } from '../../utils/categorieConfig';
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { MdPublic } from "react-icons/md";
 import { ChallengeVisibility } from '../../utils/constants';
+import { CiEdit } from "react-icons/ci";
+
 
 const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
     const category = categoryConfig[challenge?.categorie||""] || {
@@ -52,15 +53,15 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
                 <div className='w-10 border-2 relative right-12 border-white h-10 rounded-full bg-gray-300'>
                 <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                 </div>
-                <p className='font-bold relative text-black right-12'>{challenge.participants?.length}<sup>+</sup></p>
+                <p className='font-bold relative text-black right-12 bg-gray-200 py-[2px] px-2 rounded-full'>{challenge.participants?.length}<sup>+</sup></p>
             </div>
-            <div className='flex items-center gap-1 bg-gray-200 py-1 px-2 rounded-full'>
+            <div className='flex items-center gap-1 bg-gray-200 py-1 px-2 rounded-full text-[13px]'>
                 {challenge.visibility?.toUpperCase() === ChallengeVisibility.PRIVATE ? <RiGitRepositoryPrivateLine className='text-gray-500'/> : <MdPublic className='text-gray-500'/>}
                 <p className='text-center text-gray-500'>{challenge.level?.toLocaleLowerCase()}</p>
             </div>
             </div>
             <div className='flex justify-between px-3 py-4'>
-                <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>
+                <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-4 text-[14px] py-1 hover:bg-gray-600 font-bold flex items-center gap-1 rounded-full"><CiEdit/>Edit</Link>
                 <Link to={`/in/my-challenges/${challenge._id}`} className='text-gray-500 hover:text-gray-800'>See more</Link>
             </div>
         </div>

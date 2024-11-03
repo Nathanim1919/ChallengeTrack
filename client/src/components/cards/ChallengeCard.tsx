@@ -9,8 +9,8 @@ interface ChallengeCardProps {
     challenge: {
         title: string;
         description: string;
-        startDate: string;
-        endDate: string;
+        startDate: Date;
+        endDate: Date;
         participants: string[];
         status: string;
     };
@@ -18,12 +18,12 @@ interface ChallengeCardProps {
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({challenge}) => {
     return (
-        <div key={challenge.title}
+        <div key={challenge}
             className="max-w-[300px] relative z-10 py-3 h-[400px] bg-sky-500 grid grid-rows-1 justify-between rounded-2xl shadow-lg hover:shadow-md cursor-pointer hover:bg-blue-500">
             <div className={"bg-white px-3 border-sky-500 grid grid-rows-3 justify-between shadow-lg"}>
                 <div className={"flex justify-between px-3 py-1 items-center gap-3.5"}>
                     <span
-                        className={"text-green-400 text-[16px] flex items-center gap-1"}><CiCalendarDate/>{challenge.startDate}</span>
+                        className={"text-green-400 text-[16px] flex items-center gap-1"}><CiCalendarDate/>{challenge.startDate.toISOString()}</span>
                     <span className={"text-sky-500 text-[16px]"}>{challenge.status}</span>
                 </div>
                 <div className={"flex flex-col items-center justify-center"}>
