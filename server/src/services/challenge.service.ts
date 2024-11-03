@@ -334,7 +334,7 @@ class ChallengeService {
             }
 
             user.participatedChallenges = user.participatedChallenges.filter(challenge => challenge.toString() !== challengeId);
-            user.points = RewardService.reward(RewardType.LEAVE_CHALLENGE, user?.points??0);
+            // user.points = RewardService.reward(RewardType.LEAVE_CHALLENGE, user?.points??0);
 
             await this.userService.updateUser(userId, user);
           
