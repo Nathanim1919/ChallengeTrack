@@ -78,6 +78,7 @@ export class ChallengeRepository {
       Challenge.find({ createdBy: { $ne: userId } })
         // .skip(skip)
         // .limit(limit)
+        .populate("createdBy")
         .exec()
     );
   }

@@ -12,6 +12,10 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
         bgColor: "bg-gray-300", // Default color
         icon: () => <span>?</span>, // Default icon
       };
+
+
+      console.log(challenge)
+
     return (
         <Link to={`/in/challenges/${challenge._id}`} key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>
@@ -30,8 +34,8 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
                         <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                     </div>
                     <div className='flex flex-col'>
-                        <p className='m-0 text-[11px]'>Nathanim</p>
-                        <p className='m-0 text-[14px] text-orange-400 flex items-center gap-1'><GiTwoCoins/>3000 XP</p>
+                        <p className='m-0 text-[11px]'>{challenge?.createdBy?.name}</p>
+                        <p className='m-0 text-[14px] text-orange-400 flex items-center gap-1'><GiTwoCoins/>{challenge?.createdBy?.points} XP</p>
                     </div>
                   
                 </div>
@@ -39,16 +43,21 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
         </div>
         <div>
             <div className='flex items-center p-3'>
+                <div className='flex items-center p-3'>
                 <div className='w-10 border-2 relative border-white h-10 rounded-full bg-gray-300'>
-                <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                    <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                    </div>
+                    <div className='w-10 border-2 relative right-6 border-white h-10 rounded-full bg-gray-300'>
+                    <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                    </div>
+                    <div className='w-10 border-2 relative right-10 border-white h-10 rounded-full bg-gray-300'>
+                    <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                 </div>
-                <div className='w-10 border-2 relative right-3 border-white h-10 rounded-full bg-gray-300'>
-                <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                <p className='font-bold relative text-black right-10'>+{challenge.participants?.length}</p>
                 </div>
-                <div className='w-10 border-2 relative right-6 border-white h-10 rounded-full bg-gray-300'>
-                <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                <div>
+                    <p>{challenge.level}</p>
                 </div>
-                <p className='font-bold relative text-black right-3'>+200</p>
             </div>
             <div className='flex justify-between px-3 py-4'>
                 <button className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Join</button>
