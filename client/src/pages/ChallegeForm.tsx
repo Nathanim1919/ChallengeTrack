@@ -7,48 +7,51 @@ import { useNavigate } from "react-router-dom";
 import ButtonLoading from "../components/loading/buttonLoading";
 import { CustomeToast } from "../components/ui/customeToast";
 import ChallengeCategories from "../components/modals/ChallengeCategories";
+import { ChallengeLevel } from "../utils/constants";
+import { IChallengeLevel } from "../interfaces/IChallenge";
 
 interface ChallengeData {
   title: string;
   startDate: Date;
   description: string;
-  duration: string;
+  duration: number;
   categorie: string;
-  level: string;
+  level: IChallengeLevel;
   rules: {
     minParticipants: number;
     maxParticipants: number;
   };
   visibility: "public" | "private";
-  createdBy: IUser["_id"] | undefined;
+  createdBy: IUser | null;
 }
 
 const ChallengeForm = () => {
   const { loading, message, error } = useAppSelector(
     (state) => state.challenges
   );
-    const [showCategories, setShowCategories] = React.useState(false);
-    const [search, setSearch] = React.useState("");
+  const [showCategories, setShowCategories] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const [challengeData, setChallengeData] = React.useState<ChallengeData>({
     title: "",
     startDate: new Date(),
     description: "",
-    duration: "",
+    duration: 0,
     categorie: "",
-    level: "",
+    level: "EASY",
     rules: {
       minParticipants: 0,
       maxParticipants: 0,
     },
     visibility: "public",
-    createdBy: user?._id,
+    createdBy: user,
   });
   const dispatch = useAppDispatch();
-  console.log(challengeData);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setChallengeData({
       ...challengeData,
       [e.target.name]: e.target.value,
@@ -58,7 +61,7 @@ const ChallengeForm = () => {
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChallengeData({
       ...challengeData,
-      [e.target.name]: e.target.checked,
+      visibility: e.target.checked ? "public" : "private",
     });
   };
 
@@ -83,15 +86,10 @@ const ChallengeForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(createChallenge(challengeData));
-
     if (!error) {
-      setTimeout(() => {
-        navigate("/in/my-challenges");
-      }, 1000);
+      navigate(`/in/my-challenges`);
     }
   };
-
-  console.log("is Loading", loading);
 
   return (
     <div className="challenge-form">
@@ -124,7 +122,7 @@ const ChallengeForm = () => {
             />
           </div>
           <div className="flex justify-between gap-2">
-          <div className="grid gap-2 flex-1">
+            <div className="grid gap-2 flex-1">
               <ChallengeCategories
                 setFilter={handleCategorySelect}
                 setShowCategories={setShowCategories}
@@ -148,13 +146,14 @@ const ChallengeForm = () => {
                 name="startDate"
                 id="startdate"
                 placeholder="startdate"
+                min={new Date().toISOString().split("T")[0]}
                 className="p-2 border border-gray-300 bg-gray-100"
                 onChange={handleChange}
               />
             </div>
           </div>
           <div className="flex justify-between gap-2">
-          <div className="grid gap-2 flex-1">
+            <div className="grid gap-2 flex-1">
               <label htmlFor="duration">Duration</label>
               <input
                 type="text"
@@ -167,14 +166,23 @@ const ChallengeForm = () => {
             </div>
             <div className="grid gap-2 flex-1">
               <label htmlFor="level">Level</label>
-              <input
-                type="text"
-                name="level"
-                id="level"
-                placeholder="Level"
-                className="p-2 border border-gray-300 bg-gray-100"
-                onChange={handleChange}
-              />
+              <div className="challenge-level flex items-center gap-2 text-[12px]">
+                {Object.keys(ChallengeLevel).map((level) => (
+                  <button
+                    type="button"
+                    key={level}
+                    className="p-2 bg-gray-100 border border-gray-300"
+                    onClick={() =>
+                      setChallengeData({
+                        ...challengeData,
+                        level: level as IChallengeLevel,
+                      })
+                    }
+                  >
+                    {level}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="flex justify-between gap-2">

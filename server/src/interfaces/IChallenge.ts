@@ -8,11 +8,11 @@ export interface IChallenge {
     createdBy: ObjectId; // User ID of the creator
     startDate: Date;
     endDate: Date;
-    level: 'beginner' | 'intermediate' | 'advanced';
+    level: 'EASY' | 'MEDIUM' | 'HARD';
     duration: number; // Duration in days
     participants: string[]; // Array of user IDs
     status: ChallengeStatus;
-    visibility: boolean;
+    visibility: String;
     logs: ObjectId[]; // Log IDs
     createdAt?: Date;
     updatedAt?: Date;

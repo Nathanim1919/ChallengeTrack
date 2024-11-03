@@ -15,6 +15,18 @@ export const RewardType = {
     
 };
 
+
+export const ChallengeLevel = {
+    EASY: 'EASY',
+    MEDIUM: 'MEDIUM',
+    HARD: 'HARD',
+};
+
+export const ChallengeVisibility = {
+    PUBLIC: 'PUBLIC',
+    PRIVATE: 'PRIVATE',
+}
+
 export const RewardPoints = {
     [RewardType.REGISTRATION_BONUS]: 100,
     [RewardType.DAILY_LOGIN]: 5,

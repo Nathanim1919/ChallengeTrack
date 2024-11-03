@@ -5,13 +5,14 @@ export interface IChallenge{
     _id: string;
     title: string;
     description: string;
-    createdBy: IUser; // User ID of the creator
+    createdBy: IUser | null; // User ID of the creator
     startDate: Date;
     duration: number; // Duration in days
     endDate: Date;
     participants: IUser[]; // Array of user IDs
     status: ChallengeStatus;
     visibility: 'public' | 'private';
+    level: IChallengeLevel;
     logs: string[]; // Log IDs
     createdAt?: Date;
     updatedAt?: Date;
@@ -27,6 +28,7 @@ export interface IChallenge{
 }
 
 type ChallengeStatus = 'PENDING' | 'ONGOING' | 'COMPLETED' | 'CANCELED';
+export type IChallengeLevel = "EASY" | "MEDIUM" | "HARD";
 
 export interface ChallengeRules {
     minParticipants: number; // Minimum participants required

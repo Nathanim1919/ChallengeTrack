@@ -3,6 +3,8 @@ import {CiCalendarDate} from "react-icons/ci";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
 
 
+
+
 interface ChallengeCardProps {
     challenge: {
         title: string;

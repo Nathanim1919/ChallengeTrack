@@ -7,6 +7,9 @@ import { GiTwoCoins } from 'react-icons/gi';
 import { MdJoinFull } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { categoryConfig } from '../../utils/categorieConfig';
+import { RiGitRepositoryPrivateLine } from "react-icons/ri";
+import { MdPublic } from "react-icons/md";
+import { ChallengeVisibility } from '../../utils/constants';
 
 const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
     const category = categoryConfig[challenge?.categorie||""] || {
@@ -38,17 +41,23 @@ const MyChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
             </div>
         </div>
         <div>
+            <div className='flex justify-between items-center p-1'>
             <div className='flex items-center p-3'>
                 <div className='w-10 border-2 relative border-white h-10 rounded-full bg-gray-300'>
-                <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
-                </div>
-                <div className='w-10 border-2 relative right-3 border-white h-10 rounded-full bg-gray-300'>
                 <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                 </div>
                 <div className='w-10 border-2 relative right-6 border-white h-10 rounded-full bg-gray-300'>
                 <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
                 </div>
-                <p className='font-bold relative text-black right-3'>{challenge.participants?.length}<sup>+</sup></p>
+                <div className='w-10 border-2 relative right-12 border-white h-10 rounded-full bg-gray-300'>
+                <img src={AvatorImage} alt='avator' className='w-full h-full object-cover rounded-full'/>
+                </div>
+                <p className='font-bold relative text-black right-12'>{challenge.participants?.length}<sup>+</sup></p>
+            </div>
+            <div className='flex items-center gap-1 bg-gray-200 py-1 px-2 rounded-full'>
+                {challenge.visibility?.toUpperCase() === ChallengeVisibility.PRIVATE ? <RiGitRepositoryPrivateLine className='text-gray-500'/> : <MdPublic className='text-gray-500'/>}
+                <p className='text-center text-gray-500'>{challenge.level?.toLocaleLowerCase()}</p>
+            </div>
             </div>
             <div className='flex justify-between px-3 py-4'>
                 <Link to={`/in/my-challenges/${challenge._id}`} className="bg-black text-white px-5 rounded-sm hover:bg-gray-600 text-[14px] flex items-center gap-1"><MdJoinFull/>Edit</Link>

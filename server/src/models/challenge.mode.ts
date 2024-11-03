@@ -9,8 +9,8 @@ const challengeSchema = new Schema<IChallenge>({
     endDate: {type: Date, required: true},
     level: {
         type: String,
-        enum: ['beginner', 'intermediate', 'advanced'],
-        default: 'beginner',
+        enum: ['EASY', 'MEDIUM', 'HARD'],
+        default: 'EASY',
         required: true
     },
     duration: {type: Number, required: true},
@@ -31,8 +31,8 @@ const challengeSchema = new Schema<IChallenge>({
         default: 'PENDING'
     },
     visibility: {
-        type: Boolean,
-        default: false,
+        type: String,
+        default: 'Private',
         required: true
     },
     rules:

@@ -72,6 +72,7 @@ const challengesSlice = createSlice({
       })
       .addCase(createChallenge.fulfilled, (state, action) => {
         state.challenges.push(action.payload);
+        state.selectedChallenge = action.payload;
         state.loading = false;
         state.error = null;
         state.message = "Challenge created successfully";
