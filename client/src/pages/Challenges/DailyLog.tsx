@@ -18,7 +18,11 @@ import {
   ProgressBar,
 } from "../../components/ui/progressBar";
 import { getChallengeUserLogs } from "../../features/logs/logActons";
-import { getCurrentDayNumber } from "../../utils/helper";
+import {
+  ChallengeSpecificHelper,
+  getCurrentDayNumber,
+} from "../../utils/helper";
+import Timer from "../../components/ui/Timer";
 
 const DailyLog = () => {
   const [openModal, setOpenModal] = React.useState(false);
@@ -26,7 +30,7 @@ const DailyLog = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { selectedChallenge, isParticipant, loading, message, error } =
     useAppSelector((state) => state.challenges);
-    const {logs, statuses}  = useAppSelector(state => state.logs);
+  const { logs, statuses } = useAppSelector((state) => state.logs);
   console.log("logs", logs);
 
   const dispatch = useAppDispatch();
@@ -45,7 +49,6 @@ const DailyLog = () => {
     dispatch(getMyChallenges());
   };
 
-
   return (
     <div className="p-3 border-l border-gray-200 bg-white">
       <div className="creatorInfo flex gap-2 items-center border-b border-gray-300 p-3 relative">
@@ -61,11 +64,25 @@ const DailyLog = () => {
           <p>+30 challenges</p>
         </div>
       </div>
+      {!ChallengeSpecificHelper.isChallengeStarted(
+        selectedChallenge?.startDate
+      ) && (
+        <div className="bg-gray-100 px-2 py-5 grid gap-3">
+          <div>
+          <h1 className="font-bold text-center">
+            Challenge has not started yet
+          </h1>
+          <p className="text-gray-400 text-center">Please check back later</p>
+          </div>
+          <Timer startDate={selectedChallenge?.startDate} />
+        </div>
+      )}
+
       {loading ? (
         <div className=" grid place-items-center py-5">
           <ButtonLoading />
         </div>
-      ) : isParticipant ? (
+      ) : (isParticipant) ? (
         <div>
           <DailyLogModal
             setShowAllLogDays={setShowAllLogDays}
@@ -91,7 +108,8 @@ const DailyLog = () => {
               selectedChallenge?.duration ?? 0
             )}
           />
-          <div className="flex justify-between p-3">
+         {ChallengeSpecificHelper.isChallengeStarted(
+        selectedChallenge?.startDate) && <div className="flex justify-between p-3">
             <h1 className="font-bold">Your Daily Log</h1>
             <div className="flex items-center gap-2">
               <IoMdAdd
@@ -99,18 +117,23 @@ const DailyLog = () => {
                 className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"
               />
             </div>
-          </div>
+          </div>}
           <DailyLogDetail
             showLogDetail={showLogDetail}
             setShowLogDetail={setShowLogDetail}
           />
           <div className="h-[350px] overflow-y-auto">
-            {
-              statuses.getChallengeLogs.error && <CustomeToast message={statuses.getChallengeLogs.error} type="error" />
-            }
-            {
-              statuses.getChallengeLogs.loading && <div className="flex justify-center items-center h-full"><ButtonLoading /></div>
-            }
+            {statuses.getChallengeLogs.error && (
+              <CustomeToast
+                message={statuses.getChallengeLogs.error}
+                type="error"
+              />
+            )}
+            {statuses.getChallengeLogs.loading && (
+              <div className="flex justify-center items-center h-full">
+                <ButtonLoading />
+              </div>
+            )}
             {logs
               ?.slice(0, 10)
               ?.reverse()

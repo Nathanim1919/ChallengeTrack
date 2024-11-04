@@ -212,43 +212,6 @@ class ChallengeService {
         }
     }
 
-    // async setChallengeReadyToStart(challengeId: string): Promise<IChallenge | null> {
-    //     try {
-    //         const isMaxParticipantsReached = await this.isMaxParticipantsReached(challengeId);
-    //         const isMinParticipantsReached = await this.isMinParticipantsReached(challengeId);
-
-    //         if (isMaxParticipantsReached || isMinParticipantsReached){
-    //             return this.challengeRepository.changeChallengeStatus(challengeId, challengeStatus.READY);
-    //         }
-    //         throw new Error('Minimum participants not reached');
-    //     } catch (error) {
-    //         throw new Error('Failed to set challenge ready to start');
-    //     }
-    // }
-
-    // async isMaxParticipantsReached(challengeId: string): Promise<boolean> {
-    //     try {
-    //         const challenge = await this.challengeRepository.findChallengeById(challengeId);
-    //         if (!challenge) {
-    //             throw new Error('Challenge not found');
-    //         }
-    //         return challenge.participants.length >= challenge.rules?.maxParticipants;
-    //     } catch (error) {
-    //         throw new Error('Failed to check if max participants reached');
-    //     }
-    // }
-
-    // async isMinParticipantsReached(challengeId: string): Promise<boolean> {
-    //     try {
-    //         const challenge = await this.challengeRepository.findChallengeById(challengeId);
-    //         if (!challenge) {
-    //             throw new Error('Challenge not found');
-    //         }
-    //         return challenge.participants.length >= challenge.rules?.minParticipants;
-    //     } catch (error) {
-    //         throw new Error('Failed to check if min participants reached');
-    //     }
-    // }
 
     async isUserParticipant(challengeId: string, userId: string): Promise<boolean> {
         try {

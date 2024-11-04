@@ -40,20 +40,6 @@ export class ChallengeSpecificHelper {
     return diffHours <= 24;
   };
 
-  static doesChallengeMeetMinimumParticipants = (challenge: IChallenge) => {
-    return challenge.participants.length >= challenge.rules.minParticipants;
-  };
-
-  static canUserJoinChallenge = (challenge: IChallenge) => {
-    return (
-      !ChallengeSpecificHelper.isChallengeEnded(
-        challenge.startDate,
-        challenge.duration
-      ) &&
-      !ChallengeSpecificHelper.doesChallengeMeetMinimumParticipants(challenge)
-    );
-  };
-
   static isChallengeEnded = (startDate: Date, duration: number) => {
     const currentDate: Date = new Date();
     startDate = new Date(startDate);
@@ -76,11 +62,14 @@ export class ChallengeSpecificHelper {
     return currentDate < startDate;
   };
 
-  static isChallengeStarted = (startDate: Date) => {
+  static isChallengeStarted = (startDate?: Date) => {
+    if (!startDate) return false;
     const currentDate: Date = new Date();
     startDate = new Date(startDate);
     return currentDate >= startDate;
   };
+
+
 }
 
 export const calculateDaysLeft = (startDate: Date, endDate: Date) => {
@@ -164,15 +153,4 @@ export const getChallengeStatus = (challenge: IChallenge) => {
     return "Upcoming";
   }
   return "Unknown";
-};
-
-export const doesChallengeMeetMinimumParticipants = (challenge: IChallenge) => {
-  return challenge.participants.length >= challenge.rules.minParticipants;
-};
-
-export const canUserJoinChallenge = (challenge: IChallenge) => {
-  return (
-    !isChallengeEnded(challenge.startDate, challenge.duration) &&
-    !doesChallengeMeetMinimumParticipants(challenge)
-  );
 };
