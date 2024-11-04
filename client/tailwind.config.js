@@ -10,6 +10,7 @@ export default {
         fontFamily: {
             Montserrat: ['Sora', 'sans-serif'],
         },
+       
         keyframes: {
             fadeIn: {
                 '0%': { opacity: 0 },
@@ -33,6 +34,7 @@ export default {
             fadeOut: 'fadeOut 0.5s ease-in-out',
             slideup: 'slideup 0.5s ease-in-out',
             slideFadeIn: 'slideFadeIn 0.5s ease-in-out',
+            slowPin:'spin 5s linear infinite',
         },
     },
   },

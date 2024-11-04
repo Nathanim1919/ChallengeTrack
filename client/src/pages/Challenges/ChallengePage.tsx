@@ -25,7 +25,6 @@ const ChallengePage: React.FC = () => {
                         <ChallengeCard key={index} challenge={challenge}/>
                     )
                 })}
-                <img src={Abstract as string} alt="Abstract" className="absolute w-[50vw] transform rotate-180 -bottom-16 left-0 opacity-80 object-cover"/>
             </div>
         </div>
     )

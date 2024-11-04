@@ -6,7 +6,7 @@ import {IoMdClose} from "react-icons/io";
 
 const Header: React.FC = () => {
     return (   
-        <header className={'font-Montserrat w-[90%]  m-auto px-3 flex justify-between md:items-center md:sticky top-0 z-50'}>
+        <header className={'font-Montserrat w-[100%] px-3 flex justify-between md:items-center md:sticky top-0 z-50 bg-white'}>
             <div className={'navbar-logo lg:w-full'}>
                 <Link to={'/'}>Logo</Link>
             </div>

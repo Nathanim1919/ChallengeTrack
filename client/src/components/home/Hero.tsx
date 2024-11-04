@@ -1,18 +1,10 @@
 import React from "react";
 import HeroCard from "./HeroCards.tsx";
-import CodeImage from "../../assets/heroImages/code.png";
-import FitnessImage from "../../assets/heroImages/sport.png";
-import CreativeImage from "../../assets/heroImages/art.png";
-import HeroImage from "../../assets/heroImages/hero1.png";
-import Abstract from "../../assets/heroImages/hero3.png";
-import ReadingImage from "../../assets/heroImages/book.png";
 import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
     return (
-        <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center">
-            <img src={Abstract as string} alt="Abstract" className="absolute w-[50vw] left-0 transform rotate-180 -top-1/2 opacity-20 object-cover"/>
-            <img src={Abstract as string} alt="Abstract" className="absolute w-[50vw] right-0 opacity-30 object-cover"/>
+        <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center bg-white">
             <div className="hero-content overflow-hidden">
                 <div className={'flex flex-col items-center gap-2 pt-3 md:pt-8 lg:pt-8'}>
                     <h1 className="hero-title text-2xl md:text-4xl lg:text-6xl font-bold text-center"> Discover New
@@ -28,48 +20,35 @@ const Hero: React.FC = () => {
                 <div
                     className={'challenge-card-lists absolute overflow-hidden bottom-0 right-0 left-0 flex  justify-center gap-2'}>
                     <HeroCard
-                        imgSrc={CreativeImage}
                         title={"Creative Art"}
-                        description={"Unleash your creativity through digital art and design projects."}
-                        bgColor={"bg-orange-400"}
-                        customClasses={"-right-32 -rotate-12 text-white flex-1 -bottom-32 rounded-3xl"}
-                        childClasses={"relative w-[170px] -top-5"}
+                        bgColor={"bg-gradient-to-r from-red-700 to-yellow-500"}
+                        customClasses={"-right-32 -rotate-12 text-white flex-1 -bottom-44 rounded-3xl animate-slideup duration-200"}
                     />
 
                     <HeroCard
-                        imgSrc={FitnessImage}
                         title={"Fitness"}
-                        description={"Test your limits with daily workout goals and sports activities."}
-                        bgColor={"bg-red-700"}
-                        customClasses={"-right-16 -rotate-6 bg-sky-400 text-white flex-1 -bottom-10 rounded-3xl"}
-                        childClasses={"relative w-[250px] -top-10"}
+                        bgColor={"bg-gradient-to-r from-red-700 to-violet-500"}
+                        customClasses={"-right-16 -rotate-6 bg-sky-400 text-white flex-1 -bottom-24 rounded-3xl animate-slideup duration-400"}
                     />
 
                     <HeroCard
-                        imgSrc={HeroImage}
                         title={"Coding"}
-                        description={"Sharpen your coding skills by solving real-world problems."}
-                        bgColor={"bg-gray-800"}
-                        customClasses={" bg-green-500 text-white flex-1  rounded-tl-3xl rounded-tr-3xl z-20"}
-                        childClasses={"m-0 relative w-[250px] -top-1"}
+                        bgColor={"bg-gradient-to-r from-yellow-400 to-pink-500"}
+                        customClasses={" bg-green-500 text-white flex-1 -bottom-4  rounded-tl-3xl rounded-tr-3xl z-20 animate-slideup duration-0"}
                     />
 
                     <HeroCard
-                        imgSrc={CodeImage}
                         title={"Coding"}
-                        description={"Sharpen your coding skills by solving real-world problems."}
-                        bgColor={"bg-blue-700"}
-                        customClasses={"z-10 flex-1 right-16 rotate-6 -bottom-10 rounded-3xl"}
-                        childClasses={"relative w-[250px] -top-10"}
+                        bgColor={"bg-gradient-to-r from-sky-400 to-orange-500"}
+                        customClasses={"z-10 flex-1 right-16 rotate-6 -bottom-24 rounded-3xl animate-slideup duration-800"}
+                        textStyle={"bg-red-500 self-end items-end"}
                     />
 
                     <HeroCard
-                        imgSrc={ReadingImage}
                         title={"Reading"}
-                        description={"Explore nature and complete fun outdoor activities."}
-                        bgColor={"bg-red-700 "}
-                        customClasses={"right-32 rotate-12 text-white flex-1 -bottom-32 rounded-3xl"}
-                        childClasses={"relative w-[170px] -top-5"}
+                        bgColor={"bg-gradient-to-r from-green-400 to-red-500"}
+                        customClasses={"right-32 rotate-12 text-white flex-1 -bottom-44 rounded-3xl animate-slideup duration-1000"}
+                        textStyle={"items-end"}
                     />
 
                 </div>
