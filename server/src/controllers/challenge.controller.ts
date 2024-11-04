@@ -180,6 +180,17 @@ class ChallengeController {
     }
 
 
+    async getPopularChallengeOvervierForUnsignedUser(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge[]>>>{
+        try {
+            const challenges = await this.challengeService.getPopularChallengeOvervierForUnsignedUser();
+            return res.status(200).json(formatResponse(challenges, 'Popular challenges fetched successfully'));
+        } catch(error){
+            console.log(error);
+            return res.status(400).json(formatError("Failed to fetch popular challenges"));
+        }
+    }
+
+
     async saveDailyLogChallengeProgress(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
             const challenge = await this.challengeService.saveDailyLogChallengeProgress(req.params.id, req.userId!, req.body.details);

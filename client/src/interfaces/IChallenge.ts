@@ -17,7 +17,7 @@ export interface IChallenge{
     createdAt?: Date;
     updatedAt?: Date;
     progress?: number; // Progress percentage
-    rules: ChallengeRules; // Additional rules for the challenge
+    // rules: ChallengeRules; // Additional rules for the challenge
     rewards: ChallengeReward[]; // Potential rewards for completing the challenge
     leaderboard?: ILeaderboard; // Leaderboard ID
     totalParticipants: number; // Total number of participants

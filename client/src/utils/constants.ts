@@ -27,6 +27,15 @@ export const ChallengeVisibility = {
     PRIVATE: 'PRIVATE',
 }
 
+
+export const ChallengeStatus = {
+    UPCOMING: 'UPCOMING',
+    ABOUT_TO_START: 'ABOUT TO START',
+    ONGOING: 'ONGOING',
+    ENDED: 'ENDED',
+    STARTED: 'STARTED',
+};
+
 export const RewardPoints = {
     [RewardType.REGISTRATION_BONUS]: 100,
     [RewardType.DAILY_LOGIN]: 5,

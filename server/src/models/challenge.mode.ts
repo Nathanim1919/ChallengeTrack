@@ -35,12 +35,12 @@ const challengeSchema = new Schema<IChallenge>({
         default: 'Private',
         required: true
     },
-    rules:
-        {
-            minParticipants: {type: Number, required: true},
-            maxParticipants: {type: Number, required: true},
-            verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], default: 'self-report'},
-        },
+    // rules:
+    //     {
+    //         minParticipants: {type: Number, required: true},
+    //         maxParticipants: {type: Number, required: true},
+    //         verificationMethod: {type: String, enum: ['self-report', 'third-party', 'automated'], default: 'self-report'},
+    //     },
     progress: {type: Number, default: 0},
     logs: [{type: Schema.Types.ObjectId, ref: 'Log'}],
     createdAt: {type: Date, default: Date.now},

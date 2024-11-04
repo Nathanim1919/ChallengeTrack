@@ -228,6 +228,22 @@ export const getPopularChallenge = createAsyncThunk<ApiResponse<IChallenge[]>>(
   }
 );
 
+
+export const popularForUnsignedUser = createAsyncThunk<ApiResponse<IChallenge[]>>(
+  "challenges/popularForUnsignedUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await challengeService.popularForUnsignedUser();
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        return rejectWithValue("An unknown error occurred");
+      }
+    }
+  }
+);
+
 export const deleteChallenge = createAsyncThunk<
   ApiResponse<IChallenge>,
   string

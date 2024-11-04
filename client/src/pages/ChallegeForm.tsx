@@ -18,10 +18,6 @@ interface ChallengeData {
   duration: number;
   categorie: string;
   level: IChallengeLevel;
-  rules: {
-    minParticipants: number;
-    maxParticipants: number;
-  };
   visibility: "Public" | "Private";
   createdBy: IUser | null;
 }
@@ -41,11 +37,7 @@ const ChallengeForm = () => {
     duration: 0,
     categorie: "",
     level: "EASY",
-    rules: {
-      minParticipants: 0,
-      maxParticipants: 0,
-    },
-    visibility: "Public",
+    visibility: "Private",
     createdBy: user,
   });
   const dispatch = useAppDispatch();
@@ -67,15 +59,6 @@ const ChallengeForm = () => {
     });
   };
 
-  const handleRuleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChallengeData({
-      ...challengeData,
-      rules: {
-        ...challengeData.rules,
-        [e.target.name]: e.target.value,
-      },
-    });
-  };
 
   const handleCategorySelect = (value: string) => {
     setSearch(value);
@@ -191,30 +174,6 @@ const ChallengeForm = () => {
                   </button>
                 ))}
               </div>
-            </div>
-          </div>
-          <div className="flex justify-between gap-2">
-            <div className="grid gap-2 flex-1">
-              <label htmlFor="minParticipants">Minimum Participants</label>
-              <input
-                type="number"
-                name="minParticipants"
-                id="minParticipants"
-                placeholder="Minimum Participants"
-                className="p-2 border border-gray-300 bg-gray-100"
-                onChange={handleRuleChange}
-              />
-            </div>
-            <div className="grid gap-2 flex-1">
-              <label htmlFor="maxParticipants">Maximum Participants</label>
-              <input
-                type="number"
-                name="maxParticipants"
-                id="maxParticipants"
-                placeholder="Maximum Participants"
-                className="p-2 border border-gray-300 bg-gray-100"
-                onChange={handleRuleChange}
-              />
             </div>
           </div>
           <div className="flex justify-between">

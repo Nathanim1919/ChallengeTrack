@@ -17,6 +17,8 @@ class ChallengeRoute {
         app.route(`${baseUrl}/challenges/popular`)
             .all(verifyUser)
             .get(this.challengeController.getPopularChallenge.bind(this.challengeController));
+        app.route(`${baseUrl}/challenges/popularForUnsignedUser`)
+            .get(this.challengeController.getPopularChallengeOvervierForUnsignedUser.bind(this.challengeController));
 
         app.route(`${baseUrl}/challenges/:id`)
             .all(verifyUser)

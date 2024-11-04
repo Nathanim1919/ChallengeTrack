@@ -26,6 +26,10 @@ const getPopularChallenge = async () => {
   return await challengesApi.getPopularChallenge();
 };
 
+const popularForUnsignedUser = async () => {
+  return await challengesApi.getPopularChallengeOvervierForUnsignedUser();
+}
+
 const checkIfUserIsParticipant = async (challengeId: string) => {
   return await challengesApi.checkIfUserIsParticipant(challengeId);
 };
@@ -77,5 +81,6 @@ export default {
   checkIfUserIsOwner,
   addDailyLog,
   getPopularChallenge,
-  deleteChallenge
+  deleteChallenge,
+  popularForUnsignedUser
 };

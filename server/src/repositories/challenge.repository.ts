@@ -87,6 +87,39 @@ export class ChallengeRepository {
     return Challenge.findById(challengeId).populate("createdBy").exec();
   }
 
+  async getPopularChallengeOvervierForUnsignedUser(): Promise<IChallenge[] | null> {
+    return Challenge.aggregate([
+      {
+        $match: {
+          status: { $ne: "COMPLETED" }, // Exclude completed challenges
+        },
+      },
+      {
+        $addFields: {
+          participantCount: { $size: "$participants" }, // Add a field to count the number of participants
+        },
+      },
+      {
+        $sort: { participantCount: -1 }, // Sort by the number of participants in descending order
+      },
+      {
+        $limit: 4, // Return the challenge with the highest participant count
+      },
+      {
+        $lookup: {
+          // Populate the 'createdBy' field with data from the User collection
+          from: "users", // Collection to join
+          localField: "createdBy", // Field in the Challenge model (still holds user ID)
+          foreignField: "_id", // Matching field in the User collection (user ID)
+          as: "createdBy", // Output the joined data in the 'createdBy' field
+        },
+      },
+      {
+        $unwind: "$createdBy", // Unwind the array to get 'createdBy' as an object instead of an array
+      },
+    ]).exec();
+  }
+
   async getPopularChallenge(userId: string): Promise<IChallenge[] | []> {
     return Challenge.aggregate([
       {

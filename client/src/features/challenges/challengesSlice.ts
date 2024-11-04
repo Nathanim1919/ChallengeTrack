@@ -14,6 +14,7 @@ import {
   getPopularChallenge,
   joinChallenge,
   leaveChallenge,
+  popularForUnsignedUser,
 } from "./challengesActions";
 import { ApiResponse } from "../../interfaces/ICommon";
 
@@ -23,6 +24,7 @@ interface ChallengesState {
   challenges: IChallenge[];
   selectedChallenge: IChallenge | null;
   popularChallenges: IChallenge[] | [];
+  popularChallengesForUnsignedUser: IChallenge[] | [];
   isParticipant: boolean;
   isOwner: boolean;
   loading: boolean;
@@ -36,6 +38,7 @@ const initialState: ChallengesState = {
   challenges: [],
   selectedChallenge: null,
   popularChallenges: [],
+  popularChallengesForUnsignedUser: [],
   isParticipant: false,
   isOwner: false,
   loading: false,
@@ -257,7 +260,20 @@ const challengesSlice = createSlice({
         .addCase(deleteChallenge.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || "Failed to delete challenge";
-        });
+        })
+        .addCase(popularForUnsignedUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(popularForUnsignedUser.fulfilled, (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
+            state.popularChallengesForUnsignedUser = action.payload.data ?? [];
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(popularForUnsignedUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || "Failed to fetch popular challenges";
+        })
   },
 });
 

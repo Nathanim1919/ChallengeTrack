@@ -23,6 +23,11 @@ const getPopularChallenge = async (): Promise<ApiResponse<IChallenge[]>> => {
     return response.data;
 }
 
+const getPopularChallengeOvervierForUnsignedUser = async (): Promise<ApiResponse<IChallenge[]>> => {
+    const response = await apiConfig.get("/challenges/popularForUnsignedUser");
+    return response.data;
+};
+
 const getMyChallenges = async (): Promise<ApiResponse<IChallenge[]>> => {
     const response = await apiConfig.get("/my-challenges");
     return response.data;
@@ -115,5 +120,6 @@ export default {
     inviteUserToChallenge,
     reportAsInappropriate,
     checkIfUserIsOwner,
-    getPopularChallenge
+    getPopularChallenge,
+    getPopularChallengeOvervierForUnsignedUser
 }
