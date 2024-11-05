@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 
 const CTA: React.FC = () => {
     return (
-        <section className="relative z-10 grid items-center justify-center overflow-hidden  w-[80%] m-auto
-        before:absolute before:w-full before:h-full before:bg-gradient-to-r from-sky-400 to-orange-500 before:opacity-10 before:z-0
+        <section className="relative z-10 grid items-center bg-white justify-center overflow-hidden  w-[100%] m-auto
         ">
-            <div className={"p-5 grid items-center justify-center grid-cols-1 md:grid-cols-2 m-auto bg-white/20 backdrop-blur-lg"}>
+            <div className={"p-5 grid items-center justify-center w-[70%] grid-cols-1 md:grid-cols-2 m-auto bg-white/20 backdrop-blur-lg"}>
                 <div className={'w-[300px] md:w-[500px] relative'}>
                     <img src={CTAImage as string} alt="CTA" className="cta-image relative w-full h-full"/>
                 </div>

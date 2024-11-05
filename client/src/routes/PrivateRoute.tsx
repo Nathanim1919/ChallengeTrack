@@ -34,7 +34,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
     }
 
     // If user is not authenticated, redirect to the login page, and we used replace to replace the current location in the history stack, so the user can't go back to the private route
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

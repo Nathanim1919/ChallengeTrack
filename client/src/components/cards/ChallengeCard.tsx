@@ -4,6 +4,8 @@ import AvatorImage from "../../assets/heroImages/avator.jpg";
 import { ChallengeSpecificHelper } from "../../utils/helper";
 import { ChallengeStatus } from "../../utils/constants";
 import { IChallenge } from "../../interfaces/IChallenge";
+import { categoryConfig } from "../../utils/categorieConfig";
+import { Link } from "react-router-dom";
 
 interface ChallengeCardProps {
   challenge: IChallenge
@@ -12,35 +14,45 @@ interface ChallengeCardProps {
 
 
 
+
+
 const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, key }) => {
-  const challengeStatus = ChallengeSpecificHelper.getChallengeStatus(
-    challenge.startDate,
-    challenge.duration
-  );
+ 
+
+  const category = categoryConfig[challenge?.categorie||""] || {
+    bgColor: "bg-gray-300", // Default color
+    icon: () => <span>?</span>, // Default icon
+  };
+
+
   return (
     <div
       key={key}
-      className="max-w-[300px] relative z-10 py-3 h-[400px] bg-sky-500 grid grid-rows-1 justify-between rounded-2xl shadow-lg hover:shadow-md cursor-pointer hover:bg-blue-500"
+      className={`${category.bgColor} hover:bg-white group transition-colors duration-400 hover:text-gray-900 text-white relative grid grid-rows-1 justify-between rounded-2xl flex-1 w-full
+      hover:${category.bgColor} hover:text-white cursor-pointer
+      `}
     >
       <div
         className={
-          "bg-white px-3 border-sky-500 grid grid-rows-3 justify-between shadow-lg"
+          "grid grid-rows-3 justify-between"
         }
       >
         <div className={"flex justify-between px-3 py-1 items-center gap-3.5"}>
           <span
-            className={"text-green-400 text-[16px] flex items-center gap-1"}
+            className={"text-gray-200 group-hover:text-gray-900 text-[13px] flex items-center gap-1"}
           >
             <CiCalendarDate />
             {new Date(challenge.startDate).toISOString().split("T")[0]}
           </span>
-          <span className={"text-sky-500 text-[16px]"}>{challenge.status}</span>
+          <span className={`text-white text-[14px] flex items-center gap-1 px-2 rounded-full ${category.bgColor}`}><category.icon/>{challenge.categorie}</span>
         </div>
-        <div className={"flex flex-col items-center justify-center"}>
-          <h3 className={"font-bold text-2xl text-center"}>
-            {challenge.title}
+        <div className={"flex flex-col p-4"}>
+          <h3 className={"font-bold text-center"}>
+            {
+              challenge.title.length > 25? challenge.title.slice(0,25)+"...": challenge.title
+            }
           </h3>
-          <div className={"flex items-center p-3 gap-2"}>
+          <div className={"flex items-center gap-1"}>
             <div className={"h-[30px] w-[30px] bg-sky-400 rounded-full"}>
               <img
                 src={AvatorImage as string}
@@ -48,9 +60,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, key }) => {
                 className={"w-full h-full rounded-full"}
               />
             </div>
-            <p>Nathan Tadele</p>
+            <div className="flex flex-col">
+               <h3 className="m-0 font-bold text-[14px]">{challenge.createdBy?.name}</h3>
+               <p className="m-0 text-[12px]">{challenge.createdBy?.createdChallenges.length}<sup>+</sup> challenges</p>
+            </div>
           </div>
-          <p className={"text-center text-teal-700"}>{challenge.description}</p>
         </div>
         <div className={"flex relative px-3 justify-between items-center"}>
           <div className={"relative flex justify-between items-center"}>
@@ -91,34 +105,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, key }) => {
             </div>
             <h3 className={"-ml-8"}>{challenge.participants.length}+</h3>
           </div>
-          {(challengeStatus === ChallengeStatus.UPCOMING ||
-            challengeStatus === ChallengeStatus.ABOUT_TO_START) && (
-            <button
-              className={
-                "border-2 border-green-200 px-4 text-green-400 rounded-md hover:border-sky-500 hover:text-sky-500"
-              }
-            >
+          <Link to={`/in/challenges/${challenge._id}`}
+          className="bg-gray-800 text-[14px] text-white px-4 py-1 hover:bg-gray-600 font-bold flex items-center gap-1 rounded-full"
+          >
               Join
-            </button>
-          )}
-          {challengeStatus === ChallengeStatus.ENDED && (
-            <button
-              className={
-                "border-2 border-red-200 px-4 text-red-400 rounded-md hover:border-sky-500 hover:text-sky-500"
-              }
-            >
-              Ended
-            </button>
-          )}
-          {challengeStatus === ChallengeStatus.ONGOING && (
-            <button
-              className={
-                "border-2 border-blue-200 px-4 text-blue-400 rounded-md hover:border-sky-500 hover:text-sky-500"
-              }
-            >
-              Ongoing
-            </button>
-          )}
+            </Link>
         </div>
       </div>
     </div>

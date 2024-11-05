@@ -30,7 +30,7 @@ export const Header:React.FC<IHeaderProps> = ({
           <div className="grid grid-cols-2 gap-1 p-3">
             <div className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
               <h1 className="font-bold text-3xl">
-                140<sup>+</sup>
+                {categorie?.challenges.length}<sup>+</sup>
               </h1>
               <h2>Challenges</h2>
             </div>
