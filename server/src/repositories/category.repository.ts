@@ -1,6 +1,7 @@
 import { ClientSession } from "mongoose";
 import { ICategory } from "../interfaces/ICategory";
 import { Category } from "../models/category.mode";
+import { IChallenge } from "../interfaces/IChallenge";
 
 
 export class CategoryRepository {
@@ -53,6 +54,33 @@ export class CategoryRepository {
             $pull: {challenges: challengeId}
         }, {new: true}).exec();
     }
+
+    async getChallengesByCategory(categoryName: string): Promise<any[] | null> {
+        const category = await Category.findOne({ name: categoryName })
+            .populate({
+                path: 'challenges',
+                select: 'title challenges participants createdBy status',
+                populate: {
+                    path: 'createdBy',
+                    select: 'username email'
+                }
+            });
+    
+        if (!category || !category.challenges) return null;
+    
+        return category.challenges;
+    }
+
+    async getTotalNumberOfParticipantsForCategory(categoryName: string): Promise<number> {
+        const category = await Category.findOne({ name: categoryName }).populate('challenges').exec();
+        if (!category || !category.challenges) return 0;
+        let totalParticipants = 0;
+        category.challenges.forEach((challenge: any) => {
+            totalParticipants += challenge.participants.length;
+        });
+        return totalParticipants;
+    }
+    
 }
 
 

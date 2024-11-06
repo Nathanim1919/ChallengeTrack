@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import ButtonLoading from "../loading/buttonLoading"
 import { ICategory } from "../../interfaces/ICategory"
 import { categoryConfig } from "../../utils/categorieConfig"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { getTotalNumberOfParticipantsForCategory } from "../../features/categories/categorieActions"
 
 
 interface IHeaderProps {
@@ -12,7 +14,15 @@ interface IHeaderProps {
 export const Header:React.FC<IHeaderProps> = ({
     categorie
 }) => {
-    const {loading} = useAppSelector((state) => state.categories)
+    const {loading, totalParticipants} = useAppSelector((state) => state.categories)
+    const dispatch = useAppDispatch();
+
+
+    useEffect(() => {
+      dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name||""));
+    }, [categorie])
+
+
     if (loading) {
         return(
         <div className="grid place-items-center"> 
@@ -36,7 +46,7 @@ export const Header:React.FC<IHeaderProps> = ({
             </div>
             <div className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
               <h1 className="font-bold text-3xl">
-                20<sup>+</sup>
+                {totalParticipants}<sup>+</sup>
               </h1>
               <h2>Participants</h2>
             </div>

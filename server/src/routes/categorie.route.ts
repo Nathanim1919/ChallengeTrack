@@ -10,6 +10,10 @@ class CategoryRoute {
             .post(this.categoryController.create.bind(this.categoryController));
         app.route(`${baseUrl}/categories/:name`)
             .get(this.categoryController.findByName.bind(this.categoryController));
+        app.route(`${baseUrl}/categories/:name/challenges`)
+            .get(this.categoryController.getChallengesByCategory.bind(this.categoryController));
+        app.route(`${baseUrl}/categories/:name/totalParticipants`)
+            .get(this.categoryController.getTotalNumberOfParticipantsForCategory.bind(this.categoryController));
 
         app.route(`${baseUrl}/categories/:id`)
             .put(this.categoryController.update.bind(this.categoryController))

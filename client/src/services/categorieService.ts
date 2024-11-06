@@ -1,5 +1,6 @@
 import categoriesApi from "../apis/categoriesApi";
 import { ICategory } from "../interfaces/ICategory";
+import { IChallenge } from "../interfaces/IChallenge";
 import { ApiResponse } from "../interfaces/ICommon";
 
 
@@ -15,9 +16,18 @@ const getCategoryByName = async (name: string): Promise<ApiResponse<ICategory>> 
     return await categoriesApi.getCategoryByName(name);
 };
 
+const getChallengesByCategory = async (name: string): Promise<ApiResponse<IChallenge[]>> => {
+    return await categoriesApi.getChallengesByCategory(name)
+}
+
+const getTotalNumberOfParticipantsForCategory = async (name: string): Promise<ApiResponse<number>> => {
+    return await categoriesApi.getTotalNumberOfParticipantsForCategory(name);
+}
 
 export {
     getAllCategories,
     createCategory,
-    getCategoryByName
+    getCategoryByName,
+    getChallengesByCategory,
+    getTotalNumberOfParticipantsForCategory
 }

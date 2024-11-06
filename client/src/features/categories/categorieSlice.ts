@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../interfaces/ICategory";
-import { createCategory, fetchCategories, getCategorieByName } from "./categorieActions";
+import { createCategory, fetchCategories, getCategorieByName, getChallengesByCategory, getTotalNumberOfParticipantsForCategory } from "./categorieActions";
 import { ApiResponse } from "../../interfaces/ICommon";
+import { IChallenge } from "../../interfaces/IChallenge";
 
 
 type initialStateType = {
     categories: ICategory[],
+    challenges: IChallenge[],
+    totalParticipants: number,
     selectedCategory: ICategory | null,
     loading: boolean,
     error: string | null
@@ -14,6 +17,8 @@ type initialStateType = {
 
 const initialState: initialStateType = {
     categories: [],
+    challenges: [],
+    totalParticipants: 0,
     selectedCategory: null,
     loading: false,
     error: null
@@ -69,6 +74,32 @@ const categorySlice = createSlice({
             state.error = null;
         })
         .addCase(getCategorieByName.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getChallengesByCategory.pending, (state) => { 
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getChallengesByCategory.fulfilled, (state, action) => {
+            state.challenges = action.payload.data??[];
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getChallengesByCategory.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getTotalNumberOfParticipantsForCategory.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getTotalNumberOfParticipantsForCategory.fulfilled, (state, action) => {
+            state.totalParticipants = action.payload.data??0;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getTotalNumberOfParticipantsForCategory.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })

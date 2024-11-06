@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
     return (
-        <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center bg-white">
-            <div className="hero-content overflow-hidden">
+        <section className="font-Montserrat h-[calc(100vh-4rem)] hero overflow-hidden grid justify-center relative z-10
+        before:bg-gradient-to-r from-orange-500 to-blue-700 before:absolute before:inset-0 before:opacity-50 before:backdrop-blur-lg before:filter before:blur-lg before:z-[-1] before:overflow-hidden before:w-[70%] before:mx-auto before:h-[50%] before:rounded-full before:animate-pulse
+        ">
+            <div className="hero-content overflow-hidden w-[100vw] bg-white/30 backdrop-blur-lg">
                 <div className={'flex flex-col items-center gap-2 pt-3 md:pt-8 lg:pt-8'}>
                     <h1 className="hero-title text-2xl md:text-4xl lg:text-6xl font-bold text-center"> Discover New
                         Challenges<br/>and

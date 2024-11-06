@@ -81,7 +81,7 @@ class ChallengeController {
         try {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 10;
-            console.log(page, limit);
+           
             const challenges = await this.challengeService.getAllChallenges(req.userId!, page, limit);
             return res.status(200).json(formatResponse(challenges, 'Challenges fetched successfully'));
         }catch (error){
@@ -174,7 +174,6 @@ class ChallengeController {
             const challenges = await this.challengeService.getPopularChallenge(req.userId!);
             return res.status(200).json(formatResponse(challenges, 'Popular challenges fetched successfully'));
         } catch(error){
-            console.log(error);
             return res.status(400).json(formatError("Failed to fetch popular challenges"));
         }
     }
@@ -185,7 +184,6 @@ class ChallengeController {
             const challenges = await this.challengeService.getPopularChallengeOvervierForUnsignedUser();
             return res.status(200).json(formatResponse(challenges, 'Popular challenges fetched successfully'));
         } catch(error){
-            console.log(error);
             return res.status(400).json(formatError("Failed to fetch popular challenges"));
         }
     }
@@ -194,14 +192,11 @@ class ChallengeController {
     async saveDailyLogChallengeProgress(req: Request, res: Response): Promise<Response<ApiResponse<IChallenge>>>{
         try {
             const challenge = await this.challengeService.saveDailyLogChallengeProgress(req.params.id, req.userId!, req.body.details);
-            console.log(challenge);
             if(!challenge){
                 return res.status(404).json(formatError("Challenge not found"));
             }
             return res.status(200).json(formatResponse(challenge, 'Great! You Got Points for your progress'));
         } catch(error){
-            console.log("Data sent: ",req.params, req.userId!, req.body.details);
-            console.log(error);
             return res.status(400).json(formatError("Failed to save challenge progress"));
         }
     }

@@ -48,3 +48,34 @@ export const createCategory = createAsyncThunk(
         }
     }
 );
+
+export const getChallengesByCategory = createAsyncThunk(
+    "categories/getChallengesByCategory",
+    async (categorie: string, { rejectWithValue }) => {
+        try {
+            return await categoryServices.getChallengesByCategory(categorie);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue('An unknown error occurred');
+            }
+        }
+    }
+)
+
+
+export const getTotalNumberOfParticipantsForCategory = createAsyncThunk(
+    "categories/getTotalNumberOfParticipantsForCategory",
+    async (categorie: string, { rejectWithValue }) => {
+        try {
+            return await categoryServices.getTotalNumberOfParticipantsForCategory(categorie);
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue('An unknown error occurred');
+            }
+        }
+    }
+);

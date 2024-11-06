@@ -1,6 +1,7 @@
 import { ClientSession } from "mongoose";
 import { ICategory } from "../interfaces/ICategory";
 import { CategoryRepository } from "../repositories/category.repository";
+import { IChallenge } from "../interfaces/IChallenge";
 
 export class CategoryService {
     constructor(private categoryRepository: CategoryRepository) {
@@ -26,6 +27,14 @@ export class CategoryService {
 
     async findCategoryByName(name: string): Promise<ICategory | null> {
         return this.categoryRepository.getCategoryByName(name);
+    }
+
+    async getChallengesByCategory(categoryName: string): Promise<string[] | null> {
+        return this.categoryRepository.getChallengesByCategory(categoryName);
+    }
+
+    async getTotalNumberOfParticipantsForCategory(categoryName: string): Promise<number> {
+        return this.categoryRepository.getTotalNumberOfParticipantsForCategory(categoryName);
     }
 
     async addChallenge(categoryName: string, challengeId: string, session?: ClientSession) {
