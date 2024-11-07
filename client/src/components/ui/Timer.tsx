@@ -26,7 +26,7 @@ const Timer: React.FC<TimeProps> = ({ startDate }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeDiff());
-    }, 1000);
+    }, 1000 * 60 * 60);
 
     return () => clearInterval(interval);
   }, [startDate]);

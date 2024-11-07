@@ -5,6 +5,7 @@ export const challengeStatus = {
     CANCELED: 'CANCELED',
     COMPLETED: 'COMPLETED',
     READY:'READY',
+    ONGOING:"ONGOING"
 };
 
 // notificationUtils.ts

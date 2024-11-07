@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {categoryServices} from '../../services/index.ts';
+import { IChallengesInfoPerStatus } from '../../interfaces/IChallenge.ts';
+
 
 
 // Define the thunk for fetching all categories
@@ -79,3 +81,19 @@ export const getTotalNumberOfParticipantsForCategory = createAsyncThunk(
         }
     }
 );
+
+
+export const getChallengesForCategoryPerStatus = createAsyncThunk(
+    "categories/getChallengesForCategoryPerStatus",
+    async (categorie: string, { rejectWithValue }) => {
+        try {
+            const challengesInfo = await categoryServices.getChallengesForCategoryPerStatus(categorie);
+            return challengesInfo;
+        } catch (error) {
+            if (error instanceof Error){
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    });

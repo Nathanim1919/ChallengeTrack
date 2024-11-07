@@ -1,5 +1,5 @@
 import { ICategory } from "../interfaces/ICategory";
-import { IChallenge } from "../interfaces/IChallenge";
+import { IChallenge, IChallengesInfoPerStatus } from "../interfaces/IChallenge";
 import { ApiResponse } from "../interfaces/ICommon";
 import apiConfig from "./apiConfig";
 
@@ -30,11 +30,17 @@ const getTotalNumberOfParticipantsForCategory = async (name: string): Promise<Ap
     return response.data;
 }
 
+const getChallengesForCategoryPerStatus = async (name: string): Promise<ApiResponse<IChallengesInfoPerStatus>> => {
+    const response = await apiConfig.get(`/categories/${name}/statusCount`);
+    return response.data;
+}
+
 
 export default {
     createCategory,
     getAllCategories,
     getCategoryByName,
     getChallengesByCategory,
-    getTotalNumberOfParticipantsForCategory
+    getTotalNumberOfParticipantsForCategory,
+    getChallengesForCategoryPerStatus
 }

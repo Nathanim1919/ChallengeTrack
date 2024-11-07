@@ -14,6 +14,8 @@ class CategoryRoute {
             .get(this.categoryController.getChallengesByCategory.bind(this.categoryController));
         app.route(`${baseUrl}/categories/:name/totalParticipants`)
             .get(this.categoryController.getTotalNumberOfParticipantsForCategory.bind(this.categoryController));
+        app.route(`${baseUrl}/categories/:name/statusCount`)
+            .get(this.categoryController.getChallengesForCategoryPerStatus.bind(this.categoryController));
 
         app.route(`${baseUrl}/categories/:id`)
             .put(this.categoryController.update.bind(this.categoryController))

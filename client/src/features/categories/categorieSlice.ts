@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../interfaces/ICategory";
-import { createCategory, fetchCategories, getCategorieByName, getChallengesByCategory, getTotalNumberOfParticipantsForCategory } from "./categorieActions";
+import { createCategory, fetchCategories, getCategorieByName, getChallengesByCategory, getChallengesForCategoryPerStatus, getTotalNumberOfParticipantsForCategory } from "./categorieActions";
 import { ApiResponse } from "../../interfaces/ICommon";
-import { IChallenge } from "../../interfaces/IChallenge";
+import { IChallenge, IChallengesInfoPerStatus } from "../../interfaces/IChallenge";
 
 
 type initialStateType = {
     categories: ICategory[],
     challenges: IChallenge[],
+    challStatusPerCategoryCount: IChallengesInfoPerStatus | null,
     totalParticipants: number,
     selectedCategory: ICategory | null,
     loading: boolean,
@@ -18,6 +19,7 @@ type initialStateType = {
 const initialState: initialStateType = {
     categories: [],
     challenges: [],
+    challStatusPerCategoryCount: null,
     totalParticipants: 0,
     selectedCategory: null,
     loading: false,
@@ -100,6 +102,19 @@ const categorySlice = createSlice({
             state.error = null;
         })
         .addCase(getTotalNumberOfParticipantsForCategory.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getChallengesForCategoryPerStatus.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        } )
+        .addCase(getChallengesForCategoryPerStatus.fulfilled, (state, action) => {
+            state.challStatusPerCategoryCount = action.payload.data;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getChallengesForCategoryPerStatus.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })

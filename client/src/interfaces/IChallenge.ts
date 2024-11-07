@@ -43,3 +43,11 @@ export interface ChallengeReward {
     points: number; // Points awarded for completion
     badges?: string[]; // Optional badges awarded
 }
+
+
+
+export interface IChallengesInfoPerStatus {
+    completedChallenges: number;
+    ongoingChallenges: number;
+    upcomingChallenges: number;
+}

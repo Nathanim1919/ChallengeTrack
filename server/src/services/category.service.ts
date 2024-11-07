@@ -37,6 +37,10 @@ export class CategoryService {
         return this.categoryRepository.getTotalNumberOfParticipantsForCategory(categoryName);
     }
 
+    async getChallengesForCategoryPerStatus(categoryName: string): Promise<{ completedChallenges: number; ongoingChallenges: number; upcomingChallenges: number; } | null> {
+        return this.categoryRepository.getChallengesForCategoryPerStatus(categoryName);
+    }
+
     async addChallenge(categoryName: string, challengeId: string, session?: ClientSession) {
         return this.categoryRepository.addChallenge(categoryName, challengeId, session);
     }

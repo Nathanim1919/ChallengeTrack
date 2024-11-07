@@ -141,26 +141,47 @@ class CategoryController {
     }
   }
 
-
-async getTotalNumberOfParticipantsForCategory(req: Request, res: Response) {
-  try {
-    const totalParticipants = await this.categoryService.getTotalNumberOfParticipantsForCategory(
-      req.params.name
-    );
-    return res.status(200).json({
-      success: true,
-      data: totalParticipants,
-      message: "Total number of participants fetched successfully",
-    });
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      data: null,
-      message: "Failed to fetch total number of participants",
-      errorCode: "FETCH_TOTAL_PARTICIPANTS_ERROR",
-    });
+  async getTotalNumberOfParticipantsForCategory(req: Request, res: Response) {
+    try {
+      const totalParticipants =
+        await this.categoryService.getTotalNumberOfParticipantsForCategory(
+          req.params.name
+        );
+      return res.status(200).json({
+        success: true,
+        data: totalParticipants,
+        message: "Total number of participants fetched successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Failed to fetch total number of participants",
+        errorCode: "FETCH_TOTAL_PARTICIPANTS_ERROR",
+      });
+    }
   }
-}
+
+  async getChallengesForCategoryPerStatus(req: Request, res: Response) {
+    try {
+      const challengesCountPerStatus =
+        await this.categoryService.getChallengesForCategoryPerStatus(
+          req.params.name
+        );
+      return res.status(200).json({
+        success: true,
+        data: challengesCountPerStatus,
+        message: "Challenges fetched successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Failed to fetch challenges",
+        errorCode: "FETCH_CHALLENGES_ERROR",
+      });
+    }
+  }
 }
 
 export default CategoryController;
