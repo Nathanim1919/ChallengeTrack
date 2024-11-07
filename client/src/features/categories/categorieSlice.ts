@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../interfaces/ICategory";
-import { createCategory, fetchCategories, getCategorieByName, getChallengesByCategory, getChallengesForCategoryPerStatus, getTotalNumberOfParticipantsForCategory } from "./categorieActions";
+import { createCategory, fetchCategories, getCategorieByName, getChallengesByCategory, getChallengesCountForCategoryPerStatus, getChallengesPerStatusForCategory, getTotalNumberOfParticipantsForCategory } from "./categorieActions";
 import { ApiResponse } from "../../interfaces/ICommon";
-import { IChallenge, IChallengesInfoPerStatus } from "../../interfaces/IChallenge";
+import { IChallenge, IChallengesCountInfoPerStatus } from "../../interfaces/IChallenge";
 
 
 type initialStateType = {
     categories: ICategory[],
     challenges: IChallenge[],
-    challStatusPerCategoryCount: IChallengesInfoPerStatus | null,
+    challStatusPerCategoryCount: IChallengesCountInfoPerStatus | null,
     totalParticipants: number,
     selectedCategory: ICategory | null,
     loading: boolean,
@@ -105,16 +105,29 @@ const categorySlice = createSlice({
             state.loading = false;
             state.error = action.payload as string;
         })
-        .addCase(getChallengesForCategoryPerStatus.pending, (state) => {
+        .addCase(getChallengesCountForCategoryPerStatus.pending, (state) => {
             state.loading = true;
             state.error = null;
         } )
-        .addCase(getChallengesForCategoryPerStatus.fulfilled, (state, action) => {
-            state.challStatusPerCategoryCount = action.payload.data;
+        .addCase(getChallengesCountForCategoryPerStatus.fulfilled, (state, action) => {
+            state.challStatusPerCategoryCount = action.payload.data??null;
             state.loading = false;
             state.error = null;
         })
-        .addCase(getChallengesForCategoryPerStatus.rejected, (state, action) => {
+        .addCase(getChallengesCountForCategoryPerStatus.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getChallengesPerStatusForCategory.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getChallengesPerStatusForCategory.fulfilled, (state, action) => {
+            state.challenges = action.payload.data??[];
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(getChallengesPerStatusForCategory.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })

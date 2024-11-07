@@ -46,8 +46,14 @@ export interface ChallengeReward {
 
 
 
-export interface IChallengesInfoPerStatus {
+export interface IChallengesCountInfoPerStatus {
     completedChallenges: number;
     ongoingChallenges: number;
     upcomingChallenges: number;
+}
+
+export interface IChallengesInfoPerStatus {
+    completedChallenges: IChallenge[];
+    ongoingChallenges: IChallenge[];
+    upcomingChallenges: IChallenge[];
 }

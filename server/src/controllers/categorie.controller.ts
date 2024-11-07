@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, response } from "express";
 import { CategoryService } from "../services/category.service";
 import { ApiResponse } from "../interfaces/ICommon";
 import { ICategory } from "../interfaces/ICategory";
@@ -162,15 +162,37 @@ class CategoryController {
     }
   }
 
-  async getChallengesForCategoryPerStatus(req: Request, res: Response) {
+  async getChallengesCountForCategoryPerStatus(req: Request, res: Response) {
     try {
       const challengesCountPerStatus =
-        await this.categoryService.getChallengesForCategoryPerStatus(
+        await this.categoryService.getChallengesCountForCategoryPerStatus(
           req.params.name
         );
       return res.status(200).json({
         success: true,
         data: challengesCountPerStatus,
+        message: "Challenges fetched successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Failed to fetch challenges",
+        errorCode: "FETCH_CHALLENGES_ERROR",
+      });
+    }
+  }
+
+  async getChallengesPerStatusForCategory(req: Request, res: Response) {
+    try {
+      const challengesPerStatus =
+        await this.categoryService.getChallengesPerStatusForCategory(
+          req.params.name,
+          req.params.status
+        );
+      return res.status(200).json({
+        success: true,
+        data: challengesPerStatus,
         message: "Challenges fetched successfully",
       });
     } catch (error) {

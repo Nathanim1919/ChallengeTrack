@@ -83,11 +83,11 @@ export const getTotalNumberOfParticipantsForCategory = createAsyncThunk(
 );
 
 
-export const getChallengesForCategoryPerStatus = createAsyncThunk(
+export const getChallengesCountForCategoryPerStatus = createAsyncThunk(
     "categories/getChallengesForCategoryPerStatus",
     async (categorie: string, { rejectWithValue }) => {
         try {
-            const challengesInfo = await categoryServices.getChallengesForCategoryPerStatus(categorie);
+            const challengesInfo = await categoryServices.getChallengesCountForCategoryPerStatus(categorie);
             return challengesInfo;
         } catch (error) {
             if (error instanceof Error){
@@ -97,3 +97,19 @@ export const getChallengesForCategoryPerStatus = createAsyncThunk(
             }
         }
     });
+
+
+export const getChallengesPerStatusForCategory = createAsyncThunk(
+    "categories/getChallengesPerStatusForCategory",
+    async ({categorie, status}:{categorie: string, status: string}, { rejectWithValue }) => {
+        try {
+            return await categoryServices.getChallengesPerStatusForCategory(categorie, status);
+        } catch (error) {
+            if (error instanceof Error){
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+);

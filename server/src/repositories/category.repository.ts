@@ -100,7 +100,7 @@ export class CategoryRepository {
     return totalParticipants;
   }
 
-  async getChallengesForCategoryPerStatus(categoryName: string): Promise<{
+  async getChallengesCountForCategoryPerStatus(categoryName: string): Promise<{
     completedChallenges: number;
     ongoingChallenges: number;
     upcomingChallenges: number;
@@ -126,5 +126,22 @@ export class CategoryRepository {
       ongoingChallenges,
       upcomingChallenges,
     };
+  }
+
+  async getChallengesPerStatusForCategory(
+    categoryName: string,
+    status: keyof typeof challengeStatus
+  ): Promise<any[] | null> {
+    const category = await Category.findOne({ name: categoryName })
+      .populate("challenges")
+      .exec();
+    if (!category || !category.challenges) return null;
+
+    // categorize challenges based on status
+    const challenges = category.challenges.filter(
+      (challenge: any) => challenge.status === status.toUpperCase()
+    );
+   
+    return challenges;
   }
 }
