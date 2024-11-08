@@ -72,6 +72,7 @@ const categorySlice = createSlice({
         })
         .addCase(getCategorieByName.fulfilled, (state, action) => {
             state.selectedCategory = action.payload.data;
+            state.challenges = action.payload.data?.challenges??[];
             state.loading = false;
             state.error = null;
         })

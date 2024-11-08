@@ -71,3 +71,19 @@ export const logoutUser = createAsyncThunk(
             }
         }
 });
+
+
+export const refreshToken = createAsyncThunk(
+    "auth/refreshToken",
+    async (_, {rejectWithValue}) => {
+        try {
+            return await authServices.refreshToken();
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message);
+            } else {
+                return rejectWithValue("An unknown error occurred");
+            }
+        }
+    }
+)

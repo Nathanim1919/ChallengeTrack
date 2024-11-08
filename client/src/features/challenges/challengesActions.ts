@@ -3,9 +3,33 @@ import challengeService from "../../services/challengeService";
 import { IChallenge } from "../../interfaces/IChallenge";
 import { ApiResponse } from "../../interfaces/ICommon.ts";
 import { ILog } from "../../interfaces/ILogs.ts";
+import {
+  ChallangeListResponse,
+  ChallengeDetailResponse,
+  ChallengeResponse,
+  JoinLeaveResponse,
+  ParticipationStatusResponse,
+} from "./types.ts";
+
+// Helper functions for error handling
+const handleAsyncError = (
+  error: unknown,
+  rejectWithValue: (value: string) => void
+) => {
+  if (error instanceof Error) {
+    return rejectWithValue(error.message);
+  }
+  return rejectWithValue("An unknown error occurred");
+};
+
+/**
+ * Create a new challenge
+ * @param challengeData - Partial data required to create a challenge
+ * @returns The created challenge
+ */
 
 export const createChallenge = createAsyncThunk<
-  IChallenge,
+  ChallengeResponse,
   Partial<IChallenge>
 >(
   "challenges/createChallenge",
@@ -13,86 +37,75 @@ export const createChallenge = createAsyncThunk<
     try {
       return await challengeService.createChallenge(challengeData);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-export const getAllChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
-  "challenges/getAllChallenges",
-  async (_, { rejectWithValue }) => {
-    try {
-      return await challengeService.getAllChallenges();
-      // console.log(res)
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
-    }
+/**
+ * Fetches all available challenges.
+ * @returns List of all challenges.
+ */
+export const getAllChallenges = createAsyncThunk<
+  ApiResponse<ChallangeListResponse>
+>("challenges/getAllChallenges", async (_, { rejectWithValue }) => {
+  try {
+    return await challengeService.getAllChallenges();
+    // console.log(res)
+  } catch (error) {
+    return rejectWithValue(handleAsyncError(error, rejectWithValue));
   }
-);
+});
 
-export const getMyChallenges = createAsyncThunk<ApiResponse<IChallenge[]>>(
-  "challenges/getMyChallenges",
-  async (_, { rejectWithValue }) => {
-    try {
-      return await challengeService.getMyChallenges();
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
-    }
+/**
+ * Fetch challenges created by the current user
+ * @returns List of user's challenges.
+ */
+export const getMyChallenges = createAsyncThunk<
+  ApiResponse<ChallangeListResponse>
+>("challenges/getMyChallenges", async (_, { rejectWithValue }) => {
+  try {
+    return await challengeService.getMyChallenges();
+  } catch (error) {
+    return rejectWithValue(handleAsyncError(error, rejectWithValue));
   }
-);
+});
 
+/**
+ * Fetches a specific challenge by ID along with participation and ownership status.
+ * @param challengeId - ID of the challenge to fetch.
+ * @returns - Challenge details, participation status, and ownership status.
+ */
 export const getChallengeById = createAsyncThunk<
-  {
-    challenge: ApiResponse<IChallenge>;
-    isParticipant: ApiResponse<boolean>;
-    isOwner: ApiResponse<boolean>;
-  },
+  ChallengeDetailResponse,
   string
 >(
   "challenges/getChallengeById",
   async (challengeId: string, { rejectWithValue }) => {
     try {
-      // Fetch the challenge by ID
-      const challenge = await challengeService.getChallengeById(challengeId);
-
-      // Check if the user is a participant
-      const isParticipantResponse =
-        await challengeService.checkIfUserIsParticipant(challengeId);
-
-      // Check if the user is the owner
-      const isOwnerResponse =
-        await challengeService.checkIfUserIsOwner(challengeId);
-
+      const [challenge, isParticipant, isOwner] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+        challengeService.checkIfUserIsOwner(challengeId),
+      ]);
       return {
         challenge,
-        isParticipant: isParticipantResponse,
-        isOwner: isOwnerResponse,
+        isParticipant,
+        isOwner,
       };
-      // return await challengeService.getChallengeById(challengeId);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
+/**
+ * Checks if the current user is the creater of the specific challenge.
+ * @param challengeId - ID of the challenge to compare the createdby field with the current user id
+ * @returns - Boolean
+ */
 export const checkIfUserIsOwner = createAsyncThunk<
-  ApiResponse<boolean>,
+  ParticipationStatusResponse,
   string
 >(
   "challenges/checkIfUserIsOwner",
@@ -100,17 +113,18 @@ export const checkIfUserIsOwner = createAsyncThunk<
     try {
       return await challengeService.checkIfUserIsOwner(challengeId);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
+/**
+ * Checks if the current user is participant of the specific challenge
+ * @param challengeId - ID of the challenge to check whether the current userId is found inside the participants array or not
+ * @returns - Boolean
+ */
 export const checkIfUserIsParticipant = createAsyncThunk<
-  ApiResponse<boolean>,
+  ParticipationStatusResponse,
   string
 >(
   "challenges/checkIfUserIsParticipant",
@@ -118,85 +132,71 @@ export const checkIfUserIsParticipant = createAsyncThunk<
     try {
       return await challengeService.checkIfUserIsParticipant(challengeId);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-export const joinChallenge = createAsyncThunk<
-  {
-    updatedChallenge: ApiResponse<IChallenge>;
-    isParticipant: ApiResponse<boolean>;
-  },
-  string
->(
+/**
+ * Allows the current user to join a challenge
+ * @param challengeId - ID of the challenge to join
+ * @returns updated challenge details and user's participation status.
+ */
+
+export const joinChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   "challenges/joinChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
-      // return await challengeService.joinChallenge(challengeId);
-      // Join the challenge
       await challengeService.joinChallenge(challengeId);
-      const updatedChallenge =
-        await challengeService.getChallengeById(challengeId);
-
-      // Check if the user is a participant
-      const isParticipantResponse =
-        await challengeService.checkIfUserIsParticipant(challengeId);
-
+      const [updatedChallenge, isParticipant] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+      ]);
       return {
         updatedChallenge,
-        isParticipant: isParticipantResponse,
+        isParticipant,
       };
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-export const leaveChallenge = createAsyncThunk<
-  {
-    updatedChallenge: ApiResponse<IChallenge>;
-    isParticipant: ApiResponse<boolean>;
-  },
-  string
->(
+/**
+ * Allows the current user to leave a challenge
+ * @param challengeId - ID of the challenge to leave.
+ * @returns Updated challenge details and user's participation status.
+ */
+
+export const leaveChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   "challenges/leaveChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
-      // return await challengeService.joinChallenge(challengeId);
-      // Join the challenge
       await challengeService.leaveChallenge(challengeId);
-      const updatedChallenge =
-        await challengeService.getChallengeById(challengeId);
-
-      // Check if the user is a participant
-      const isParticipantResponse =
-        await challengeService.checkIfUserIsParticipant(challengeId);
+      const [updatedChallenge, isParticipant] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+      ]);
 
       return {
         updatedChallenge,
-        isParticipant: isParticipantResponse,
+        isParticipant,
       };
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
+/**
+ * Adds a daily log entry for the specified challenge.
+ * @param params - Object containing challenge ID and log data.
+ * @param params.challengeId - ID of the challenge to log.
+ * @param params.logs - Log data to add to the challenge.
+ * @returns updated challenge object with the new log.
+ */
 export const addDailyLog = createAsyncThunk<
-  ApiResponse<IChallenge>,
+  ChallengeResponse,
   { challengeId: string; logs: Partial<ILog> }
 >(
   "challenges/addDailyLog",
@@ -204,60 +204,54 @@ export const addDailyLog = createAsyncThunk<
     try {
       return await challengeService.addDailyLog(challengeId, logs);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-export const getPopularChallenge = createAsyncThunk<ApiResponse<IChallenge[]>>(
+/**
+ * fetchs popular challenges based on the number of participants
+ * @returns - A list of popular challenges
+ */
+
+export const getPopularChallenge = createAsyncThunk<ChallangeListResponse>(
   "challenges/getPopularChallenge",
   async (_, { rejectWithValue }) => {
     try {
       return await challengeService.getPopularChallenge();
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-
-export const popularForUnsignedUser = createAsyncThunk<ApiResponse<IChallenge[]>>(
+/**
+ * fetch popular challenges which is displayed for unregistered users
+ * @returns - list of popular challenges
+ */
+export const popularForUnsignedUser = createAsyncThunk<ChallangeListResponse>(
   "challenges/popularForUnsignedUser",
   async (_, { rejectWithValue }) => {
     try {
       return await challengeService.popularForUnsignedUser();
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );
 
-export const deleteChallenge = createAsyncThunk<
-  ApiResponse<IChallenge>,
-  string
->(
+/**
+ * delete a specific challenge
+ * @param challengeId - ID of the challenge to be deleted
+ * @returns - void
+ */
+export const deleteChallenge = createAsyncThunk(
   "challenges/deleteChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
       return await challengeService.deleteChallenge(challengeId);
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("An unknown error occurred");
-      }
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
     }
   }
 );

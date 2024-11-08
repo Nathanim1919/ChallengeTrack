@@ -22,6 +22,11 @@ const logoutUser = async () => {
     return response.data;
 }
 
+const refreshToken = async () => {
+    const response = await apiConfig.post("/refresh_token");
+    return response.data;
+}
+
 
 // Define an api for getting the current user
 const getCurrentUser = async () => {
@@ -32,4 +37,4 @@ const getCurrentUser = async () => {
 
 
 // Export the apis
-export default { registerUser, loginUser, logoutUser, getCurrentUser };
+export default { registerUser, loginUser, logoutUser, getCurrentUser, refreshToken };

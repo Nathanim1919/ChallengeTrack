@@ -14,6 +14,8 @@ export class UserController {
     // constructor
     constructor(private userService: UserService, private authUtils: AuthUtils) {
     }
+
+
     async register(req: Request, res:Response):Promise<Response<ApiResponse<IUser>>> {
         // code here
         try {
@@ -24,6 +26,8 @@ export class UserController {
             return res.status(400).json(formatError("Registration failed, please try again"));
         }
     }
+
+
     async login(req: Request, res:Response) {
         // code here
         try{
@@ -70,6 +74,9 @@ export class UserController {
             return res.status(400).json(formatError("Login failed, please try again"));
         }
     }
+
+
+
     async logout(req: Request, res:Response) {
         // code here
         try {
@@ -83,6 +90,8 @@ export class UserController {
             return res.status(400).json(formatError("Logout failed"));
         }
     }
+
+
     async getUser(req: Request, res:Response):Promise<Response<ApiResponse<IUser>> | void> {
         // code here
         try {
@@ -95,6 +104,8 @@ export class UserController {
             return res.status(400).json(formatError("Failed to get user"));
         }
     }
+
+
     async getUsers(req: Request, res:Response):Promise<Response<ApiResponse<IUser[]>> | void> {
         // code here
         try {
@@ -104,6 +115,8 @@ export class UserController {
             return res.status(400).json(formatError("Failed to get users"));
         }
     }
+
+
     async updateUser(req: Request, res:Response) {
         // code here
         try {
@@ -113,6 +126,8 @@ export class UserController {
             return res.status(400).json(formatError("Failed to update user"));
         }
     }
+
+
     async deleteUser(req: Request, res:Response) {
         // code here
         try {
@@ -122,6 +137,7 @@ export class UserController {
             return res.status(400).json(formatError("Failed to delete user"));
         }
     }
+
 
     async getCurrentUser(req: Request, res:Response) {
         console.log(req.cookies.accessToken);
@@ -136,6 +152,45 @@ export class UserController {
         } catch (error) {
             console.log(error);
             return res.status(400).json(formatError("Failed to get user"));
+        }
+    }
+
+    async refreshToken(req: Request, res:Response) {
+        try {
+            const refreshToken = req.cookies.refreshToken;
+            if (!refreshToken) {
+                return res.status(401).json(formatError("Unauthorized"));
+            }
+            const userId = await redisInstance.getStringData(`refresh_token:${refreshToken}`);
+            if (!userId) {
+                return res.status(401).json(formatError("Unauthorized"));
+            }
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                return res.status(401).json(formatError("Unauthorized"));
+            }
+            const tokens = AuthUtils.generateAccessToken(user);
+            if (!tokens) {
+                return res.status(401).json(formatError("Unauthorized"));
+            }
+            await redisInstance.saveStringDataWithExpiration(`refresh_token:${user._id}`, tokens.refreshToken, 7 * 24 * 60 * 60); // 7 days
+            return res
+                .status(200)
+                .cookie('accessToken', tokens.accessToken, {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true,
+                    maxAge: 30 * 60 * 1000 // 30 minutes
+                })
+                .cookie('refreshToken', tokens.refreshToken, {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true,
+                    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                })
+                .json(formatResponse(user, 'Token refreshed successfully'));
+        } catch (error) {
+            return res.status(401).json(formatError("Unauthorized"));
         }
     }
 }

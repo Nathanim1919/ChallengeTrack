@@ -10,7 +10,7 @@ const LoginPage:React.FC = () => {
     const [credentials, setCredentials] = React.useState({identifier: '', password: ''});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const {isAuthenticated, loading, error} = useAppSelector((state: RootState) => state.auth);
+    const {isAuthenticated, loading} = useAppSelector((state: RootState) => state.auth);
 
 
     const handleSubmit = (e: React.FormEvent) => {

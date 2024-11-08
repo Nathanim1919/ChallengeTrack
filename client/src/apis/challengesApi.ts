@@ -2,10 +2,11 @@ import apiConfig from "./apiConfig.ts";
 import { IChallenge } from "../interfaces/IChallenge.ts";
 import { ILog } from "../interfaces/ILogs.ts";
 import { ApiResponse } from "../interfaces/ICommon.ts";
+import { ChallengeResponse } from "../features/challenges/types.ts";
 
 
 // Define an api for creating a new challenge
-const createChallenge = async (challengeData: Partial<IChallenge>): Promise<IChallenge> => {
+const createChallenge = async (challengeData: Partial<IChallenge>): Promise<ChallengeResponse> => {
     const response = await apiConfig.post("/challenges", challengeData);
     return response.data;
 };

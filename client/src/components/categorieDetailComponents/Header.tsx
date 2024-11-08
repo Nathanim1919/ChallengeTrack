@@ -5,10 +5,13 @@ import { ICategory } from "../../interfaces/ICategory";
 import { categoryConfig } from "../../utils/categorieConfig";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
-  getChallengesForCategoryPerStatus,
+  getCategorieByName,
+  getChallengesCountForCategoryPerStatus,
+  getChallengesPerStatusForCategory,
   getTotalNumberOfParticipantsForCategory,
 } from "../../features/categories/categorieActions";
 import { IoIosArrowForward } from "react-icons/io";
+import { ChallengeStatus } from "../../utils/constants";
 
 
 interface IHeaderProps {
@@ -22,10 +25,13 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
 
   useEffect(() => {
     dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
-    dispatch(getChallengesForCategoryPerStatus(categorie?.name || ""));
+    dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
   }, [categorie]);
 
-  console.log(challStatusPerCategoryCount);
+ 
+  const fetchChallengesPerStatus = (status: keyof typeof ChallengeStatus) => {
+    dispatch(getChallengesPerStatusForCategory({ categorie: categorie?.name || "", status }));
+  };
 
   if (loading) {
     return (
@@ -46,12 +52,12 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
         <p className="text-[14px] text-gray-500">{categorie?.description}</p>
       </div>
       <div className="grid grid-cols-2 gap-3 p-3">
-        <div className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
+        <div onClick={()=>dispatch(getCategorieByName(categorie?.name||""))} className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
           <h1 className="font-bold text-3xl">
             {categorie?.challenges.length}
             <sup>+</sup>
           </h1>
-          <h2>Challenges</h2>
+          <h2>Total Challenges</h2>
         </div>
         <div className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
           <h1 className="font-bold text-3xl">
@@ -60,7 +66,7 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
           </h1>
           <h2>Participants</h2>
         </div>
-          <div className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
+          <div onClick={()=>fetchChallengesPerStatus("COMPLETED")} className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
             <h1 className="font-bold text-3xl">
               {challStatusPerCategoryCount?.completedChallenges}
               <sup>+</sup>
@@ -71,7 +77,7 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
             </div>
             <IoIosArrowForward className="absolute -right-4 transition-all duration-200 text-[1.2rem] group-hover:right-2"/>
           </div>
-          <div className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
+          <div onClick={()=>fetchChallengesPerStatus("ONGOING")} className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
             <h1 className="font-bold text-3xl">
               {challStatusPerCategoryCount?.ongoingChallenges}
               <sup>+</sup>
@@ -82,7 +88,7 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
             </div>
             <IoIosArrowForward className="absolute -right-4 transition-all duration-200 text-[1.2rem] group-hover:right-2"/>
           </div>
-          <div className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
+          <div onClick={()=>fetchChallengesPerStatus("UPCOMING")} className="flex items-center w-full group overflow-hidden relative bg-white cursor-pointer hover:bg-gray-100 border border-white hover:border-gray-300 gap-1 py-1 px-3">
             <h1 className="font-bold text-3xl">
               {challStatusPerCategoryCount?.upcomingChallenges}
               <sup>+</sup>

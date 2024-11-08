@@ -2,6 +2,7 @@ import { Response, Request, response } from "express";
 import { CategoryService } from "../services/category.service";
 import { ApiResponse } from "../interfaces/ICommon";
 import { ICategory } from "../interfaces/ICategory";
+import { challengeStatus } from "../utils/enum.utils";
 
 class CategoryController {
   constructor(private categoryService: CategoryService) {}
@@ -188,7 +189,7 @@ class CategoryController {
       const challengesPerStatus =
         await this.categoryService.getChallengesPerStatusForCategory(
           req.params.name,
-          req.params.status
+          req.params.status as keyof typeof challengeStatus
         );
       return res.status(200).json({
         success: true,

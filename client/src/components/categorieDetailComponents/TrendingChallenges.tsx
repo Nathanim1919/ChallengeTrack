@@ -11,16 +11,13 @@ import { Link, useParams } from "react-router-dom";
 
 export const TrandingChallenges: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { loading, challenges } = useAppSelector((state) => state.categories);
   const { name } = useParams();
 
   useEffect(() => {
     dispatch(getChallengesByCategory(name || ""));
-  }, [name]);
+  }, [name, dispatch]);
 
-  const { loading, challenges } = useAppSelector((state) => state.categories);
-
-  console.log(`challenges inside: ${name}`, challenges);
-  console.log(`loading inside: ${name}`, loading);
 
   return (
     <div className="grid grid-rows-2 h-[100vh] overflow-hidden">

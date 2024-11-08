@@ -24,6 +24,7 @@ const CategoryDetailPage: React.FC = () => {
   }, [name]);
 
 
+
   return (
     <div className="grid grid-cols-[_.3fr_.4fr_.3fr] bg-gray-100">
       <div className="grid grid-rows-[_.2fr_.6fr]">

@@ -21,5 +21,10 @@ const getCurrentUser = async () => {
 };
 
 
-export { registerUser, loginUser, logoutUser, getCurrentUser };
+const refreshToken = async () => {
+    return await authApi.refreshToken();
+};
+
+
+export { registerUser, loginUser, logoutUser, getCurrentUser,refreshToken };
 

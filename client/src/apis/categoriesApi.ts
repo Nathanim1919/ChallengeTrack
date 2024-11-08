@@ -36,7 +36,7 @@ const getChallengesCountForCategoryPerStatus = async (name: string): Promise<Api
 }
 
 const getChallengesForCategoryPerStatus = async (name: string, status: string): Promise<ApiResponse<IChallenge[]>> => {
-    const response = await apiConfig.get(`/categories/${name}/${status}`);
+    const response = await apiConfig.get(`/categories/${name}/challenges/${status}`);
     return response.data;
 }
 

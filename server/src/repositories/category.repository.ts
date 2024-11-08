@@ -139,8 +139,13 @@ export class CategoryRepository {
 
     // categorize challenges based on status
     const challenges = category.challenges.filter(
-      (challenge: any) => challenge.status === status.toUpperCase()
+      (challenge:any) => challenge.status === status.toUpperCase()
     );
+
+
+    console.log("Parameters: ", categoryName, status);
+    console.log("challenges with the give status: ");
+    console.log(challenges);
    
     return challenges;
   }
