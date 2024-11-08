@@ -1,5 +1,3 @@
-// Implementation of challengesSlice
-
 // Import necessary packages
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
@@ -17,7 +15,6 @@ import {
   leaveChallenge,
   popularForUnsignedUser,
 } from "./challengesActions";
-import { ApiResponse } from "../../interfaces/ICommon";
 
 // Define the state interface
 interface ChallengesState {
@@ -32,7 +29,7 @@ interface ChallengesState {
   error: string | null;
 }
 
-// Define the initial state
+// initial state
 const initialState: ChallengesState = {
   challenges: [],
   selectedChallenge: null,
@@ -44,6 +41,29 @@ const initialState: ChallengesState = {
   message: "",
   error: null,
 };
+
+
+
+const handleAsyncRequest = (
+  builder: any,
+  action: any,
+  stateupdate: (state: ChallengesState, action: PayloadAction<any>) => void
+) => {
+  builder
+    .addCase(action.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(action.fulfilled, (state, action) => {
+      stateupdate(state, action);
+      state.loading = false;
+      state.error =  null;
+    })
+    .addCase(action.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to perform action"
+    })
+}
 
 // Create a slice
 const challengesSlice = createSlice({
@@ -63,235 +83,75 @@ const challengesSlice = createSlice({
     },
   },
 
+
+
+
   // Define the extra reducers, which are the reducers that respond to actions dispatched by the createAsyncThunk
   extraReducers: (builder) => {
-    builder
-      .addCase(createChallenge.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.message = "";
-      })
-      .addCase(createChallenge.fulfilled, (state, action) => {
-        state.challenges.push(action.payload);
-        state.selectedChallenge = action.payload;
-        state.loading = false;
-        state.error = null;
-        state.message = "Challenge created successfully";
-      })
-      .addCase(createChallenge.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to create challenge";
-        state.message = "Failed to create challenge";
-      })
-      .addCase(getAllChallenges.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        getAllChallenges.fulfilled,
-        (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
-          state.challenges = action.payload.data ?? [];
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(getAllChallenges.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch challenges";
-      })
-      .addCase(getChallengeById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getMyChallenges.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        getMyChallenges.fulfilled,
-        (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
-          state.challenges = action.payload.data ?? [];
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(getMyChallenges.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch challenges";
-      })
-      .addCase(
-        getChallengeById.fulfilled,
-        (
-          state,
-          action: PayloadAction<{
-            challenge: ApiResponse<IChallenge>;
-            isParticipant: ApiResponse<boolean>;
-            isOwner: ApiResponse<boolean>;
-          }>
-        ) => {
-          state.selectedChallenge = action.payload.challenge.data;
-          console.log("Selected Challenge: ", state.selectedChallenge);
-          state.isParticipant = action.payload.isParticipant.data ?? false;
-          state.isOwner = action.payload.isOwner.data ?? false;
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(getChallengeById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch challenge";
-      })
-      .addCase(checkIfUserIsParticipant.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        checkIfUserIsParticipant.fulfilled,
-        (state, action: PayloadAction<ApiResponse<boolean>>) => {
-          state.isParticipant = action.payload.data ?? false;
-          console.log("Is Participant: ", state.isParticipant);
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(checkIfUserIsParticipant.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message || "Failed to check if user is participant";
-      })
-      .addCase(joinChallenge.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(
-        joinChallenge.fulfilled,
-        (
-          state,
-          action: PayloadAction<{
-            updatedChallenge: ApiResponse<IChallenge>;
-            isParticipant: ApiResponse<boolean>;
-          }>
-        ) => {
-          state.selectedChallenge = action.payload.updatedChallenge.data;
-          state.isParticipant = action.payload.isParticipant.data ?? false;
-          state.message = "You have joined the challenge";
-          state.error = null;
-          state.loading = false;
-        }
-      )
-      .addCase(joinChallenge.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message ||
-          "You can't join this challenge right now, try again later.";
-      })
-      .addCase(leaveChallenge.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(
-        leaveChallenge.fulfilled,
-        (
-          state,
-          action: PayloadAction<{
-            updatedChallenge: ApiResponse<IChallenge>;
-            isParticipant: ApiResponse<boolean>;
-          }>
-        ) => {
-          state.selectedChallenge = action.payload.updatedChallenge.data;
-          state.isParticipant = action.payload.isParticipant.data ?? false;
-          state.message = "You have Left the challenge";
-          state.error = null;
-          state.loading = false;
-        }
-      )
-      .addCase(leaveChallenge.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message ||
-          "You can't Left this challenge right now, try again later.";
-      })
-      .addCase(checkIfUserIsOwner.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        checkIfUserIsOwner.fulfilled,
-        (state, action: PayloadAction<ApiResponse<boolean>>) => {
-          state.isOwner = action.payload.data ?? false;
-          console.log("Is Owner: ", state.isOwner);
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(checkIfUserIsOwner.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message || "Failed to check if user is owner";
-      })
-      .addCase(addDailyLog.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(addDailyLog.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.selectedChallenge = action.payload.data ?? null;
-        state.message = action.payload.message ?? "Log added successfully";
-      })
-      .addCase(addDailyLog.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to add log";
-      })
-      .addCase(getPopularChallenge.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        getPopularChallenge.fulfilled,
-        (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
-          state.popularChallenges = action.payload.data ?? [];
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(getPopularChallenge.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message || "Failed to fetch popular challenges";
-      })
-      .addCase(deleteChallenge.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteChallenge.fulfilled, (state, action) => {
-        state.challenges = state.challenges.filter(
-          (challenge) => challenge._id !== action.payload.data?._id
-        );
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(deleteChallenge.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to delete challenge";
-      })
-      .addCase(popularForUnsignedUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        popularForUnsignedUser.fulfilled,
-        (state, action: PayloadAction<ApiResponse<IChallenge[]>>) => {
-          state.popularChallengesForUnsignedUser = action.payload.data ?? [];
-          state.loading = false;
-          state.error = null;
-        }
-      )
-      .addCase(popularForUnsignedUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error =
-          action.error.message || "Failed to fetch popular challenges";
-      });
+
+
+    handleAsyncRequest(builder, createChallenge, (state, action) => {
+      state.challenges.push(action.payload);
+      state.selectedChallenge = action.payload;
+      state.message = "Challenge created successfully";
+    });
+
+
+    handleAsyncRequest(builder, getAllChallenges, (state, action) => {
+      state.challenges = action.payload.date??[];
+    })
+
+
+    handleAsyncRequest(builder, getChallengeById, (state, action) => {
+      state.selectedChallenge = action.payload.challenge.data;
+      state.isParticipant = action.payload.isParticipant.data?? false;
+      state.isOwner = action.payload.isOwner.data??false;
+    })
+
+    handleAsyncRequest(builder, getMyChallenges, (state, action) => {
+      state.challenges = action.payload.data??[]
+    })
+
+
+    handleAsyncRequest(builder, checkIfUserIsParticipant, (state, action)=> {
+      state.isParticipant = action.payload.isParticipant.data??false;
+    })
+
+
+    handleAsyncRequest(builder, joinChallenge, (state, action) => {
+      state.selectedChallenge = action.payload.updatedChallenge.date;
+      state.isParticipant = action.payload.isParticipant.date??false;
+      state.message = "You have joined the challenge";
+    })
+
+    handleAsyncRequest(builder, leaveChallenge, (state, action) => {
+      state.selectedChallenge = action.payload.updatedChallenge.data;
+      state.isParticipant = action.payload.isParticipant.data ?? false;
+      state.message = "You have left the challenge";
+    });
+
+    handleAsyncRequest(builder, checkIfUserIsOwner, (state, action) => {
+      state.isOwner = action.payload.data ?? false;
+    });
+
+    handleAsyncRequest(builder, addDailyLog, (state, action) => {
+      state.selectedChallenge = action.payload.data ?? null;
+      state.message = action.payload.message ?? "Log added successfully";
+    });
+
+    handleAsyncRequest(builder, getPopularChallenge, (state, action) => {
+      state.popularChallenges = action.payload.data ?? [];
+    });
+
+    handleAsyncRequest(builder, deleteChallenge, (state, action) => {
+      state.challenges = state.challenges.filter(
+        (challenge) => challenge._id !== action.payload.data?._id
+      );
+    });
+
+    handleAsyncRequest(builder, popularForUnsignedUser, (state, action) => {
+      state.popularChallengesForUnsignedUser = action.payload.data ?? [];
+    });
   },
 });
 
