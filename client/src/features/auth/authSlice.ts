@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../interfaces/IUser.ts";
-import { registerUser, loginUser, logoutUser, getCurrentUser, refreshToken } from "./authActions.ts";
+import { registerUser, loginUser, logoutUser, getCurrentUser } from "./authActions.ts";
 
 
 // Define the shape of your authentication state

@@ -1,6 +1,6 @@
 import categoriesApi from "../apis/categoriesApi";
 import { ICategory } from "../interfaces/ICategory";
-import { IChallenge, IChallengesCountInfoPerStatus, IChallengesInfoPerStatus } from "../interfaces/IChallenge";
+import { IChallenge, IChallengesCountInfoPerStatus } from "../interfaces/IChallenge";
 import { ApiResponse } from "../interfaces/ICommon";
 
 

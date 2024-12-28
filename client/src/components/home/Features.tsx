@@ -1,12 +1,9 @@
 import React from "react";
-import Badge from "../../assets/badge.png"
 import Achievement from "../../assets/achievement.png"
 import Notification from "../../assets/notification.png"
 import Progress from "../../assets/progress.png"
 import trophy from "../../assets/trophy.png"
 import competition from "../../assets/competition.png"
-import BG1Image from "../../assets/bg1.png";
-import Abstract from "../../assets/heroImages/hero3.png";
 
 
 const Features: React.FC = () => {

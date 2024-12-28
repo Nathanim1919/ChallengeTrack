@@ -31,7 +31,7 @@ const DailyLogModal: React.FC<DailyLogProps> = ({ openModal, setOpenModal, setSh
             setOpenModal(false);
             dispatch(resetStatus("createLog"));
             // Refresh logs to include the new entry
-            dispatch(getChallengeUserLogs(selectedChallenge?._id));
+            dispatch(getChallengeUserLogs(selectedChallenge?._id || ""));
         }
     }, [statuses.createLog.success, dispatch, setOpenModal, selectedChallenge?._id]);
 

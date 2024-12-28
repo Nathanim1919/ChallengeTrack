@@ -4,8 +4,19 @@ import BGImage from "../../assets/bg1.png";
 import React from "react";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
 
+interface TestimonialCardProps {
+    testimonial: {
+        author: string;
+        position: string;
+        text: string;
+    },
+    key: number,
+    isActive: boolean,
+    onClick: () => void;
+}
 
-const TestimonialCard = ({testimonial,key, isActive, onClick}) => {
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({testimonial,key, isActive, onClick}) => {
     return (
         <div key={key} className={`card rounded-md grid grid-cols-1 bg-white items-start relative py-6 cursor-pointer transition-transform duration-300 ${isActive ? 'scale-100 md:scale-110 relative z-10 md:shadow-lg': 'scale-100 md:scale-75'}`} onClick={onClick}>
             <div

@@ -24,7 +24,11 @@ import {
 } from "../../utils/helper";
 import Timer from "../../components/ui/Timer";
 
-const DailyLog = () => {
+const DailyLog = ({
+  challengeId,
+}: {
+  challengeId: string;
+}) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [showAllLogDays, setShowAllLogDays] = React.useState(false);
   const { user } = useAppSelector((state) => state.auth);
@@ -41,11 +45,11 @@ const DailyLog = () => {
   } | null>(null);
 
   useEffect(() => {
-    dispatch(getChallengeUserLogs(selectedChallenge?._id ?? ""));
+    dispatch(getChallengeUserLogs(challengeId));
   }, [dispatch, selectedChallenge, statuses.createLog.success]);
 
   const handleJoinChallenge = () => {
-    dispatch(joinChallenge(selectedChallenge?._id ?? ""));
+    dispatch(joinChallenge(challengeId));
     dispatch(getMyChallenges());
   };
 

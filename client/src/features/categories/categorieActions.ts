@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {categoryServices} from '../../services/index.ts';
-import { IChallengesInfoPerStatus } from '../../interfaces/IChallenge.ts';
 
 
 

@@ -24,6 +24,7 @@ export const findLogForTheDay = async (challengeId: string): Promise<ApiResponse
 };
 
 export const getChallengeUserLogs = async (challengeId: string): Promise<ApiResponse<ILog[]>> => {
+    console.log("[lOGS API FILE] - The challenge id: ",challengeId);
     const response = await apiConfig.get(`/logs/${challengeId}`);
     console.log(response.data);
     return response.data;

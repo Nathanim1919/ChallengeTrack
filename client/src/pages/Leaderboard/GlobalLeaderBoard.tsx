@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { GiTwoCoins } from "react-icons/gi";
 import { MdOutlineLeaderboard } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -6,7 +6,6 @@ import AvatorImage from "../../assets/heroImages/avator.jpg";
 import { getGlobalLeaderboard } from "../../features/leaderboard/leaderboardAction";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { IUser } from "../../interfaces/IUser";
 import { IGlobalLeaderboard } from "../../interfaces/ILeaderBoard";
 import ButtonLoading from "../../components/loading/buttonLoading";
 

@@ -10,7 +10,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import ButtonLoading from "../../components/loading/buttonLoading";
 
 const ChallengeDetailPage = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +31,7 @@ const ChallengeDetailPage = () => {
       <SimilarChallenges />
       <ChallengeSpecificLeaderBoard challenge={selectedChallenge} />
       <div className={"grid"}>
-        <DailyLog />
+        <DailyLog challengeId={challengeId} />
       </div>
     </div>
   );

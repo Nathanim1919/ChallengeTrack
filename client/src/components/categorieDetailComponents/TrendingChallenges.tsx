@@ -13,6 +13,7 @@ export const TrandingChallenges: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, challenges } = useAppSelector((state) => state.categories);
   const { name } = useParams();
+  alert("NAME IS: ", name);
 
   useEffect(() => {
     dispatch(getChallengesByCategory(name || ""));
@@ -108,7 +109,7 @@ export const TrandingChallenges: React.FC = () => {
                 <p>
                   Create a challenge in this category to see it here.
                 </p>
-                <Link to="/in/create-new" 
+                <Link to={`/in/create-new?name=${name}`}
                 className="
                 bg-gray-900 text-white px-4 py-2 rounded-lg mt-2
                 ">

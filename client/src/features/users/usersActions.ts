@@ -54,7 +54,7 @@ export const getUserById = createAsyncThunk<ApiResponse<IUser>, {identifier: str
 
 export const getUserMatrix = createAsyncThunk<ApiResponse<UserMatrix>, {identifier:string}>(
     'users/getUserMatrix',
-    async (identifier, {rejectWithValue}) => {
+    async ({identifier}, {rejectWithValue}) => {
         try {
             return await userServices.getUsersTotalChallengeParticipation(identifier);
         } catch (error) {

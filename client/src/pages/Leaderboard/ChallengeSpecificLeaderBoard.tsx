@@ -44,7 +44,7 @@ const ChallengeSpecificLeaderBoard: React.FC<{
   const [showLeaveChallenge, setShowLeaveChallenge] = React.useState(false);
 
   useEffect(() => {
-    dispatch(getLeaderBoardByChallengeId(challenge?._id || ""));
+    // dispatch(getLeaderBoardByChallengeId(challenge?._id || ""));
   }, [challenge, dispatch]);
 
   const handleLeaveChallenge = () => {

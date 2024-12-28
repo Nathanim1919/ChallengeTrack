@@ -20,85 +20,13 @@ const ChallengeList: React.FC<ChallengeListProps> = ({
     showGlobalLeaderBoard,
     setShowGlobalLeaderBoard,
 }) => {
-//   const challenges = [
-//     {
-//       name: "30-Day Fitness Challenge",
-//       rank: "1st",
-//     },
-//     {
-//       name: "Read 5 Books in a Month",
-//       rank: "2nd",
-//     },
-//     {
-//       name: "100 Days of Code",
-//       rank: "3rd",
-//     },
-//     {
-//       name: "Healthy Eating Challenge",
-//       rank: "4th",
-//     },
-//     {
-//       name: "Learn a New Language",
-//       rank: "5th",
-//     },
-//     {
-//       name: "Complete a Personal Project",
-//       rank: "6th",
-//     },
-//     {
-//       name: "Healthy Eating Challenge",
-//       rank: "4th",
-//     },
-//     {
-//       name: "Learn a New Language",
-//       rank: "5th",
-//     },
-//     {
-//       name: "Complete a Personal Project",
-//       rank: "6th",
-//     },
-//     {
-//       name: "30-Day Fitness Challenge",
-//       rank: "1st",
-//     },
-//     {
-//       name: "Read 5 Books in a Month",
-//       rank: "2nd",
-//     },
-//     {
-//       name: "100 Days of Code",
-//       rank: "3rd",
-//     },
-//     {
-//       name: "Healthy Eating Challenge",
-//       rank: "4th",
-//     },
-//     {
-//       name: "Learn a New Language",
-//       rank: "5th",
-//     },
-//     {
-//       name: "Complete a Personal Project",
-//       rank: "6th",
-//     },
-//     {
-//       name: "Healthy Eating Challenge",
-//       rank: "4th",
-//     },
-//     {
-//       name: "Learn a New Language",
-//       rank: "5th",
-//     },
-//     {
-//       name: "Complete a Personal Project",
-//       rank: "6th",
-//     },
-//   ];
+
   const {challenges} = useAppSelector(state => state.challenges);
   const [activeChallenge, setActiveChallenge] = React.useState<string>("");
   const dispatch = useAppDispatch();
 
   const handleChallengeClick = (challengeId: string) => {
+    console.log("CHALLENGE ID IS: ", challengeId);
     setActiveChallenge(challengeId);
     dispatch(getLeaderBoardByChallengeId(challengeId));
   };

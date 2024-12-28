@@ -1,10 +1,3 @@
-interface Pagination {
-    page: number;
-    limit: number;
-    totalPages: number;
-    totalItems: number;
-}
-
 export interface ApiResponse<T> {
     success: boolean;
     data: T | null;

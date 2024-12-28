@@ -24,8 +24,9 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
-    dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
+    console.log("CATEGORIE NAME IS: -------------------- ", categorie?.name);
+    // dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
+    // dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
   }, [categorie]);
 
  

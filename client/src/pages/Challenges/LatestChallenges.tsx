@@ -1,9 +1,4 @@
-import React, {useEffect, useState} from 'react'
-import AvatorImage from '../../assets/heroImages/avator.jpg'
-import { MdJoinFull } from "react-icons/md";
-import { GiTwoCoins } from "react-icons/gi";
-import { BiCategory } from "react-icons/bi";
-import { TbProgressBolt } from "react-icons/tb";
+import React, {useEffect} from 'react'
 import AuthChallengeCard from '../../components/cards/AuthChallengeCard';
 import {useAppSelector} from "../../hooks/useAppSelector.ts";
 import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
@@ -17,7 +12,7 @@ const LatestChalleges = () => {
 
     const {challenges, loading} = useAppSelector(state => state.challenges)
     const dispatch = useAppDispatch()
-    const [page, setPage] = useState(1);
+    // const [page, setPage] = useState(1);
   
 
     useEffect(() => {
@@ -25,7 +20,7 @@ const LatestChalleges = () => {
     },[])
 
     const handleSeeMore = () => {
-        setPage(prevPage => prevPage + 1);
+        // setPage(prevPage => prevPage + 1);
     };
 
     

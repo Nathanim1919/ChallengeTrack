@@ -13,21 +13,19 @@ const CategoriesPage = () => {
   const { categories, loading} = useAppSelector(
     (state) => state.categories
   );
-    const [isSearch, setIsSearch] = React.useState(false);
-  const [searchedCategories, setSearchedCategories] =
-    React.useState(categories);
+   
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
-      setIsSearch(false);
-      return setSearchedCategories(categories);
+      // setIsSearch(false);
+      // return setSearchedCategories(categories);
     }
-    setIsSearch(true);
-    setSearchedCategories(
-      categories.filter((category) =>
-        category.name.toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
+    // setIsSearch(true);
+    // setSearchedCategories(
+    //   categories.filter((category) =>
+    //     category.name.toLowerCase().includes(e.target.value.toLowerCase())
+    //   )
+    // );
   };
 
   useEffect(() => {

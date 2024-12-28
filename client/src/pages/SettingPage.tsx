@@ -7,8 +7,6 @@ import AvatorImage from '../assets/heroImages/avator.jpg'
 
 const SettingPage = () => {
     const { user } = useSelector((state: RootState) => state.auth);
-    const [isTwoFactorAuth, setIsTwoFactorAuth] = React.useState(false);
-    const [isNotification, setIsNotification] = React.useState(false);
     const [isEditProfile, setIsEditProfile] = React.useState(false);
     return (
         <div className="setting-page">

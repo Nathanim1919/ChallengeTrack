@@ -17,6 +17,7 @@ const getGlobalLeaderboard = async (): Promise<ApiResponse<IGlobalLeaderboard[]>
 
 
 const getLeaderBoardByChallengeId = async (challengeId: string): Promise<ApiResponse<ILeaderboard>> => {
+    console.log("The challenge id: ",challengeId);
     const response = await apiConfig.get(`/leaderboard/challenge/${challengeId}`);
     return response.data;
 }

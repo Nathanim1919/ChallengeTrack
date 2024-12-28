@@ -1,22 +1,23 @@
-// Import necessary packages
-import {ActionReducerMapBuilder, AsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  createChallenge,
-  addDailyLog,
-  checkIfUserIsOwner,
-  checkIfUserIsParticipant,
-  deleteChallenge,
-  getAllChallenges,
-  getChallengeById,
-  getMyChallenges,
-  getPopularChallenge,
-  joinChallenge,
-  leaveChallenge,
-  popularForUnsignedUser,
-} from "./challengesActions";
+import {createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChallenge } from "../../interfaces/IChallenge";
-import { ApiResponse } from "../../interfaces/ICommon";
-import { ChallengeResponse, ParticipationStatusResponse } from "./types";
+import { ChallangeListResponse, ChallengeDetailResponse, ChallengeResponse, JoinLeaveResponse, ParticipationStatusResponse } from "./types";
+// Import necessary packages
+// import {
+//   // createChallenge,
+//   addDailyLog,
+//   checkIfUserIsOwner,
+//   checkIfUserIsParticipant,
+//   deleteChallenge,
+//   getAllChallenges,
+//   getChallengeById,
+//   getMyChallenges,
+//   getPopularChallenge,
+//   joinChallenge,
+//   leaveChallenge,
+//   popularForUnsignedUser,
+// } from "./challengesActions";
+import challengeService from "../../services/challengeService";
+
 
 // Define the state interface
 interface ChallengesState {
@@ -30,6 +31,7 @@ interface ChallengesState {
   message: string;
   error: string | null;
 }
+
 
 
 // initial state
@@ -46,26 +48,179 @@ const initialState: ChallengesState = {
 };
 
 
-const handleAsyncRequest = <T>(
-  builder: ActionReducerMapBuilder<ChallengesState>,
-  action: AsyncThunk<ApiResponse<T>, any, {}>,
-  stateupdate: (state: ChallengesState, action: PayloadAction<ApiResponse<T>>) => void
-) => {
-  builder
-    .addCase(action.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(action.fulfilled, (state, action: PayloadAction<ApiResponse<T>>) => {
-      stateupdate(state, action);
-      state.loading = false;
-      state.error =  null;
-    })
-    .addCase(action.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to perform action"
-    })
-}
+
+
+const createChallenge = createAsyncThunk<
+ChallengeResponse,
+  Partial<IChallenge>
+>(
+  "challenges/createChallenge",
+  async (challengeData: Partial<IChallenge>, { rejectWithValue }) => {
+    try {
+      return await challengeService.createChallenge(challengeData);
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const getAllChallenges = createAsyncThunk<
+  ChallangeListResponse
+>("challenges/getAllChallenges", async (_, { rejectWithValue }) => {
+  try {
+    return await challengeService.getAllChallenges();
+  } catch (error) {
+    return rejectWithValue(handleAsyncError(error, rejectWithValue));
+  }
+});
+
+const getMyChallenges = createAsyncThunk<
+  ChallangeListResponse
+>("challenges/getMyChallenges", async (_, { rejectWithValue }) => {
+  try {
+    return await challengeService.getMyChallenges();
+  } catch (error) {
+    return rejectWithValue(handleAsyncError(error, rejectWithValue));
+  }
+});
+
+const getChallengeById = createAsyncThunk<
+ChallengeDetailResponse,
+  string
+>(
+  "challenges/getChallengeById",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      const [challenge, isParticipant, isOwner] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+        challengeService.checkIfUserIsOwner(challengeId),
+      ]);
+      return {
+        challenge,
+        isParticipant,
+        isOwner,
+      };
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const checkIfUserIsOwner = createAsyncThunk<
+  ParticipationStatusResponse,
+  string
+>(
+  "challenges/checkIfUserIsOwner",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      return await challengeService.checkIfUserIsOwner(challengeId);
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const checkIfUserIsParticipant = createAsyncThunk<
+  ParticipationStatusResponse,
+  string
+>(
+  "challenges/checkIfUserIsParticipant",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      return await challengeService.checkIfUserIsParticipant(challengeId);
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const joinChallenge = createAsyncThunk<JoinLeaveResponse, string>(
+  "challenges/joinChallenge",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      await challengeService.joinChallenge(challengeId);
+      const [updatedChallenge, isParticipant] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+      ]);
+      return {
+        updatedChallenge,
+        isParticipant,
+      };
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const leaveChallenge = createAsyncThunk<JoinLeaveResponse, string>(
+  "challenges/leaveChallenge",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      await challengeService.leaveChallenge(challengeId);
+      const [updatedChallenge, isParticipant] = await Promise.all([
+        challengeService.getChallengeById(challengeId),
+        challengeService.checkIfUserIsParticipant(challengeId),
+      ]);
+      return {
+        updatedChallenge,
+        isParticipant,
+      };
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const addDailyLog = createAsyncThunk<
+  ChallengeResponse,
+  { challengeId: string; logs: Partial<ILog> }
+>(
+  "challenges/addDailyLog",
+  async ({ challengeId, logs }, { rejectWithValue }) => {
+    try {
+      return await challengeService.addDailyLog(challengeId, logs);
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const getPopularChallenge = createAsyncThunk<ChallangeListResponse>(
+  "challenges/getPopularChallenge",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await challengeService.getPopularChallenge();
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const popularForUnsignedUser = createAsyncThunk<ChallangeListResponse>(
+  "challenges/popularForUnsignedUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await challengeService.popularForUnsignedUser();
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+const deleteChallenge = createAsyncThunk<ChallengeResponse, string>(
+  "challenges/deleteChallenge",
+  async (challengeId: string, { rejectWithValue }) => {
+    try {
+      return await challengeService.deleteChallenge(challengeId);
+    } catch (error) {
+      return rejectWithValue(handleAsyncError(error, rejectWithValue));
+    }
+  }
+);
+
+
 
 
 // Create a slice
@@ -88,65 +243,176 @@ const challengesSlice = createSlice({
 
   // Define the extra reducers, which are the reducers that respond to actions dispatched by the createAsyncThunk
   extraReducers: (builder) => {
-
-    handleAsyncRequest<IChallenge>(builder, createChallenge, (state, action) => {
-      state.selectedChallenge = action.payload.data??null;
-      state.message = "Challenge created successfully";
+    builder
+    .addCase(createChallenge.pending, (state) => {
+      state.loading = true;
+      state.error = null;
     })
-
-    handleAsyncRequest<IChallenge[]>(builder, getAllChallenges, (state, action) => {
-      state.challenges = action.payload.data??[]
+    .addCase(createChallenge.fulfilled, (state, action) => {
+      if (action.payload.data) {
+        state.challenges = [...state.challenges, action.payload.data];
+      }
+      state.loading = false;
+      state.error = null;
+      state.message = action.payload.message??"";
     })
-
-    handleAsyncRequest<IChallenge>(builder, getChallengeById, (state, action) => {
-      state.selectedChallenge = action.payload.data;
+    .addCase(createChallenge.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
     })
-
-    handleAsyncRequest<IChallenge[]>(builder, getMyChallenges, (state, action) => {
-      state.challenges = action.payload.data??[]
+    .addCase(getAllChallenges.pending, (state) => {
+      state.loading = true;
+      state.error = null;
     })
-
-    handleAsyncRequest<ParticipationStatusResponse>(builder, checkIfUserIsParticipant, (state, action)=> {
-      state.isParticipant = action.payload.data?.data??false;
+    .addCase(getAllChallenges.fulfilled, (state, action) => {
+      state.challenges = action.payload.data??[];
+      state.loading = false;
+      state.error = null;
     })
-
-    handleAsyncRequest<IChallenge>(builder, joinChallenge, (state, action) => {
-      state.selectedChallenge = action.payload.updatedChallenge.date;
-      state.isParticipant = action.payload.isParticipant.date??false;
-      state.message = "You have joined the challenge";
+    .addCase(getAllChallenges.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
     })
-
-    handleAsyncRequest<IChallenge>(builder, leaveChallenge, (state, action) => {
+    .addCase(getChallengeById.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getChallengeById.fulfilled, (state, action) => {
+      state.selectedChallenge = action.payload.challenge.data;
+      state.isParticipant = action.payload.isParticipant.data??false;
+      state.isOwner = action.payload.isOwner.data??false;
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(getChallengeById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(getMyChallenges.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getMyChallenges.fulfilled, (state, action) => {
+      state.challenges = action.payload.data??[];
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(getMyChallenges.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(checkIfUserIsParticipant.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(checkIfUserIsParticipant.fulfilled, (state, action) => {
+      state.isParticipant = action.payload.data??false;
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(checkIfUserIsParticipant.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(joinChallenge.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(joinChallenge.fulfilled, (state, action) => {
       state.selectedChallenge = action.payload.updatedChallenge.data;
-      state.isParticipant = action.payload.isParticipant.data ?? false;
+      state.isParticipant = action.payload.isParticipant.data??false;
+      state.message = "You have joined the challenge";
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(joinChallenge.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(leaveChallenge.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(leaveChallenge.fulfilled, (state, action) => {
+      state.selectedChallenge = action.payload.updatedChallenge.data;
+      state.isParticipant = action.payload.isParticipant.data??false;
       state.message = "You have left the challenge";
-    });
-
-    handleAsyncRequest<IChallenge>(builder, checkIfUserIsOwner, (state, action) => {
-      state.isOwner = action.payload.data ?? false;
-    });
-
-    handleAsyncRequest<IChallenge>(builder, addDailyLog, (state, action) => {
-      state.selectedChallenge = action.payload.data ?? null;
-      state.message = action.payload.message ?? "Log added successfully";
-    });
-
-    handleAsyncRequest<IChallenge>(builder, getPopularChallenge, (state, action) => {
-      state.popularChallenges = action.payload.data ?? [];
-    });
-
-    handleAsyncRequest<IChallenge>(builder, deleteChallenge, (state, action) => {
-      state.challenges = state.challenges.filter(
-        (challenge) => challenge._id !== action.payload.data?._id
-      );
-    });
-
-    handleAsyncRequest<IChallenge>(builder, popularForUnsignedUser, (state, action) => {
-      state.popularChallengesForUnsignedUser = action.payload.data ?? [];
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(leaveChallenge.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(checkIfUserIsOwner.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(checkIfUserIsOwner.fulfilled, (state, action) => {
+      state.isOwner = action.payload.data??false;
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(checkIfUserIsOwner.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(addDailyLog.pending, (state)=> {
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(addDailyLog.fulfilled, (state, action) => {
+      state.message = action.payload.message??"";
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(getPopularChallenge.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getPopularChallenge.fulfilled, (state, action) => {
+      state.popularChallenges = action.payload.data??[];
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(getPopularChallenge.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(deleteChallenge.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteChallenge.fulfilled, (state, action) => {
+      state.challenges = state.challenges.filter((challenge) => challenge._id !== action.payload.data?._id);
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(deleteChallenge.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
+    })
+    .addCase(popularForUnsignedUser.pending, (state)=> {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(popularForUnsignedUser.fulfilled, (state, action) => {
+      state.popularChallengesForUnsignedUser = action.payload.data??[];
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(popularForUnsignedUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "An unknown error occurred";
     });
   },
 });
 
-
-export const { setLoading, setError } = challengesSlice.actions;
+// Export the reducer
 export default challengesSlice.reducer;
+// Export the actions generated by the slice
+export const { setLoading, setError, setMessage } = challengesSlice.actions;
+function handleAsyncError(error: unknown, rejectWithValue: (value: unknown) => RejectWithValue<unknown, unknown>): unknown {
+  throw new Error("Function not implemented.");
+}
+

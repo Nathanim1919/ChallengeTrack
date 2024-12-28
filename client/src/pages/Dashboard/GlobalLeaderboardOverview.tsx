@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import avatorImage from "../../assets/heroImages/avator.jpg";
 import GlobalLeaderboardOverviewCard from "../../components/cards/GlobalLeaderboardOverviewCard";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";

@@ -59,9 +59,9 @@ const PopularChallengeCard = () => {
               />
             </div>
             <div className="flex flex-col items-center">
-              <p className="m-0">{popularChallenges[0]?.createdBy.name}</p>
+              <p className="m-0">{popularChallenges[0]?.createdBy?.name}</p>
               <h3 className="m-0">
-                {popularChallenges[0]?.createdBy.points} XP
+                {popularChallenges[0]?.createdBy?.points} XP
               </h3>
             </div>
           </div>

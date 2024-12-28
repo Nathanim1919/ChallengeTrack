@@ -3,7 +3,6 @@ import { IChallenge } from "../../interfaces/IChallenge";
 import { TbProgressBolt } from 'react-icons/tb';
 import AvatorImage from '../../assets/heroImages/avator.jpg';
 import { GiTwoCoins } from 'react-icons/gi';
-import { MdJoinFull } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { categoryConfig } from '../../utils/categorieConfig';
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";

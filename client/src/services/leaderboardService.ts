@@ -11,6 +11,7 @@ const getGlobalLeaderboard = async () => {
 };
 
 const getLeaderBoardByChallengeId = async (challengeId: string) => {
+    console.log("[LEADERBOARD SERVICE FILE] - The challenge id: ",challengeId);
     return await leaderboardApi.getLeaderBoardByChallengeId(challengeId);
 };
 

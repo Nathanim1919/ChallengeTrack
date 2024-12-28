@@ -9,7 +9,7 @@ export class ChallengeSpecificHelper {
         duration
       )
     ) {
-      return ChallengeStatus.ENDED;
+      return ChallengeStatus.COMPLETED;
     }
     if (
       ChallengeSpecificHelper.isChallengeOngoing(
@@ -24,7 +24,7 @@ export class ChallengeSpecificHelper {
         startDate
       )
     ) {
-      return ChallengeStatus.ABOUT_TO_START;
+      return ChallengeStatus.READY;
     }
     if (ChallengeSpecificHelper.isChallengeUpcoming(startDate)) {
       return ChallengeStatus.UPCOMING;

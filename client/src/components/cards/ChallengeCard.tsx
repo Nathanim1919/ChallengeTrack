@@ -1,8 +1,6 @@
 import React from "react";
 import { CiCalendarDate } from "react-icons/ci";
 import AvatorImage from "../../assets/heroImages/avator.jpg";
-import { ChallengeSpecificHelper } from "../../utils/helper";
-import { ChallengeStatus } from "../../utils/constants";
 import { IChallenge } from "../../interfaces/IChallenge";
 import { categoryConfig } from "../../utils/categorieConfig";
 import { Link } from "react-router-dom";

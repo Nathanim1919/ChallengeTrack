@@ -9,7 +9,6 @@ import {
   JoinLeaveResponse,
   ParticipationStatusResponse,
 } from "./types";
-import { ApiResponse } from "../../interfaces/ICommon";
 
 // Helper functions for error handling
 const handleAsyncError = (
@@ -22,8 +21,8 @@ const handleAsyncError = (
   return rejectWithValue("An unknown error occurred");
 };
 
-export const createChallenge = createAsyncThunk<
-  ApiResponse<IChallenge>,
+const createChallenge = createAsyncThunk<
+ChallengeResponse,
   Partial<IChallenge>
 >(
   "challenges/createChallenge",
@@ -36,7 +35,7 @@ export const createChallenge = createAsyncThunk<
   }
 );
 
-export const getAllChallenges = createAsyncThunk<
+const getAllChallenges = createAsyncThunk<
   ChallangeListResponse
 >("challenges/getAllChallenges", async (_, { rejectWithValue }) => {
   try {
@@ -46,7 +45,7 @@ export const getAllChallenges = createAsyncThunk<
   }
 });
 
-export const getMyChallenges = createAsyncThunk<
+const getMyChallenges = createAsyncThunk<
   ChallangeListResponse
 >("challenges/getMyChallenges", async (_, { rejectWithValue }) => {
   try {
@@ -56,8 +55,8 @@ export const getMyChallenges = createAsyncThunk<
   }
 });
 
-export const getChallengeById = createAsyncThunk<
-  ChallengeDetailResponse,
+const getChallengeById = createAsyncThunk<
+ChallengeDetailResponse,
   string
 >(
   "challenges/getChallengeById",
@@ -79,7 +78,7 @@ export const getChallengeById = createAsyncThunk<
   }
 );
 
-export const checkIfUserIsOwner = createAsyncThunk<
+const checkIfUserIsOwner = createAsyncThunk<
   ParticipationStatusResponse,
   string
 >(
@@ -93,7 +92,7 @@ export const checkIfUserIsOwner = createAsyncThunk<
   }
 );
 
-export const checkIfUserIsParticipant = createAsyncThunk<
+const checkIfUserIsParticipant = createAsyncThunk<
   ParticipationStatusResponse,
   string
 >(
@@ -107,7 +106,7 @@ export const checkIfUserIsParticipant = createAsyncThunk<
   }
 );
 
-export const joinChallenge = createAsyncThunk<JoinLeaveResponse, string>(
+const joinChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   "challenges/joinChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
@@ -126,7 +125,7 @@ export const joinChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   }
 );
 
-export const leaveChallenge = createAsyncThunk<JoinLeaveResponse, string>(
+const leaveChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   "challenges/leaveChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
@@ -145,7 +144,7 @@ export const leaveChallenge = createAsyncThunk<JoinLeaveResponse, string>(
   }
 );
 
-export const addDailyLog = createAsyncThunk<
+const addDailyLog = createAsyncThunk<
   ChallengeResponse,
   { challengeId: string; logs: Partial<ILog> }
 >(
@@ -159,7 +158,7 @@ export const addDailyLog = createAsyncThunk<
   }
 );
 
-export const getPopularChallenge = createAsyncThunk<ChallangeListResponse>(
+const getPopularChallenge = createAsyncThunk<ChallangeListResponse>(
   "challenges/getPopularChallenge",
   async (_, { rejectWithValue }) => {
     try {
@@ -170,7 +169,7 @@ export const getPopularChallenge = createAsyncThunk<ChallangeListResponse>(
   }
 );
 
-export const popularForUnsignedUser = createAsyncThunk<ChallangeListResponse>(
+const popularForUnsignedUser = createAsyncThunk<ChallangeListResponse>(
   "challenges/popularForUnsignedUser",
   async (_, { rejectWithValue }) => {
     try {
@@ -181,7 +180,7 @@ export const popularForUnsignedUser = createAsyncThunk<ChallangeListResponse>(
   }
 );
 
-export const deleteChallenge = createAsyncThunk(
+const deleteChallenge = createAsyncThunk<ChallengeResponse, string>(
   "challenges/deleteChallenge",
   async (challengeId: string, { rejectWithValue }) => {
     try {
@@ -191,3 +190,19 @@ export const deleteChallenge = createAsyncThunk(
     }
   }
 );
+
+
+export {
+  createChallenge,
+  getAllChallenges,
+  getMyChallenges,
+  getChallengeById,
+  checkIfUserIsOwner,
+  checkIfUserIsParticipant,
+  joinChallenge,
+  leaveChallenge,
+  addDailyLog,
+  getPopularChallenge,
+  popularForUnsignedUser,
+  deleteChallenge,
+};

@@ -2,7 +2,7 @@ import apiConfig from "./apiConfig.ts";
 import { IChallenge } from "../interfaces/IChallenge.ts";
 import { ILog } from "../interfaces/ILogs.ts";
 import { ApiResponse } from "../interfaces/ICommon.ts";
-import { ChallengeDetailResponse, ChallengeResponse, JoinLeaveResponse, ParticipationStatusResponse } from "../features/challenges/types.ts";
+import { ChallengeResponse, JoinLeaveResponse, ParticipationStatusResponse } from "../features/challenges/types.ts";
 
 
 // Define an api for creating a new challenge
@@ -52,8 +52,9 @@ const updateChallenge = async (challengeId: string, challengeData: Partial<IChal
 };
 
 
-const deleteChallenge = async (challengeId: string): Promise<void> => {
-    await apiConfig.delete(`/challenges/${challengeId}`);
+const deleteChallenge = async (challengeId: string): Promise<ChallengeResponse> => {
+    const response = await apiConfig.delete(`/challenges/${challengeId}`);
+    return response.data;
 };
 
 

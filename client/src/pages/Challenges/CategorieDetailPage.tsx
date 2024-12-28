@@ -9,14 +9,12 @@ import { TrandingChallenges } from "../../components/categorieDetailComponents/T
 import { CategoriesList } from "../../components/categorieDetailComponents/CategorieList";
 
 
-
-
-
 const CategoryDetailPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
   const { selectedCategory } = useAppSelector(
     (state) => state.categories
   );
+  console.log("SELECTED CATEGORY IS: ", selectedCategory);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

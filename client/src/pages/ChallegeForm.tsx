@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { createChallenge } from "../features/challenges/challengesActions";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { IUser } from "../interfaces/IUser";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ButtonLoading from "../components/loading/buttonLoading";
 import { CustomeToast } from "../components/ui/customeToast";
 import ChallengeCategories from "../components/modals/ChallengeCategories";
@@ -41,6 +41,9 @@ const ChallengeForm = () => {
     createdBy: user,
   });
   const dispatch = useAppDispatch();
+  const {name} = useParams<{name:string}>();
+
+alert("The name is: " + name);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -75,6 +78,15 @@ const ChallengeForm = () => {
       navigate(`/in`);
     }
   };
+
+  useEffect(() => {
+    if (name) {
+      setChallengeData({
+        ...challengeData,
+        categorie: name,
+      });
+    }
+  }, [name]);
 
   return (
     <div className="challenge-form">

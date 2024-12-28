@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AuthHeader from "./AuthHeader";
 import Sidebar from "./Sidebar";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { getCurrentUser } from "../../features/auth/authActions";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;

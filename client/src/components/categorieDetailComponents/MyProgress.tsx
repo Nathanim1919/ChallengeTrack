@@ -1,9 +1,7 @@
 import React from "react";
 import { GiProgression } from "react-icons/gi";
-import { MdOutlinePending } from "react-icons/md";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import ButtonLoading from "../loading/buttonLoading";
-import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 
 
