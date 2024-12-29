@@ -7,10 +7,10 @@ import { IChallenge } from "../../interfaces/IChallenge.ts";
 
 const ChallengePage: React.FC = () => {
     const {popularChallengesForUnsignedUser} = useAppSelector(state => state.challenges)
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(popularForUnsignedUser())
+        dispatch(popularForUnsignedUser());
     },[])
 
 

@@ -24,8 +24,6 @@ const LoginPage:React.FC = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    console.log(isAuthenticated);
-
     return (
         <div className={'grid grid-cols-2 h-screen w-screen shadow-lg'}>
             <div className={"invalid:border-red-500 absolute border border-gray-400 top-1/2 left-1/2 transform  rounded-md -translate-x-1/2 -translate-y-1/2 bg-white flex flex-col items-center justify-center p-5"}>

@@ -8,33 +8,30 @@ import ButtonLoading from "../components/loading/buttonLoading";
 
 // define the props type
 interface PrivateRouteProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
-   
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+  const dispatch = useAppDispatch();
+  const { loading, isAuthenticated } = useAppSelector((state) => state.auth);
 
-    const dispatch = useAppDispatch();
-    const {loading, isAuthenticated} = useAppSelector((state) => state.auth);
-    
-    
-    useEffect(() => {
-        if(!isAuthenticated) {
-            dispatch(getCurrentUser());
-        }
-    },[dispatch, isAuthenticated])
-
-    if (loading) {
-        return <ButtonLoading/>
+  useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(getCurrentUser());
     }
-    
-    // If user is authenticated, render the dashboard layout with the children
-    if (isAuthenticated) {
-        return <DashboardLayout>{children}</DashboardLayout>;
-    }
+  }, [dispatch, isAuthenticated]);
 
-    // If user is not authenticated, redirect to the login page, and we used replace to replace the current location in the history stack, so the user can't go back to the private route
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return <ButtonLoading />;
+  }
+
+  // If user is authenticated, render the dashboard layout with the children
+  if (isAuthenticated) {
+    return <DashboardLayout>{children}</DashboardLayout>;
+  }
+
+  // If user is not authenticated, redirect to the login page, and we used replace to replace the current location in the history stack, so the user can't go back to the private route
+  return <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

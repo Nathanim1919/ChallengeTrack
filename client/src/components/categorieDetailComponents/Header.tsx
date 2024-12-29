@@ -19,14 +19,12 @@ interface IHeaderProps {
 }
 
 export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
-  const { loading, totalParticipants, challStatusPerCategoryCount } =
-    useAppSelector((state) => state.categories);
+  const { loading, totalParticipants, challStatusPerCategoryCount } = useAppSelector((state) => state.categories);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("CATEGORIE NAME IS: -------------------- ", categorie?.name);
-    // dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
-    // dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
+    dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
+    dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
   }, [categorie]);
 
  
