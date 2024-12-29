@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { IoIosArrowForward, IoMdTrendingUp } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlinePending } from "react-icons/md";
 import ButtonLoading from "../loading/buttonLoading";
@@ -8,11 +8,15 @@ import AvatorImage from "../../assets/heroImages/avator.jpg";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { getChallengesByCategory } from "../../features/categories/categorieActions";
 import { Link, useParams } from "react-router-dom";
+import { categoryConfig } from "../../utils/categorieConfig";
 
 export const TrandingChallenges: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, challenges } = useAppSelector((state) => state.categories);
   const { name } = useParams();
+
+  const categoriedata = categoryConfig[name || ""];
+  console.log("CATEGORIE DATA: ", categoriedata);
 
   useEffect(() => {
     dispatch(getChallengesByCategory(name || ""));
@@ -23,9 +27,8 @@ export const TrandingChallenges: React.FC = () => {
     <div className="grid grid-rows-2 h-[100vh] overflow-hidden">
       <div className="bg-gray-100">
         <div className="flex justify-between items-center px-4 pt-2">
-          <h1 className="font-bold flex items-center gap-1">
-            <IoMdTrendingUp />
-           {name} related Challenges
+          <h1 className={`font-bold flex items-center gap-1`}>
+           <span className={`text-${categoriedata?.bgColor} p-1 flex items-center gap-1`}>  {categoriedata?.icon()}{name}</span> related Challenges
           </h1>
           <IoSearch className="text-2xl cursor-pointer hover:text-gray-500" />
         </div>

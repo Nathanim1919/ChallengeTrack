@@ -71,7 +71,7 @@ const CategoriesPage = () => {
               <Link
                 to={`/in/categories/${categorie.name.replace(/\s+/g, "-")}`}
                 key={categorie._id}
-                className={`${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer animate-slideup`}
+                className={`bg-${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer animate-slideup`}
               >
                 <CategorieCard key={index} Categorie={categorie} />
               </Link>

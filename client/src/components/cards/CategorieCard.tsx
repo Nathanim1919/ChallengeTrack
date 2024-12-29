@@ -10,23 +10,23 @@ interface CategorieCardProps {
 
 const CategorieCard: React.FC<CategorieCardProps> = ({ Categorie }) => {
   const category = categoryConfig[Categorie.name] || {
-    bgColor: "bg-gray-300", // Default color
+    bgColor: "gray-300", // Default color
     icon: () => <span>?</span>, // Default icon
   };
 
   return (
     <div className="relative inset-0 flex justify-center group animate-slideFadeIn">
       <div
-        className={`absolute transition-all duration-150 delay-150 ${category.bgColor} shadow-lg z-10 h-full w-[90%] self-center justify-self-center flex flex-col justify-center -top-2 group-hover:-top-3 border-2 border-gray-100 group-hover:border-gray-100`}
+        className={`absolute transition-all duration-150 delay-150 bg-${category.bgColor} shadow-lg z-10 h-full w-[90%] self-center justify-self-center flex flex-col justify-center -top-2 group-hover:-top-3 border-2 border-gray-100 group-hover:border-gray-100`}
       ></div>
       <div
-        className={`absolute transition-all duration-150 delay-100 h-full shadow-lg w-[85%]${category.bgColor} z-20 self-center justify-self-center -top-3 group-hover:-top-5 border-2 border-gray-100 group-hover:border-gray-100`}
+        className={`absolute transition-all duration-150 delay-100 h-full shadow-lg w-[85%] bg-${category.bgColor} z-20 self-center justify-self-center -top-3 group-hover:-top-5 border-2 border-gray-100 group-hover:border-gray-100`}
       ></div>
       <div
-        className={`absolute transition-all duration-150 delay-75 h-full shadow-2xl ${category.bgColor} z-30 w-[80%] self-center justify-self-center -top-4 group-hover:-top-7 border-2 border-gray-100 group-hover:border-gray-100`}
+        className={`absolute transition-all duration-150 delay-75 h-full shadow-2xl bg-${category.bgColor} z-30 w-[80%] self-center justify-self-center -top-4 group-hover:-top-7 border-2 border-gray-100 group-hover:border-gray-100`}
       ></div>
       <div
-        className={`absolute transition-all duration-150 h-full shadow-lg w-[75%] ${category.bgColor} z-30 self-center justify-self-center -top-5 group-hover:-top-9 border-2 border-gray-100 group-hover:border-gray-100`}
+        className={`absolute transition-all duration-150 h-full shadow-lg w-[75%] bg-${category.bgColor} z-30 self-center justify-self-center -top-5 group-hover:-top-9 border-2 border-gray-100 group-hover:border-gray-100`}
       ></div>
       <div
         className={`relative w-full before:absolute before:w-[50%] before:rounded-tl-full before:h-full before:z-0 before:bg-gray-200 before:bottom-0 before:right-0 h-[100%] z-40 shadow-md p-3 border border-gray-300 flex flex-col justify-between bg-white cursor-pointer`}
@@ -39,7 +39,7 @@ const CategorieCard: React.FC<CategorieCardProps> = ({ Categorie }) => {
         </div>
         <div className="flex flex-col items-start justify-start gap-2 relative z-10">
           <h3
-            className={`font-bold text-[14px] ${category.bgColor} text-white py-1 px-3 rounded-full flex items-center gap-1`}
+            className={`font-bold text-[14px] bg-${category.bgColor} text-white py-1 px-3 rounded-full flex items-center gap-1`}
           >
             {<category.icon />}
             {Categorie.name}

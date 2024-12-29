@@ -26,8 +26,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, key }) => {
   return (
     <div
       key={key}
-      className={`${category.bgColor} hover:bg-white group transition-colors duration-400 hover:text-gray-900 text-white relative grid grid-rows-1 justify-between rounded-2xl flex-1 w-full
-      hover:${category.bgColor} hover:text-black cursor-pointer
+      className={`bg-${category.bgColor} hover:bg-white group transition-colors duration-400 hover:text-gray-900 text-white relative grid grid-rows-1 justify-between rounded-2xl flex-1 w-full
+      hover:bg-${category.bgColor} hover:text-black cursor-pointer
       `}
     >
       <div
