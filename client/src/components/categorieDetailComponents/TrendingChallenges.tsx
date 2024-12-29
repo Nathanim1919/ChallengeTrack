@@ -13,7 +13,6 @@ export const TrandingChallenges: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, challenges } = useAppSelector((state) => state.categories);
   const { name } = useParams();
-  alert("NAME IS: ", name);
 
   useEffect(() => {
     dispatch(getChallengesByCategory(name || ""));

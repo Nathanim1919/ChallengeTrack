@@ -37,7 +37,7 @@ const CategoriesPage = () => {
   }
   return (
     <div className="w-[95%] mx-auto gap-5 h-[90vh] overflow-y-auto">
-      <div className="flex items-center justify-between sticky -top-0 bg- border-b p-3 z-40 bg-white">
+      <div className="flex items-center justify-between sticky -top-0 bg- border-b p-3 z-40 backdrop-blur-3xl">
         <div className="flex flex-col items-start justify-center">
           <h1 className="font-bold flex items-center gap-1 text-2xl">
             <BiCategory />
@@ -49,7 +49,7 @@ const CategoriesPage = () => {
         </div>
 
         <div>
-          <form className="bg-gray-100 p-2 flex items-center">
+          <form className="bg-gray-100 p-2 flex items-center border border-gray-300 rounded-md">
             <input
               type="text"
               onChange={handleSearch}

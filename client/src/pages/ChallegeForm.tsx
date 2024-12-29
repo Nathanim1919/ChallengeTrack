@@ -10,6 +10,7 @@ import ChallengeCategories from "../components/modals/ChallengeCategories";
 import { ChallengeLevel } from "../utils/constants";
 import { IChallengeLevel } from "../interfaces/IChallenge";
 import { GrRadialSelected } from "react-icons/gr";
+import { useSearchParams } from "react-router-dom";
 
 interface ChallengeData {
   title: string;
@@ -41,9 +42,9 @@ const ChallengeForm = () => {
     createdBy: user,
   });
   const dispatch = useAppDispatch();
-  const {name} = useParams<{name:string}>();
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get("name");
 
-alert("The name is: " + name);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -79,14 +80,6 @@ alert("The name is: " + name);
     }
   };
 
-  useEffect(() => {
-    if (name) {
-      setChallengeData({
-        ...challengeData,
-        categorie: name,
-      });
-    }
-  }, [name]);
 
   return (
     <div className="challenge-form">
@@ -132,7 +125,7 @@ alert("The name is: " + name);
                 id="category"
                 placeholder="Category"
                 className="p-2 border border-gray-300 bg-gray-100"
-                value={search}
+                value={name??search}
                 onClick={() => setShowCategories(!showCategories)}
               />
             </div>

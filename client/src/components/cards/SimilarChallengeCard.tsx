@@ -1,4 +1,5 @@
 import React from "react";
+import { FaPlus } from "react-icons/fa6";
 
 
 
@@ -15,7 +16,7 @@ interface ChallengeOverviewCardProps {
 
 const SimilarChallengeCard: React.FC<ChallengeOverviewCardProps> = ({challenge}) => {
     return (
-        <div className="bg-white grid grid-cols-[_.4fr_.5fr_.1fr] items-center px-2 py-1 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100">
+        <div className="bg-white flex items-center justify-between px-2 py-1 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gray-300"></div>
             <div className="flex flex-col">
@@ -42,7 +43,9 @@ const SimilarChallengeCard: React.FC<ChallengeOverviewCardProps> = ({challenge})
             </div>
             <p className="font-bold relative right-6">+120</p>
           </div>
-            <button className="text-green-500 rounded-full border border-green-300 hover:bg-green-400 hover:text-white px-3 text-[14px]">Join</button>
+            <button className="group text-gray-500  transition-all duration-300 rounded-full border border-gray-300 hover:bg-gray-700 hover:text-white p-1 text-[14px] flex items-center gap-1"><FaPlus/><span className="hidden group-hover:block
+           
+            ">Join</span></button>
         </div>
     );
 }
