@@ -9,7 +9,7 @@ import { categoryConfig } from '../../utils/categorieConfig';
 
 const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) => {
     const category = categoryConfig[challenge?.categorie||""] || {
-        bgColor: "gray-300", // Default color
+        bgColor: "bg-gray-300", // Default color
         icon: () => <span>?</span>, // Default icon
       };
 
@@ -22,7 +22,7 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
             <div className='w-24 h-24 bg-gray-800 absolute -top-3 -left-4 rounded-full'></div>
             <div className='w-96 h-96 bg-gray-800 absolute rounded-full -bottom-10 left-48'></div>
             <div className='flex items-center justify-between relative z-10'>
-                <p className={`flex items-center gap-1 bg-${category.bgColor} text-white py-1 px-2 text-[12px] rounded-full`}><category.icon/>{challenge.categorie}</p>
+                <p className={`flex items-center gap-1 ${category.bgColor} text-white py-1 px-2 text-[12px] rounded-full`}><category.icon/>{challenge.categorie}</p>
                 <p className='flex items-center gap-1 text-[13px]'><TbProgressBolt/>{challenge.status}</p>
             </div>
             <div className='flex flex-col gap-2 relative z-10'>

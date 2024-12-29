@@ -27,7 +27,7 @@ export const CategoriesList: React.FC = () => {
                   <div key={key} className="text-[14px] ">
                     <Link to={`/in/categories/${key.replace(/\s+/g, "-")}`} className="text-white">
                       <div
-                        className={`flex items-center gap-1 bg-${categoryConfig[key].bgColor} py-1 px-2 rounded-full border border-transparent hover:border-sky-700 hover:opacity-70`}
+                        className={`flex items-center gap-1  ${categoryConfig[key].bgColor} py-1 px-2 rounded-full border border-transparent hover:border-sky-700 hover:opacity-70`}
                       >
                         <div className="">{categoryConfig[key].icon()}</div>
                         <p>{categoryConfig[key].name}</p>

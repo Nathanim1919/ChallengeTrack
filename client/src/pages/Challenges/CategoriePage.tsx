@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import CategorieCard from "../../components/cards/CategorieCard";
 import { BiCategory } from "react-icons/bi";
 import { categoryConfig } from "../../utils/categorieConfig";
+import { setSelectedCategory } from "../../features/categories/categorieSlice";
 
 const CategoriesPage = () => {
   const dispatch = useAppDispatch();
@@ -63,15 +64,16 @@ const CategoriesPage = () => {
         <div className="grid grid-cols-4 gap-5 p-3">
           {categories.map((categorie, index) => {
             const category = categoryConfig[categorie.name] || {
-              bgColor: "bg-gray-300", // Default color
+              bgColor: "gray-300", // Default color
               icon: () => <span>?</span>, // Default icon
             };
 
             return (
               <Link
+                onClick={()=> dispatch(setSelectedCategory(categorie))}
                 to={`/in/categories/${categorie.name.replace(/\s+/g, "-")}`}
                 key={categorie._id}
-                className={`bg-${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer animate-slideup`}
+                className={`${category.bgColor} bg-opacity-30 shadow-sm p-5 border border-gray-200 relative z-30 cursor-pointer animate-slideup`}
               >
                 <CategorieCard key={index} Categorie={categorie} />
               </Link>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import ButtonLoading from "../loading/buttonLoading";
-import { ICategory } from "../../interfaces/ICategory";
 import { categoryConfig } from "../../utils/categorieConfig";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
@@ -10,26 +9,23 @@ import {
   getChallengesPerStatusForCategory,
   getTotalNumberOfParticipantsForCategory,
 } from "../../features/categories/categorieActions";
-import { IoIosArrowForward } from "react-icons/io";
 import { ChallengeStatus } from "../../utils/constants";
+import { IoIosArrowForward } from "react-icons/io";
 
 
-interface IHeaderProps {
-  categorie: ICategory | null;
-}
-
-export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
-  const { loading, totalParticipants, challStatusPerCategoryCount } = useAppSelector((state) => state.categories);
+export const Header: React.FC = () => {
+  const { loading, totalParticipants, challStatusPerCategoryCount, selectedCategory } = useAppSelector((state) => state.categories);
   const dispatch = useAppDispatch();
 
+
   useEffect(() => {
-    dispatch(getTotalNumberOfParticipantsForCategory(categorie?.name || ""));
-    dispatch(getChallengesCountForCategoryPerStatus(categorie?.name || ""));
-  }, [categorie]);
+    dispatch(getTotalNumberOfParticipantsForCategory(selectedCategory?.name || ""));
+    dispatch(getChallengesCountForCategoryPerStatus(selectedCategory?.name || ""));
+  }, [selectedCategory]);
 
  
   const fetchChallengesPerStatus = (status: keyof typeof ChallengeStatus) => {
-    dispatch(getChallengesPerStatusForCategory({ categorie: categorie?.name || "", status }));
+    dispatch(getChallengesPerStatusForCategory({ categorie: selectedCategory?.name || "", status }));
   };
 
   if (loading) {
@@ -43,17 +39,17 @@ export const Header: React.FC<IHeaderProps> = ({ categorie }) => {
     <div className="bg-gray-100">
       <div className="flex flex-col p-3 gap-1">
         <h1
-          className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 bg-${categoryConfig[categorie?.name || ""]?.bgColor} text-white`}
+          className={`font-bold text-2xl flex items-center gap-1 py-1 px-2 ${categoryConfig[selectedCategory?.name || ""]?.bgColor} text-white`}
         >
-          <span>{categoryConfig[categorie?.name || ""]?.icon()}</span>
-          {categorie?.name}
+          <span>{categoryConfig[selectedCategory?.name || ""]?.icon()}</span>
+          {selectedCategory?.name}
         </h1>
-        <p className="text-[14px] text-gray-500">{categorie?.description}</p>
+        <p className="text-[14px] text-gray-500">{selectedCategory?.description}</p>
       </div>
       <div className="grid grid-cols-2 gap-3 p-3">
-        <div onClick={()=>dispatch(getCategorieByName(categorie?.name||""))} className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
+        <div onClick={()=>dispatch(getCategorieByName(selectedCategory?.name||""))} className="flex-1 border border-gray-300 p-3 bg-white grid place-items-center">
           <h1 className="font-bold text-3xl">
-            {categorie?.challenges.length}
+            {selectedCategory?.challenges.length}
             <sup>+</sup>
           </h1>
           <h2>Total Challenges</h2>

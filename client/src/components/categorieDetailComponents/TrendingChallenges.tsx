@@ -16,7 +16,6 @@ export const TrandingChallenges: React.FC = () => {
   const { name } = useParams();
 
   const categoriedata = categoryConfig[name || ""];
-  console.log("CATEGORIE DATA: ", categoriedata);
 
   useEffect(() => {
     dispatch(getChallengesByCategory(name || ""));
@@ -28,7 +27,7 @@ export const TrandingChallenges: React.FC = () => {
       <div className="bg-gray-100">
         <div className="flex justify-between items-center px-4 pt-2">
           <h1 className={`font-bold flex items-center gap-1`}>
-           <span className={`text-${categoriedata?.bgColor} p-1 flex items-center gap-1`}>  {categoriedata?.icon()}{name}</span> related Challenges
+           <span className={`${categoriedata?.textColor} p-1 flex items-center gap-1`}>  {categoriedata?.icon()}{name}</span> related Challenges
           </h1>
           <IoSearch className="text-2xl cursor-pointer hover:text-gray-500" />
         </div>

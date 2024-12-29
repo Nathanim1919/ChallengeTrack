@@ -37,6 +37,9 @@ const categorySlice = createSlice({
         setError(state, action) {
             state.error = action.payload;
         }, 
+        setSelectedCategory(state, action: PayloadAction<ICategory>) {
+            state.selectedCategory = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -136,5 +139,5 @@ const categorySlice = createSlice({
 })
 
 
-export const { setLoading, setError } = categorySlice.actions;
+export const { setLoading, setError, setSelectedCategory } = categorySlice.actions;
 export default categorySlice.reducer;
