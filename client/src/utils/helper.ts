@@ -70,6 +70,16 @@ export class ChallengeSpecificHelper {
   };
 
 
+  static isChallengeNotEnded = (startDate?: Date, duration?: number) => {
+    if (!startDate || !duration) return false;
+    const currentDate: Date = new Date();
+    startDate = new Date(startDate);
+    const diffTime: number = currentDate.getTime() - startDate.getTime();
+    const diffDays: number = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    return diffDays <= duration;
+  }
+
+
 }
 
 export const calculateDaysLeft = (startDate: Date, endDate: Date) => {

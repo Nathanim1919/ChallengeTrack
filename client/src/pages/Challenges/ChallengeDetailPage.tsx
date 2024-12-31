@@ -23,7 +23,7 @@ const ChallengeDetailPage = () => {
     dispatch(getChallengeById(challengeId!));
     dispatch(checkIfUserIsParticipant(challengeId!));
     dispatch(checkIfUserIsOwner(challengeId!));
-  }, [dispatch]);
+  }, [dispatch, challengeId]);
 
 
   return (
@@ -31,7 +31,7 @@ const ChallengeDetailPage = () => {
       <SimilarChallenges />
       <ChallengeSpecificLeaderBoard challenge={selectedChallenge} />
       <div className={"grid"}>
-        <DailyLog challengeId={challengeId} />
+        <DailyLog challengeId={challengeId??""} />
       </div>
     </div>
   );

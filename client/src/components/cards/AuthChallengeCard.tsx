@@ -14,8 +14,6 @@ const AuthChallengeCard = ({ challenge }: { challenge: Partial<IChallenge> }) =>
       };
 
 
-      console.log(challenge)
-
     return (
         <Link to={`/in/challenges/${challenge._id}`} key={challenge._id} className='bg-white border min-w-[200px] max-w-[300px] border-gray-300 flex-1 overflow-hidden text-white'>
         <div className='cover bg-black p-4 flex flex-col justify-between gap-10 relative overflow-hidden'>

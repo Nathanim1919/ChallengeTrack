@@ -25,7 +25,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     <div className="p-4 my-2 relative">
       <h1 className="font-bold py-5 flex items-center gap-2"><GiProgression />Your Progress</h1>
       <div className="flex items-center gap-2 flex-wrap">
-        {Array.from({ length: 7 }, (_, index) => (
+        {Array.from({ length: logs.length>7?7:logs.length }, (_, index) => (
           <OneDayProgressStep
             key={index}
             day={index + 1}

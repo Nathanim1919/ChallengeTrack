@@ -24,11 +24,7 @@ import {
 } from "../../utils/helper";
 import Timer from "../../components/ui/Timer";
 
-const DailyLog = ({
-  challengeId,
-}: {
-  challengeId: string;
-}) => {
+const DailyLog = ({ challengeId }: { challengeId: string }) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [showAllLogDays, setShowAllLogDays] = React.useState(false);
   const { user } = useAppSelector((state) => state.auth);
@@ -73,10 +69,10 @@ const DailyLog = ({
       ) && (
         <div className="bg-gray-100 px-2 py-5 grid gap-3">
           <div>
-          <h1 className="font-bold text-center">
-            Challenge has not started yet
-          </h1>
-          <p className="text-gray-400 text-center">Please check back later</p>
+            <h1 className="font-bold text-center">
+              Challenge has not started yet
+            </h1>
+            <p className="text-gray-400 text-center">Please check back later</p>
           </div>
           <Timer startDate={selectedChallenge?.startDate} />
         </div>
@@ -86,7 +82,7 @@ const DailyLog = ({
         <div className=" grid place-items-center py-5">
           <ButtonLoading />
         </div>
-      ) : (isParticipant) ? (
+      ) : isParticipant ? (
         <div>
           <DailyLogModal
             setShowAllLogDays={setShowAllLogDays}
@@ -102,6 +98,21 @@ const DailyLog = ({
               selectedChallenge?.duration ?? 0
             )}
           />
+
+          {!ChallengeSpecificHelper.isChallengeNotEnded(
+            selectedChallenge?.startDate,
+            selectedChallenge?.duration
+          ) && (
+            <div className="p-4 my-2 relative">
+              <p
+              className="text-gray-500 flex items-center gap-2"
+              >
+                Challenge has ended, you can no longer log your daily progress,
+                but you can still view your progress
+              </p>
+            </div>
+          )}
+
           <DetailedProgressBar
             setShowAllLogDays={setShowAllLogDays}
             showAllLogDays={showAllLogDays}
@@ -112,16 +123,23 @@ const DailyLog = ({
               selectedChallenge?.duration ?? 0
             )}
           />
-         {ChallengeSpecificHelper.isChallengeStarted(
-        selectedChallenge?.startDate) && <div className="flex justify-between p-3">
-            <h1 className="font-bold">Your Daily Log</h1>
-            <div className="flex items-center gap-2">
-              <IoMdAdd
-                onClick={() => setOpenModal(true)}
-                className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"
-              />
-            </div>
-          </div>}
+          {ChallengeSpecificHelper.isChallengeStarted(
+            selectedChallenge?.startDate
+          ) &&
+            ChallengeSpecificHelper.isChallengeNotEnded(
+              selectedChallenge?.startDate,
+              selectedChallenge?.duration
+            ) && (
+              <div className="flex justify-between p-3">
+                <h1 className="font-bold">Your Daily Log</h1>
+                <div className="flex items-center gap-2">
+                  <IoMdAdd
+                    onClick={() => setOpenModal(true)}
+                    className="p-1 bg-gray-200 text-3xl rounded-full cursor-pointer hover:bg-gray-100"
+                  />
+                </div>
+              </div>
+            )}
           <DailyLogDetail
             showLogDetail={showLogDetail}
             setShowLogDetail={setShowLogDetail}
